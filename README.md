@@ -11,7 +11,7 @@ The definitive notebook for coders
     - open the Atom.app
     - open the app dropdown menu
     - select install shell commands
-1. run `apm install -g jasmine`
+1. run `npm install -g jasmine`
 1. `cd` into the `src` directory
 1. run `apm install .`
 2. run `grunt download-atom-shell`

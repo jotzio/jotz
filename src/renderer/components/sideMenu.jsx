@@ -8,4 +8,4 @@ var SideMenu = React.createClass({
   }
 });
 
-React.render(<SideMenu />, document.body);
+React.render(<SideMenu />, document.getElementById('sidemenu'));

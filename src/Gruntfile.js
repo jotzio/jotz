@@ -4,7 +4,7 @@ var fs = require('fs');
 module.exports = function(grunt) {
   grunt.initConfig({
     'download-atom-shell': {
-      version: '0.20.3',
+      version: '0.21.2',
       outputDir: '../atom_shell'
     },
 

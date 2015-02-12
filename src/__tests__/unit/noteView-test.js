@@ -6,6 +6,6 @@ var TestUtils = React.addons.TestUtils;
 
 describe('NoteView', function() {
   it('renders a noteView', function() {
-    // expect(2).toEqual(2);
+    expect(2).toEqual(2);
   });
 });

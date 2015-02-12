@@ -3,9 +3,9 @@ global.React = require('react');
 
 var placeholder = 'Alas leggo my "leggo my eggo" legless lego legolas and leave illegible legalese legacies with legerity, lege of allegorist lasses';
 
-var sideMenu = require('./components/sideMenu.js');
-var underMenu = require('./components/underMenu.js');
-var noteView = require('./components/noteView.js');
+var SideMenu = require('./components/sideMenu.js');
+var UnderMenu = require('./components/underMenu.js');
+var NoteView = require('./components/noteView.js');
 
 React.render(
   <SideMenu />,

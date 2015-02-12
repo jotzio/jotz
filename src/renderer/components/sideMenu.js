@@ -1,4 +1,3 @@
-var React = require('react/addons');
 var MenuItems = React.createClass({
   render: function(){
     return (

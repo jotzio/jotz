@@ -39,13 +39,16 @@ var JotzBrowser = Backbone.Model.extend({
     // Boot app after setup is complete
     this.set('mainWindow', new BrowserWindow({
       width: this.get('config').w,
-      height: this.get('config').h
+      height: this.get('config').h,
+      show: false
     }));
     // Load index of the app, which boots renderer processess and
     // initializes all mainWindow React components
     this.get('mainWindow').loadUrl(this.get('config').index);
     // Setup app lifecycle event handler
     this.handleEvents();
+    // Display window after all app-level event handlers are registered
+    this.get('mainWindow').show();
   },
   handleEvents: function() {
     // Listen for browser window close

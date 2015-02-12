@@ -1,2 +1,2 @@
-var Jotz = require('./jotz');
-global.Jotz = new Jotz();
+var JotzBrowser = require('./browser/jotz_browser');
+global.JotzBrowser = new JotzBrowser();

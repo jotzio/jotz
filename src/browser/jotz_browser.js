@@ -1,9 +1,11 @@
-var Backbone = require('backbone');
 var _ = require('underscore');
+var Backbone = require('backbone');
+var React = require('react');
 var app = require('app');
+var path = require('path');
 var BrowserWindow = require('browser-window');
 
-var Jotz = Backbone.Model.extend({
+var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
     require('crash-reporter').start();
   },
@@ -11,7 +13,7 @@ var Jotz = Backbone.Model.extend({
     this.set('config', {
       w: 800,
       h: 600,
-      index: 'file://' + __dirname + '/index.html'
+      index: path.join('file://', __dirname, '../index.html')
     });
   },
   bindMtds: function() {
@@ -39,9 +41,10 @@ var Jotz = Backbone.Model.extend({
       width: this.get('config').w,
       height: this.get('config').h
     }));
-    // Load index of the app
+    // Load index of the app, which boots renderer processess and
+    // initializes all mainWindow React components
     this.get('mainWindow').loadUrl(this.get('config').index);
-    // Setup event handler
+    // Setup app lifecycle event handler
     this.handleEvents();
   },
   handleEvents: function() {
@@ -54,4 +57,4 @@ var Jotz = Backbone.Model.extend({
   }
 });
 
-module.exports = Jotz;
+module.exports = JotzBrowser;

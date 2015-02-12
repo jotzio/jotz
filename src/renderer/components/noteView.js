@@ -1,9 +1,15 @@
-var React = require('react/addons');
+var actionCreator = require('../actions/actionCreator');
 
 var NoteViewMenu = React.createClass({
+  makeNote: function(content){
+    actionCreator.makeNote(content);
+  },
+
   render: function(){
     return(
-      <h3>here|are|some|menu|items</h3>
+      <div>
+        <button onClick={this.makeNote(this.props.note)}></button>
+      </div>
     );
   }
 });
@@ -13,7 +19,7 @@ var NoteView = React.createClass({
     var classes = 'note ';
     return (
       <div className={classes}>
-        <NoteViewMenu />
+        <NoteViewMenu board={this.props.note}/>
         {this.props.note}
       </div>
     );

@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+.note-container {
+  display: inline-block;
+  width: 89%;
+  height: 83%;
+  border: 1px dashed cadetblue; }
+
+.side-container {
+  display: inline-block;
+  float: left;
+  width: 10%;
+  height: 99%;
+  border: 1px solid blue; }
+
+.under-container {
+  display: inline-block;
+  width: 89%;
+  height: 15%;
+  border: 1px dashed blueviolet; }
+
+.sidemenu {
+  text-align: center; }
+
+.settingsBtn {
+  position: relative; }
+
+.note {
+  padding: 15px; }
+
+h1 {
+  display: inline-block; }
+
+.searchbar {
+  display: inline-block;
+  float: right; }
+
+/*# sourceMappingURL=style.css.map */

@@ -31,7 +31,4 @@ var SideMenu = React.createClass({
   }
 });
 
-React.render(
-  <SideMenu />,
-  document.getElementById('sidemenu')
-);
+module.exports = SideMenu;

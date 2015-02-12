@@ -18,7 +18,4 @@ var UnderMenu = React.createClass({
   }
 });
 
-React.render(
-  <UnderMenu />,
-  document.getElementById('undermenu')
-);
+module.exports = UnderMenu;

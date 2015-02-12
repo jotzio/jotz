@@ -1,6 +1,9 @@
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
+var Note = require('Note');
 
 var Notebook = Backbone.collection.extend({
+  model: Note,
+
   initialize: function(){
     this.dispatchToekn = JotzDispatcher.register(this.dispatchCallback);
   },

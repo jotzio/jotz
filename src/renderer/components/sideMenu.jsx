@@ -4,8 +4,8 @@ var MenuItems = React.createClass({
   render: function(){
     return (
       <div>
-        <button>Notebooks</button>
-        <button>Notes</button>
+        <div>Notebooks</div>
+        <div>Notes</div>
       </div>
     );
   }
@@ -34,6 +34,7 @@ var SideMenu = React.createClass({
     };
     return (
       <div style={style}>
+        <h2>Jotz</h2>
         <MenuItems/>
         <Settings/>
       </div>
@@ -45,6 +46,3 @@ React.render(
   <SideMenu />,
   document.getElementById('sidemenu')
 );
-
-
-

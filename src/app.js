@@ -24,6 +24,7 @@ app.on('ready', function() {
   mainWindow = new BrowserWindow({ width: config.w, height: config.h });
   // Load index of the app
   mainWindow.loadUrl(config.index);
+
   // Listen for browser window close
   mainWindow.on('closed', function() {
     // Dereference the window object

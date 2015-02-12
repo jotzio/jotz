@@ -5,7 +5,7 @@ var Notebook = Backbone.collection.extend({
   model: Note,
 
   initialize: function(){
-    this.dispatchToekn = JotzDispatcher.register(this.dispatchCallback);
+    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
   },
 
   //not sure if switch is best practice, just saw it in a few examples

@@ -1,6 +1,8 @@
-var Backbone = require('backbone');
 var _ = require('underscore');
+var Backbone = require('backbone');
+var React = require('react');
 var app = require('app');
+var path = require('path');
 var BrowserWindow = require('browser-window');
 
 var Jotz = Backbone.Model.extend({
@@ -11,7 +13,7 @@ var Jotz = Backbone.Model.extend({
     this.set('config', {
       w: 800,
       h: 600,
-      index: 'file://' + __dirname + '/index.html'
+      index: path.join('file://', __dirname, '../index.html')
     });
   },
   bindMtds: function() {
@@ -41,6 +43,11 @@ var Jotz = Backbone.Model.extend({
     }));
     // Load index of the app
     this.get('mainWindow').loadUrl(this.get('config').index);
+    // Init all mainWindow React components
+    // FIXME: correct require paths based on future jsx build task
+    //this.set('sideMenu', require('../../build/components/sideMenu.js'));
+    //this.set('underMenu', require('../../build/components/underMenu.js'));
+    //this.set('noteView', require('../../build/components/noteView.js'));
     // Setup event handler
     this.handleEvents();
   },

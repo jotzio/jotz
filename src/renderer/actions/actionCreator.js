@@ -1,11 +1,10 @@
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
 
 var actionCreator = {
-  makeNote: function(content, otherVariables){
+  makeNote: function(content){
     JotzDispatcher.handleMakeNote({
       type: 'make-note',
-      text: content,
-      other: otherVariables
+      content: content
     });
   }
 };

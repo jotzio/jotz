@@ -18,10 +18,10 @@ The definitive notebook for coders
 1. run `apm install .`
 2. run `grunt download-atom-shell`
 
-(MacOSX) **Run the application**:
+#### Run the application (MacOSX)
 From within the `src` directory run:
-- `grunt build`
-- `../atom_shell/Atom.app/Contents/MacOS/Atom .`
+1. `grunt build`
+2. `../atom_shell/Atom.app/Contents/MacOS/Atom .`
 
 **Run tests with**: `jasmine` or `npm test`
 

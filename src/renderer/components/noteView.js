@@ -1,6 +1,4 @@
-var React = require('react');
-
-var placeholder = 'Alas leggo my "leggo my eggo" legless lego legolas and leave illegible legalese legacies with legerity, lege of allegorist lasses';
+var React = require('react/addons');
 
 var NoteViewMenu = React.createClass({
   render: function(){
@@ -23,8 +21,3 @@ var NoteView = React.createClass({
 });
 
 module.exports = NoteView;
-
-// React.render(
-//   <NoteView note={placeholder} />,
-//   document.getElementById('noteview')
-// );

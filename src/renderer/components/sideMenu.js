@@ -1,3 +1,4 @@
+var React = require('react/addons');
 var MenuItems = React.createClass({
   render: function(){
     return (
@@ -31,7 +32,4 @@ var SideMenu = React.createClass({
   }
 });
 
-React.render(
-  <SideMenu />,
-  document.getElementById('sidemenu')
-);
+module.exports = SideMenu;

@@ -6,7 +6,7 @@
     "test": "jest --runInBand"
   },
   "jest": {
-    "scriptPreprocessor": "<rootDir>/spec/support/preprocessor.js",
+    "scriptPreprocessor": "<rootDir>/support/preprocessor.js",
     "modulePathIgnorePatterns": [],
     "testFileExtensions": ["js"],
     "unmockedModulePathPatterns": ["react"]

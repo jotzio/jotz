@@ -1,6 +1,5 @@
 //Sets up React var globally
 global.React = require('react');
-global.JotzDispatcher = require('./dispatcher/JotzDispatcher');
 var _ = require('underscore');
 var Backbone = require('backbone');
 

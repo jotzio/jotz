@@ -1,6 +1,7 @@
 # Jotz
 
 [![Code Climate](https://codeclimate.com/github/jotzio/jotz/badges/gpa.svg)](https://codeclimate.com/github/jotzio/jotz)
+[![Circle CI](https://circleci.com/gh/jotzio/jotz/tree/master.svg?style=svg)](https://circleci.com/gh/jotzio/jotz/tree/master)
 
 The definitive notebook for coders
 

@@ -1,5 +1,7 @@
 # Jotz
 
+[![Code Climate](https://codeclimate.com/github/jotzio/jotz/badges/gpa.svg)](https://codeclimate.com/github/jotzio/jotz)
+
 The definitive notebook for coders
 
 ---
@@ -16,7 +18,10 @@ The definitive notebook for coders
 1. run `apm install .`
 2. run `grunt download-atom-shell`
 
-(MacOSX) **Run the application with**: `../atom_shell/Atom.app/Contents/MacOS/Atom .`
+(MacOSX) **Run the application**:
+From within the `src` directory run:
+- `grunt build`
+- `../atom_shell/Atom.app/Contents/MacOS/Atom .`
 
 **Run tests with**: `jasmine` or `npm test`
 

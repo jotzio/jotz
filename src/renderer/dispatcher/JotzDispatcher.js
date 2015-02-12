@@ -10,3 +10,4 @@ var JotzDispatcher = new Dispatcher({
 });
 
 module.exports = JotzDispatcher;
+

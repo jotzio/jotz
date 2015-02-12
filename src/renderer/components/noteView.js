@@ -19,7 +19,7 @@ var NoteView = React.createClass({
     var classes = 'note ';
     return (
       <div className={classes}>
-        <NoteViewMenu board={this.props.note}/>
+        <NoteViewMenu note={this.props.note}/>
         {this.props.note}
       </div>
     );

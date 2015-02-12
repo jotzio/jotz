@@ -1,5 +1,4 @@
-var JotzDispatcher = require('../dispatcher/JotzDispatcher');
-
+var JotzDispatcher = require('../dispatcher/JotzDispatcher.js');
 
 //Example action called in noteView.js, line 5
 var actionCreator = {

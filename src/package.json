@@ -1,21 +1,22 @@
 {
   "name": "jotz",
   "version": "0.0.1",
-  "main": "./app.js",
+  "main": "./boot.js",
   "scripts": {
     "test": "jasmine"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
-    "grunt": "^0.4.5",
-    "grunt-download-atom-shell": "^0.12.0",
-    "react": "^0.12.2",
-    "envify": "^3.2.0",
+    "backbone": "^1.1.2",
     "browserify": "^8.1.3",
+    "envify": "^3.2.0",
+    "grunt": "^0.4.5",
     "grunt-browserify": "^3.3.0",
     "grunt-contrib-watch": "^0.6.1",
+    "grunt-download-atom-shell": "^0.12.0",
+    "grunt-env": "^0.4.2",
+    "react": "^0.12.2",
     "reactify": "^1.0.0",
-    "grunt-env": "^0.4.2"
+    "underscore": "^1.7.0"
   }
 }

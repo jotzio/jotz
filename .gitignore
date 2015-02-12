@@ -32,3 +32,6 @@ atom_shell
 
 # Webstorm
 .idea
+
+# Build
+build

@@ -1,2 +1,2 @@
-var Jotz = require('./jotz');
+var Jotz = require('./renderer/jotz');
 global.Jotz = new Jotz();

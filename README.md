@@ -18,11 +18,13 @@ The definitive notebook for coders
 1. `cd` into the `src` directory
 1. run `apm install .`
 2. run `grunt download-atom-shell`
+2. run `npm install -g react-tools`
 
 #### Run the application (MacOSX)
 From within the `src` directory run:
 
 1. `grunt build`
+1. `jsx /src build/` or`jsx -w /src build/` to watch for changes and build jsx
 2. `../atom_shell/Atom.app/Contents/MacOS/Atom .`
 
 **Run tests with**: `jasmine` or `npm test`

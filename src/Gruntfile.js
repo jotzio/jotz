@@ -91,7 +91,7 @@ module.exports = function(grunt) {
   grunt.registerTask('install', 'install application dependencies', function() {
     var exec = require('child_process').exec;
     var cb = this.async();
-    exec('apm install .', {cwd: buildAppPath}, function(err, stdout, stderr) {
+    exec('npm install && apm install .', {cwd: buildAppPath}, function(err, stdout, stderr) {
       console.log(stdout);
       cb();
     });

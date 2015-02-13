@@ -14,9 +14,9 @@ var Notebook = Backbone.Collection.extend({
   },
 
   dispatchCallback: function(payload) {
-    switch(payload.action.type) {
+    switch(payload.type) {
       case 'make-note':
-        this.saveNote(new Note(payload.action.content));
+        this.add({content: payload.content})
         break;
       default:
         break;

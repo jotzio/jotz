@@ -7,7 +7,7 @@ var UnderMenu = require('./underMenu');
 var NoteView = require('./noteView');
 
 module.exports = {
-  render: function() {
+  render: function(props) {
     React.render(
       <SideMenu />,
       document.getElementById('sidemenu')
@@ -19,7 +19,7 @@ module.exports = {
     );
 
     React.render(
-      <NoteView note={placeholder} />,
+      <NoteView note={placeholder} notebookStore={props.notebookStore} />,
       document.getElementById('noteview')
     );
   }

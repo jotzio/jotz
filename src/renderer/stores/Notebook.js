@@ -11,7 +11,7 @@ var Notebook = Backbone.collection.extend({
   //not sure if switch is best practice, just saw it in a few examples
   dispatchCallback: function(payload){
     switch(payload) {
-      case 'make-notebook':
+      case 'make-note':
         //do something to collection
         break;
       default:

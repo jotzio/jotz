@@ -6,7 +6,7 @@ var JotzDispatcher = new Dispatcher();
     var payload = {
       action: action
     };
-    console.log('dispatching!');
+    console.log('dispatching ' + action.type);
     this.dispatch(payload);
   };
 

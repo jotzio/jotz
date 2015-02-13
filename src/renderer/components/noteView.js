@@ -2,24 +2,23 @@ var React = require('react');
 var actionCreator = require('../actions/actionCreator');
 
 var NoteViewMenu = React.createClass({
-  makeNote: function(note) {
-    debugger
-    actionCreator.makeNote(note);
+  makeNote: function() {
+    actionCreator.makeNote(this.props.note);
   },
 
   render: function() {
     return(
       <div>
-        <button onClick={this.makeNote(this.props.note)}>Make Note</button>
+        <button onClick={this.makeNote}>Make Note</button>
       </div>
     );
   }
 });
 
 var NoteView = React.createClass({
-
   componentDidMount: function() {
     this.props.notebookStore.on('add', function() {
+      debugger
       this.forceUpdate();
     }.bind(this), this);
   },
@@ -30,9 +29,9 @@ var NoteView = React.createClass({
 
   render: function() {
     var classes = 'note ';
-    debugger
     var notes = this.props.notebookStore.map(function(note) {
-      return <li>{note}</li>;
+      debugger
+      return <li>{note.get('content')}</li>;
     });
     return (
       <div className={classes}>

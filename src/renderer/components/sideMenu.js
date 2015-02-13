@@ -1,3 +1,5 @@
+var React = require('react');
+
 var MenuItems = React.createClass({
   render: function() {
     return (

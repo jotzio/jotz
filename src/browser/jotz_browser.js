@@ -55,6 +55,12 @@ var JotzBrowser = Backbone.Model.extend({
   handleEvents: function() {
     // Listen for browser window close
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
+    // Listen for save-note-message on ipc
+    ipc.on('save-note-message', function(e, arg) {
+      console.log(arg + ' caught on browser');
+      // Send reply back to renderer on ipc
+      e.sender.send('save-note-reply', 'created yo');
+    });
   },
   removeWindow: function(windowName) {
     // Dereference the window object

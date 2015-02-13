@@ -14,17 +14,16 @@ The definitive notebook for coders
     - open the Atom.app
     - open the app dropdown menu
     - select install shell commands
-1. run `npm install -g jasmine`
+1. run `npm install -g jasmine react-tools`
 1. `cd` into the `src` directory
-1. run `apm install .`
-2. run `grunt download-atom-shell`
-2. run `npm install -g react-tools`
+1. run `grunt build --scratch`
+1. run `grunt watch` and in a separate Terminal window run `grunt boot`
 
 #### Run the application (MacOSX)
 From within the `src` directory run:
 
-1. `grunt build`
-2. `../atom_shell/Atom.app/Contents/MacOS/Atom .`
+1. If it's the first time you're building `grunt build --scratch`. Otherwise `grunt build`
+2. `grunt boot`
 
 **Run tests with**: `jasmine` or `npm test`
 

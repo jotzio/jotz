@@ -9,7 +9,7 @@ var viewRenderer = require('./components/viewRenderer');
 
 module.exports = {
   init: function() {
-	var Notebook = new NotebookStore();
+	  var Notebook = new NotebookStore();
     viewRenderer.render();
   }
 };

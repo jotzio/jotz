@@ -4,6 +4,8 @@ var React = require('react');
 var app = require('app');
 var path = require('path');
 var BrowserWindow = require('browser-window');
+var ipc = require('ipc');
+
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {

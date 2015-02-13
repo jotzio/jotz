@@ -9,6 +9,8 @@ var Notebook = Backbone.Collection.extend({
 
   initialize: function() {
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
+    // listen for ipc completion event on client
+    ipc.on('save-note-reply', function(arg) { console.log(arg + ' caught reply on renderer'); });
   },
 
   dispatchCallback: function(payload) {
@@ -22,13 +24,14 @@ var Notebook = Backbone.Collection.extend({
   },
 
   saveNote: function(note) {
-    // optimistic collection save on client?
+
     // fire off event with ipc
+    ipc.send('save-note-message', note);
     // listen for ipc event on browser
     // write to fs on broswer
-    // fire off completion event with ipc
-    // listen for completion event on client (here or in react component?)
-    console.log(note);
+    // fire off completion event with ipc from browser
+    // collection save on client
+    // update react component on collection 'change' event (automatically)
   }
 });
 

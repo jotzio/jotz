@@ -1,4 +1,4 @@
-var JotzDispatcher = require('../dispatcher/JotzDispatcher');
+ var JotzDispatcher = require('../dispatcher/JotzDispatcher');
 var Note = require('Note');
 
 var Notebook = Backbone.collection.extend({
@@ -10,7 +10,7 @@ var Notebook = Backbone.collection.extend({
 
   //not sure if switch is best practice, just saw it in a few examples
   dispatchCallback: function(payload){
-    switch(payload){
+    switch(payload) {
       case 'make-notebook':
         //do something to collection
         break;

@@ -1,5 +1,5 @@
 var MenuItems = React.createClass({
-  render: function(){
+  render: function() {
     return (
       <div>
         <div>Notebooks</div>
@@ -10,7 +10,7 @@ var MenuItems = React.createClass({
 });
 
 var Settings = React.createClass({
-  render: function(){
+  render: function() {
     var classes = 'settingsBtn';
     return (
       <div className={classes}>settings</div>
@@ -19,7 +19,7 @@ var Settings = React.createClass({
 });
 
 var SideMenu = React.createClass({
-  render: function(){
+  render: function() {
     var classes = 'sidemenu';
     return (
       <div className={classes}>

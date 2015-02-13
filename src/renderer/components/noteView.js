@@ -1,11 +1,11 @@
 var actionCreator = require('../actions/actionCreator');
 
 var NoteViewMenu = React.createClass({
-  makeNote: function(content){
+  makeNote: function(content) {
     actionCreator.makeNote(content);
   },
 
-  render: function(){
+  render: function() {
     return(
       <div>
         <button onClick={this.makeNote(this.props.note)}></button>
@@ -15,7 +15,7 @@ var NoteViewMenu = React.createClass({
 });
 
 var NoteView = React.createClass({
-  render: function(){
+  render: function() {
     var classes = 'note ';
     return (
       <div className={classes}>

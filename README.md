@@ -16,6 +16,7 @@ The definitive notebook for coders
     - select install shell commands
 1. run `npm install -g jasmine react-tools`
 1. `cd` into the `src` directory
+1. run `apm install .`
 1. run `grunt build --scratch`
 1. run `grunt watch` and in a separate Terminal window run `grunt boot`
 

@@ -16,7 +16,7 @@ The definitive notebook for coders
     - open the app dropdown menu
     - select install shell commands
 1. `cd` into the `src` directory
-1. run `npm install -g jasmine react-tools`
+1. run `npm install -g jasmine`
 1. `export ATOM_NODE_VERSION=0.16.0`
 2. `source <INSERT LOCATION OF SHELL CONFIG FILE>`
 1. run `apm install .`

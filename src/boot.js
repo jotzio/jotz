@@ -1,2 +1,2 @@
 var JotzBrowser = require('./browser/jotz_browser');
-global.JotzBrowser = new JotzBrowser();
+module.exports = new JotzBrowser();

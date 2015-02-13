@@ -1,18 +1,20 @@
- var JotzDispatcher = require('../dispatcher/JotzDispatcher');
-var Note = require('Note');
+var JotzDispatcher = require('../dispatcher/JotzDispatcher');
+var Note = require('./Note');
 
-var Notebook = Backbone.collection.extend({
+var Notebook = Backbone.Collection.extend({
   model: Note,
 
-  initialize: function(){
+  initialize: function() {
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
   },
 
-  //not sure if switch is best practice, just saw it in a few examples
-  dispatchCallback: function(payload){
-    switch(payload) {
+  dispatchCallback: function(payload) {
+    switch(payload.action.type) {
       case 'make-note':
-        //do something to collection
+         // Example of accessing props on the payload.action
+        for (var key in payload.action) {
+          console.log(payload.action[key]);
+        }
         break;
       default:
         break;

@@ -1,4 +1,4 @@
-var Note = Backbone.model.extend({
+var Note = Backbone.Model.extend({
 
 });
 

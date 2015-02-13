@@ -1,4 +1,3 @@
-var React = require('react');
 var actionCreator = require('../actions/actionCreator');
 
 var NoteViewMenu = React.createClass({

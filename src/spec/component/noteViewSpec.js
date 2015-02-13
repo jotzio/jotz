@@ -1,5 +1,5 @@
 require('node-jsx').install();
-var React = require('react/addons');
+var React = require('../helpers/react-global');
 var TestUtils = React.addons.TestUtils;
 var jsdom = require('jsdom');
 

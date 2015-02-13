@@ -14,7 +14,10 @@ describe('NoteView', function() {
 
   it("renders", function() {
     var foundComponent = TestUtils.isCompositeComponentWithType(component, NoteView);
-
     expect(foundComponent).toBeTruthy();
   });
+
+  it('renders text: Alas', function() {
+    expect(component.getDOMNode().textContent).toContain('Make Note');
+  })
 });

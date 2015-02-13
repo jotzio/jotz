@@ -33,6 +33,9 @@ atom_shell
 # Webstorm
 .idea
 
+# Sass
+.sass-cache
+
 # Build
 build
 src/build

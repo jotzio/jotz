@@ -1,5 +1,5 @@
 var SearchBar = React.createClass({
-  render: function(){
+  render: function() {
     var classes = 'searchbar ';
     return (
       <input type='text' className={classes}></input>

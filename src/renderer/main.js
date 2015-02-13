@@ -1,5 +1,7 @@
 //Sets up React var globally
 global.React = require('react');
+var _ = require('underscore');
+var Backbone = require('backbone');
 
 var placeholder = 'Alas leggo my "leggo my eggo" legless lego legolas and leave illegible legalese legacies with legerity, lege of allegorist lasses';
 

@@ -24,7 +24,6 @@ The definitive notebook for coders
 From within the `src` directory run:
 
 1. `grunt build`
-1. `jsx /src build/` or`jsx -w /src build/` to watch for changes and build jsx
 2. `../atom_shell/Atom.app/Contents/MacOS/Atom .`
 
 **Run tests with**: `jasmine` or `npm test`

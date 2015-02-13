@@ -1,28 +1,16 @@
-global._ = require('underscore');
-global.Backbone = require('backbone');
-global.React = require('react');
+//Sets up React var globally
+var React = require('react');
 
-var placeholder = 'Alas leggo my "leggo my eggo" legless lego legolas and leave illegible legalese legacies with legerity, lege of allegorist lasses';
+require('node-jsx').install();
 
 var NoteStore = require('./stores/Note');
 var NotebookStore = require('./stores/Notebook');
-var SideMenu = require('./components/sideMenu.js');
-var UnderMenu = require('./components/underMenu.js');
-var NoteView = require('./components/noteView.js');
+var viewRenderer = require('./components/viewRenderer');
 
-var Notebook = new NotebookStore();
+module.exports = {
+  init: function() {
+	  var Notebook = new NotebookStore();
+    viewRenderer.render();
+  }
+};
 
-React.render(
-  <SideMenu />,
-  document.getElementById('sidemenu')
-);
-
-React.render(
-  <UnderMenu />,
-  document.getElementById('undermenu')
-);
-
-React.render(
-  <NoteView note={placeholder} />,
-  document.getElementById('noteview')
-);

@@ -9,7 +9,7 @@ var NoteViewMenu = React.createClass({
   render: function() {
     return(
       <div>
-        <button onClick={this.makeNote(this.props.note)}></button>
+        <button onClick={this.makeNote.bind(this, this.props.note)}>Make Note</button>
       </div>
     );
   }

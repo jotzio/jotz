@@ -9,7 +9,7 @@
     "scriptPreprocessor": "<rootDir>/support/preprocessor.js",
     "modulePathIgnorePatterns": [],
     "testFileExtensions": ["js"],
-    "unmockedModulePathPatterns": ["react"]
+    "unmockedModulePathPatterns": ["react", "./node_modules/backbone"]
   },
   "devDependencies": {},
   "dependencies": {
@@ -23,7 +23,6 @@
     "grunt-contrib-sass": "^0.9.2",
     "grunt-shell": "^1.1.1",
     "grunt-env": "^0.4.2",
-    "jsdom": "^3.1.1",
     "jest-cli": "^0.2.2",
     "node-jsx": "^0.12.4",
     "react": "^0.12.2",

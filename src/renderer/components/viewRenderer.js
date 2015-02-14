@@ -1,26 +1,24 @@
 var React = require('react');
 
-var placeholder = 'Alas leggo my "leggo my eggo" legless lego legolas and leave illegible legalese legacies with legerity, lege of allegorist lasses';
-
-var SideMenu = require('./sideMenu');
-var UnderMenu = require('./underMenu');
-var NoteView = require('./noteView');
+var SideMenu = require('./sideMenu/sideMenu');
+var TopBar = require('./topBar/topbar');
+var Content = require('./content/content');
 
 module.exports = {
-  render: function() {
+  render: function(props) {
     React.render(
       <SideMenu />,
       document.getElementById('sidemenu')
     );
 
     React.render(
-      <UnderMenu />,
-      document.getElementById('undermenu')
+      <TopBar />,
+      document.getElementById('topbar')
     );
 
     React.render(
-      <NoteView note={placeholder} />,
-      document.getElementById('noteview')
+      <Content notebookStore={props.notebookStore} />,
+      document.getElementById('content')
     );
   }
 };

@@ -2,11 +2,16 @@ var JotzDispatcher = require('../dispatcher/JotzDispatcher.js');
 
 //Example action called in noteView.js, line 5
 var actionCreator = {
-  makeNote: function(content) {
+  createNote: function(content) {
     JotzDispatcher.dispatch({
-      type: 'make-note',
+      actionType: 'create-note',
       content: content
     });
+  },
+  newNote: function() {
+    JotzDispatcher.dispatch({
+      actionType: 'new-note',
+    })
   }
 };
 

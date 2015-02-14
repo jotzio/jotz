@@ -10,7 +10,8 @@ var Notebook = Backbone.Collection.extend({
   initialize: function() {
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
     // listen for ipc completion event on client
-    ipc.on('save-note-reply', function(arg) { console.log(arg + ' caught reply on renderer'); });
+    // TODO: integrate with Clark
+    // ipc.on('save-note-reply', function(arg) { console.log(arg + ' caught reply on renderer'); });
   },
 
   dispatchCallback: function(payload) {
@@ -18,21 +19,25 @@ var Notebook = Backbone.Collection.extend({
       case 'create-note':
         this.add({content: payload.content})
         break;
+      case 'new-note':
+        this.add({content: 'default note text'})
+        break;
       default:
         break;
     }
   },
 
-  saveNote: function(note) {
-
-    // fire off event with ipc
-    ipc.send('save-note-message', note);
-    // listen for ipc event on browser
-    // write to fs on broswer
-    // fire off completion event with ipc from browser
-    // collection save on client
-    // update react component on collection 'change' event (automatically)
-  }
+  // TODO: integrate with Clark
+  // saveNote: function(note) {
+  //
+  //   // fire off event with ipc
+  //   ipc.send('save-note-message', note);
+  //   // listen for ipc event on browser
+  //   // write to fs on broswer
+  //   // fire off completion event with ipc from browser
+  //   // collection save on client
+  //   // update react component on collection 'change' event (automatically)
+  // }
 });
 
 var NotebookStore = new Notebook();

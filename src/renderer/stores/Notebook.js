@@ -14,8 +14,8 @@ var Notebook = Backbone.Collection.extend({
   },
 
   dispatchCallback: function(payload) {
-    switch(payload.type) {
-      case 'make-note':
+    switch(payload.actionType) {
+      case 'create-note':
         this.add({content: payload.content})
         break;
       default:
@@ -35,4 +35,6 @@ var Notebook = Backbone.Collection.extend({
   }
 });
 
-module.exports = Notebook;
+var NotebookStore = new Notebook();
+
+module.exports = NotebookStore;

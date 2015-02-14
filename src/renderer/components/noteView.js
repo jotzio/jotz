@@ -18,7 +18,6 @@ var NoteViewMenu = React.createClass({
 var NoteView = React.createClass({
   componentDidMount: function() {
     this.props.notebookStore.on('add', function() {
-      debugger
       this.forceUpdate();
     }.bind(this), this);
   },
@@ -30,7 +29,6 @@ var NoteView = React.createClass({
   render: function() {
     var classes = 'note ';
     var notes = this.props.notebookStore.map(function(note) {
-      debugger
       return <li>{note.get('content')}</li>;
     });
     return (

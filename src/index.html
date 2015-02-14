@@ -6,8 +6,10 @@
 </head>
 <body>
   <div id="sidemenu" class="side-container"></div>
-  <div id="undermenu" class="under-container"></div>
-  <div id="noteview" class="note-container"></div>
+  <div class="right-container">
+    <div id="topbar" class="top-container"></div>
+    <div id="content" class="content-container"></div>
+  </div>
   <script>
     window.jotzApp = require('./renderer/main').init();
   </script>

@@ -1,3 +1,5 @@
+var Ace = require('brace');
+
 require('brace/mode/abap');
 require('brace/mode/actionscript');
 require('brace/mode/ada');
@@ -115,3 +117,6 @@ require('brace/mode/vhdl');
 require('brace/mode/xml');
 require('brace/mode/xquery');
 require('brace/mode/yaml');
+require('brace/theme/monokai');
+
+module.exports = Ace;

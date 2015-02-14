@@ -1,5 +1,6 @@
 var fs = require('fs');
 var path = require('path');
+var _ = require('underscore');
 
 // TODO: Add Windows/Linux path support
 var buildAppPath = '../atom_shell/Atom.app/Contents/Resources/app';
@@ -87,34 +88,98 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-download-atom-shell');
   grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('install', 'install application dependencies', function() {
-    var exec = require('child_process').exec;
-    var cb = this.async();
-    exec('npm install && apm install .', {cwd: buildAppPath}, function(err, stdout, stderr) {
-      console.log(stdout);
-      cb();
-    });
+  grunt.registerTask('compile', 'rebuild contextify lib', function(n) {
+    var walk = require('walk');
+
+    var options = {
+      listeners: {
+        files: function(root, stat, next) {
+          var cFile = _.findWhere(stat, {name:'binding.gyp'});
+          var cDir = _.last(root.split('/'));
+
+          if (cFile && cDir === 'contextify') {
+
+            grunt.config.set('shell', {
+              nodeBuildDev: {
+                command: 'node-gyp clean configure build',
+                options: {
+                  failOnError: true,
+                  stdout: true,
+                  stderr: true,
+                  execOptions: {
+                    cwd: root
+                  }
+                }
+              },
+              nodeBuildProd: {
+                command: 'node-gyp clean configure build',
+                options: {
+                  failOnError: true,
+                  stdout: true,
+                  stderr: true,
+                  execOptions: {
+                    cwd: path.join(buildAppPath, root)
+                  }
+                }
+              }
+            });
+
+            grunt.task.run(['shell:nodeBuildDev', 'shell:nodeBuildProd']);
+          }
+          next();
+        },
+        names: function(root, stats, next) {
+          next();
+        },
+        errors: function(root, stats, next) {
+          next();
+        }
+      }
+    };
+
+    var walker = walk.walkSync('node_modules', options);
+
+    grunt.log.writeln('done');
+  });
+
+  grunt.config.set('shell', {
+    install: {
+      command: 'apm install .',
+      options: {
+        failOnError: true,
+        stdout: true,
+        stderr: true,
+        execOptions: {
+          cwd: buildAppPath
+        }
+      }
+    },
+    boot: {
+      command: '../atom_shell/Atom.app/Contents/MacOS/Atom',
+      options: {
+        failOnError: true,
+        stdout: true,
+        stderr: true,
+        execOptions: {
+          cwd: './'
+        }
+      }
+    }
   });
 
   grunt.registerTask('build', 'build the app', function(n) {
     var flag = grunt.option('scratch');
 
     if (flag) {
-      grunt.task.run(['download-atom-shell', 'copy', 'install', 'sass'])
+      grunt.task.run(['download-atom-shell', 'copy', 'shell:install', 'compile', 'sass']);
     } else {
       grunt.task.run(['copy','sass']);
     }
   });
 
-  grunt.registerTask('boot', 'boot up the atom app', function() {
-    var exec = require('child_process').exec;
-    var cb = this.async();
-    exec('../atom_shell/Atom.app/Contents/MacOS/Atom', {cwd: './'}, function(err, stdout, stderr) {
-      console.log(stdout);
-      cb();
-    });
-  });
+  grunt.registerTask('boot', ['shell:boot']);
 
   grunt.registerTask('default', ['build', 'watch']);
 };

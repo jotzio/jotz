@@ -1,6 +1,6 @@
-var Ace = require('./ace');
+var Ace = require('./aceConfig');
 
-var Editor = function(){
+var Editor = function() {
   this.editor = Ace.edit('ace-editor');
   this.editor.setOptions({
     maxLines: 400,
@@ -11,7 +11,7 @@ var Editor = function(){
   });
 };
 
-Editor.prototype.changeLanguage = function(languagePath){
+Editor.prototype.changeLanguage = function(languagePath) {
   this.editor.session.setMode(languagePath);
 };
 

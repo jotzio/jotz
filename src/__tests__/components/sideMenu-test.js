@@ -1,7 +1,7 @@
-jest.dontMock('../../renderer/components/sideMenu.js');
+jest.dontMock('../../renderer/components/sideMenu/sideMenu.js');
 
 var React = require('react/addons');
-var SideMenu = require('../../renderer/components/sideMenu.js');
+var SideMenu = require('../../renderer/components/sideMenu/sideMenu.js');
 var TestUtils = React.addons.TestUtils;
 
 describe('SideMenu', function() {

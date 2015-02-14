@@ -1,8 +1,8 @@
 var React = require('react');
 
-var SideMenu = require('./sideMenu');
-var TopBar = require('./topbar');
-var Content = require('./content');
+var SideMenu = require('./sideMenu/sideMenu');
+var TopBar = require('./topBar/topbar');
+var Content = require('./content/content');
 
 module.exports = {
   render: function(props) {

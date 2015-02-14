@@ -1,5 +1,5 @@
 var React = require('react');
-var actionCreator = require('../actions/actionCreator');
+var actionCreator = require('../../actions/actionCreator');
 
 var TopBar = React.createClass({
   handleNewNote: function() {

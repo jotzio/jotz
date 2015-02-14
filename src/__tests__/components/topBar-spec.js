@@ -1,7 +1,7 @@
-jest.dontMock('../../renderer/components/topBar.js');
+jest.dontMock('../../renderer/components/topBar/topBar.js');
 
 var React = require('react/addons');
-var TopBar = require('../../renderer/components/topBar.js');
+var TopBar = require('../../renderer/components/topBar/topBar.js');
 var TestUtils = React.addons.TestUtils;
 
 describe('TopBar', function() {

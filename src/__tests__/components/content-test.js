@@ -1,8 +1,8 @@
-jest.dontMock('../../renderer/components/content.js');
+jest.dontMock('../../renderer/components/content/content.js');
 
 var React = require('react/addons');
 var Backbone = require('backbone');
-var Content = require('../../renderer/components/content.js');
+var Content = require('../../renderer/components/content/content.js');
 var Note = require('../../renderer/stores/note');
 var NotebookCollection = Backbone.Collection.extend({model: Note});
 var TestUtils = React.addons.TestUtils;

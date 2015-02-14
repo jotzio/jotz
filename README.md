@@ -9,6 +9,8 @@ The definitive notebook for coders
 
 ## Development Setup
 
+**Note: Node version 0.10.36 is required for development. Node 0.11.x and above are NOT supported at this stage**
+
 1. make sure to delete old `node_modules` and `atom_shell` directories
 1. make an `atom_shell` directory at project root (`jotz/atom_shell/`)
 1. if you don't have the Atom editor:

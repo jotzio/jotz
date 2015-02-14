@@ -16,9 +16,9 @@ The definitive notebook for coders
     - open the app dropdown menu
     - select install shell commands
 1. `cd` into the `src` directory
-1. run `npm install -g jasmine`
-1. `export ATOM_NODE_VERSION=0.16.0`
-2. `source <INSERT LOCATION OF SHELL CONFIG FILE>`
+1. run `npm install -g jasmine node-gyp`
+1. `echo "export ATOM_NODE_VERSION=0.16.0" >> ~/.SHELL_CONFIG_FILE`
+2. `source ~/.SHELL_CONFIG_FILE`
 1. run `apm install .`
 1. run `grunt build --scratch`
 1. run `grunt watch` and in a separate Terminal window run `grunt boot`
@@ -26,10 +26,11 @@ The definitive notebook for coders
 #### Run the application (MacOSX)
 From within the `src` directory run:
 
-1. If it's the first time you're building, please see the setup instructions above. Otherwise `grunt build`
+1. If it's the first time you're building, or if you have added new dependencies to `package.json`, please see the setup instructions above. Otherwise `grunt build`
 2. run `grunt watch` and in a separate Terminal window run `grunt boot`
 
-**Run tests with**: `jasmine` or `npm test`
+**Run tests with**: `jasmine` or `npm test` (make sure you're inside the `src` directory)
 
+---
 
 2015 &copy; Omar Alvarez, Raghuvir Kasturi, Clark Feusier, Ryan Leung. All Rights Reserved.

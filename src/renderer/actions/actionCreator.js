@@ -11,7 +11,7 @@ var actionCreator = {
   newNote: function() {
     JotzDispatcher.dispatch({
       actionType: 'new-note',
-    })
+    });
   }
 };
 

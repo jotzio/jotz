@@ -20,5 +20,9 @@ module.exports = {
       <Content notebookStore={props.notebookStore} />,
       document.getElementById('content')
     );
+    // TODO: REMOVEME
+    // For testing back-end of note creation
+    props.notebookStore.dispatchCallback({ actionType: 'new-note', content: 'new note test content' });
+    props.notebookStore.dispatchCallback({ actionType: 'create-note', content: 'created note test content' });
   }
 };

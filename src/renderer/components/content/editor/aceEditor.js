@@ -15,4 +15,20 @@ Editor.prototype.changeLanguage = function(languagePath) {
   this.editor.session.setMode(languagePath);
 };
 
+Editor.prototype.editTextBlock = function () {
+
+};
+
+Editor.prototype.saveTextBlock = function () {
+  console.log(this.editor.getValue());
+};
+
+Editor.prototype.newTextBlock = function() {
+
+};
+
+Editor.prototype.deleteTextBlock = function () {
+
+};
+
 module.exports = Editor;

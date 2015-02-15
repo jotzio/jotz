@@ -1,9 +1,13 @@
 var React = require('react');
-var Editor = require('./editor');
+var Editor = require('./aceEditor');
 require('brace/mode/javascript');
 require('brace/mode/coffee');
 
-var EditorView = React.createClass({
+var EditorMenu = React.createClass({
+
+});
+
+var Editor = React.createClass({
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
   },
@@ -25,4 +29,4 @@ var EditorView = React.createClass({
   }
 });
 
-module.exports = EditorView;
+module.exports = Editor;

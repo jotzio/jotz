@@ -11,4 +11,10 @@ describe('SideMenu', function() {
     var items = TestUtils.scryRenderedDOMComponentsWithTag(SideMenuElement, 'li');
     expect(items.length).toEqual(3);
   });
+
+  it('clicks the notes link', function() {
+    var notebooksLink = TestUtils.findRenderedDOMComponentWithClass(SideMenuElement, 'Notebooks');
+    TestUtils.Simulate.click(notebooksLink);
+    expect(notebooksLink._owner.props.active).toBeTruthy();
+  })
 });

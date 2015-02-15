@@ -9,7 +9,7 @@
     "scriptPreprocessor": "<rootDir>/support/preprocessor.js",
     "modulePathIgnorePatterns": [],
     "testFileExtensions": ["js"],
-    "unmockedModulePathPatterns": ["react"]
+    "unmockedModulePathPatterns": ["react", "underscore", "backbone"]
   },
   "devDependencies": {},
   "dependencies": {

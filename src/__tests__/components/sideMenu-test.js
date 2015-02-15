@@ -11,4 +11,10 @@ describe('SideMenu', function() {
     var items = TestUtils.scryRenderedDOMComponentsWithTag(SideMenuElement, 'li');
     expect(items.length).toEqual(3);
   });
+
+  it('sets the menu item to active when clicked', function() {
+    var notebooksLink = TestUtils.findRenderedDOMComponentWithClass(SideMenuElement, 'Notebooks');
+    TestUtils.Simulate.click(notebooksLink);
+    expect(notebooksLink._owner.props.active).toBeTruthy();
+  })
 });

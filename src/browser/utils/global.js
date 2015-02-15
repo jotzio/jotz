@@ -7,13 +7,31 @@ var GlobalUtils = (function() {
     getAppDirPath: function() {
       return app.getDataPath();
     },
-    getAppDirFilenames: function() {
-      fs.readdir(api.getAppDirPath(), function(err, filenames) {
-        return err ? err : filenames;
+    getNotesDirPath: function() {
+      return api.getAppDirPath() + '/notes/';
+    },
+    getNotesDirData: function(cb) {
+      fs.readdir(api.getNotesDirPath(), function(err, noteFilenames) {
+        if (err) {
+          api.createNotesDir(function() {
+            // TODO: how do we want to handle this UX?
+            console.log("no notes created yet");
+          });
+        } else {
+          cb(noteFilenames);
+        }
       });
+    },
+    createNotesDir: function(cb) {
+      fs.mkdir(api.getNotesDirPath(), cb);
     },
     getAppConfigPath: function() {
       return api.getAppDirPath() + '/jotz_app_config.json';
+    },
+    getAppConfigData: function(cb) {
+      fs.readFile(api.getAppConfigPath(), 'utf8', function(err, fileData) {
+        err ? cb(err) : cb(null, fileData);
+      });
     },
     createAppConfigFile: function() {
       api.getAppConfigData(function(err, fileData) {
@@ -33,11 +51,6 @@ var GlobalUtils = (function() {
           // TODO: research error handling with Atom Shell
         }
         api.createAppConfigFile();
-      });
-    },
-    getAppConfigData: function(cb) {
-      fs.readFile(api.getAppConfigPath(), 'utf8', function(err, fileData) {
-        err ? cb(err) : cb(null, fileData);
       });
     },
     getUserConfigPath: function() {

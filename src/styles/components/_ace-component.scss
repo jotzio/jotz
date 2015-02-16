@@ -1,8 +1,8 @@
 .ace-editor-container{
   position:relative;
-  width: 98%;
+  width: 500px;
   @include margin(0 auto);
-  min-height: 20px;
+  min-height: 50px;
   .ace-editor-inner{
     width: 100%;
   }

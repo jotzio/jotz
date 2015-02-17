@@ -14,6 +14,7 @@ var Notebook = Backbone.Collection.extend({
   initialize: function() {
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
     ipc.on('save-note-reply', this.handleSaveNoteReply.bind(this));
+    ipc.on('fetch-notes-reply', this.handleFetchNotesReply.bind(this));
   },
 
   dispatchCallback: function(payload) {
@@ -24,6 +25,8 @@ var Notebook = Backbone.Collection.extend({
       case 'save-note':
         this.saveNote(payload);
         break;
+      case 'fetch-notes':
+        this.fetchNotes();
       default:
         break;
     }
@@ -33,6 +36,10 @@ var Notebook = Backbone.Collection.extend({
     var note = this.set(this.prepareNoteData(payload), { remove: false });
     if (!note.get('_id')) note.set('_id', utils.createGuid());
     ipc.send('save-note', note);
+  },
+
+  fetchNotes: function() {
+    ipc.send('fetch-notes');
   },
 
   prepareNoteData: function(payload) {
@@ -56,6 +63,10 @@ var Notebook = Backbone.Collection.extend({
       // display 'note saved!' message to user
       console.log('note saved successfully');
     }
+  },
+
+  handleFetchNotesReply: function(JSONnotes) {
+    this.set(JSON.parse(JSONnotes));
   }
 });
 

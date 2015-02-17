@@ -1,7 +1,8 @@
 var React = require('react');
 var AceEditor = require('./aceEditor');
 
-var BlockMenu = React.createClass({
+//TODO: refactor into separate file, add all languages
+var NoteBlockMenu = React.createClass({
   render: function(){
     return (
       <select defaultValue="javascript" onChange={this.props.changeLanguage}>
@@ -15,32 +16,57 @@ var BlockMenu = React.createClass({
 });
 
 var NoteBlock = React.createClass({
+  getNote: function() {
+    this.editor.getText();
+  },
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
   },
   componentDidMount: function() {
     this.editor = new AceEditor('ace-editor' + this.props.blockNum);
+    this.editor.setText(this.props.text);
   },
   render: function () {
     return (
       <div>
-        <BlockMenu changeLanguage={this.changeLanguage} />
-        <div id={'ace-editor' + this.props.blockNum} className='ace-editor-inner'></div>
+        <NoteBlockMenu changeLanguage={this.changeLanguage} />
+        <div
+          id={'ace-editor' + this.props.blockNum}
+          className='ace-editor-inner'
+        ></div>
       </div>
     )
   }
 });
 
 var Editor = React.createClass({
+  //saveNote: function() {
+  //  React.Children.forEach(this.state.blocks, function(block) {
+  //    block =
+  //  })
+  //},
+  newBlock: function() {
+    console.log(this.state.blocks);
+    this.setState({blocks: this.state.blocks.concat(['hello'])});
+  },
+  getInitialState: function() {
+    return {
+      title: this.props.note.title,
+      blocks: this.props.note.blocks
+    }
+  },
   render: function() {
-    var noteBlocks = this.props.noteBlocks.map(function (block, index) {
+    var noteBlocks = this.state.blocks.map(function (block, index) {
       return (
-        <NoteBlock blockNum={index} />
+        <NoteBlock blockNum={index} text={block} ref={'ae'+index} />
       );
     });
     return (
       <div className='ace-editor-container'>
+        <h3>{this.state.title}</h3>
+        <button onClick={this.newBlock}>NEW BLOCK</button>
         {noteBlocks}
+        <button onClick={this.saveNote}>SAVE</button>
       </div>
     );
   }
@@ -48,20 +74,6 @@ var Editor = React.createClass({
 
 module.exports = Editor;
 
-//<select defaultValue="javascript" onChange={this.changeLanguage}>
-//  <option value="javascript">JavaScript</option>
-//  <option value="coffee">CoffeeScript</option>
-//  <option value="clojure">Clojure</option>
-//  <option value="css">CSS</option>
-//</select>
-
-
-//<select defaultValue="javascript" onChange={this.changeLanguage}>
-        //  <option value="javascript">JavaScript</option>
-        //  <option value="coffee">CoffeeScript</option>
-        //  <option value="clojure">Clojure</option>
-        //  <option value="css">CSS</option>
-        //</select>
 //TODO:
 /*
 append <div id='ace(int)' className = 'ace-editor-inner' onClick={this.editor.select}></div>

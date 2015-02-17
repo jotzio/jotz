@@ -15,16 +15,12 @@ Editor.prototype.changeLanguage = function(languagePath) {
   this.editor.session.setMode(languagePath);
 };
 
-Editor.prototype.selectTextBlock = function (blockId) {
-  //this.editor.edit(blockId);
-};
-
-Editor.prototype.saveTextBlock = function () {
+Editor.prototype.getText = function () {
   console.log(this.editor.getValue());
 };
 
-Editor.prototype.newTextBlock = function() {
-
+Editor.prototype.setText = function(text) {
+  this.editor.setValue(text, 1);
 };
 
 Editor.prototype.deleteTextBlock = function () {

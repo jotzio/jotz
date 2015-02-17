@@ -17,9 +17,15 @@ module.exports = {
       document.getElementById('topbar')
     );
 
-    var editorStub = [ 0, 1, 2];
+    var editorStub = {
+      _id: 402334,
+      title: 'Created Test Note Title',
+      blocks: ['some', 'text', 'here'],
+      notebookTitle: "Test Notebook",
+      notebookId: "1sdlkn134ksdfwasdf"
+    };
     React.render(
-      <Editor noteBlocks={editorStub}/>,
+      <Editor note={editorStub}/>,
       document.getElementById('content')
     );
 

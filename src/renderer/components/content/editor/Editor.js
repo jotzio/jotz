@@ -1,44 +1,46 @@
 var React = require('react');
-var Editor = require('./aceEditor');
-require('brace/mode/javascript');
-require('brace/mode/coffee');
+var AceEditor = require('./aceEditor');
 
-//var AceSettings = React.createClass({
-//
-//});
+var BlockMenu = React.createClass({
+  render: function(){
+    return (
+      <select defaultValue="javascript" onChange={this.props.changeLanguage}>
+        <option value="javascript">JavaScript</option>
+        <option value="coffee">CoffeeScript</option>
+        <option value="clojure">Clojure</option>
+        <option value="css">CSS</option>
+      </select>
+    );
+  }
+});
 
-
-//var EditorMenu = React.createClass({
-//  render: function () {
-//    return (
-//      <div>
-//        <ul>
-//          <AceSettings />
-//          <li>New Block</li>
-//        </ul>
-//      </div>
-//    );
-//  }
-//});
-
-var Editor = React.createClass({
+var NoteBlock = React.createClass({
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
   },
-  //selectText: function () {
-  //  this.editor.selectTextBlock('ace-editor1');
-  //},
-  //saveTextBox: function () {
-  //  this.editor.saveTextBlock();
-  //},
   componentDidMount: function() {
-    console.log('hello');
-    this.editor = new Editor();
+    this.editor = new AceEditor('ace-editor' + this.props.blockNum);
   },
+  render: function () {
+    return (
+      <div>
+        <BlockMenu changeLanguage={this.changeLanguage} />
+        <div id={'ace-editor' + this.props.blockNum} className='ace-editor-inner'></div>
+      </div>
+    )
+  }
+});
+
+var Editor = React.createClass({
   render: function() {
+    var noteBlocks = this.props.noteBlocks.map(function (block, index) {
+      return (
+        <NoteBlock blockNum={index} />
+      );
+    });
     return (
       <div className='ace-editor-container'>
-        <div id='ace-editor' className='ace-editor-inner'></div>
+        {noteBlocks}
       </div>
     );
   }
@@ -46,7 +48,15 @@ var Editor = React.createClass({
 
 module.exports = Editor;
 
-        //<select defaultValue="javascript" onChange={this.changeLanguage}>
+//<select defaultValue="javascript" onChange={this.changeLanguage}>
+//  <option value="javascript">JavaScript</option>
+//  <option value="coffee">CoffeeScript</option>
+//  <option value="clojure">Clojure</option>
+//  <option value="css">CSS</option>
+//</select>
+
+
+//<select defaultValue="javascript" onChange={this.changeLanguage}>
         //  <option value="javascript">JavaScript</option>
         //  <option value="coffee">CoffeeScript</option>
         //  <option value="clojure">Clojure</option>

@@ -1,7 +1,7 @@
 var Ace = require('./aceConfig');
 
-var Editor = function() {
-  this.editor = Ace.edit('ace-editor');
+var Editor = function(target) {
+  this.editor = Ace.edit(target);
   this.editor.setOptions({
     maxLines: 400,
     minLines: 5,
@@ -19,9 +19,9 @@ Editor.prototype.selectTextBlock = function (blockId) {
   //this.editor.edit(blockId);
 };
 
-//Editor.prototype.saveTextBlock = function () {
-//  console.log(this.editor.getValue());
-//};
+Editor.prototype.saveTextBlock = function () {
+  console.log(this.editor.getValue());
+};
 
 Editor.prototype.newTextBlock = function() {
 

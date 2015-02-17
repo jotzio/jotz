@@ -48,6 +48,10 @@ module.exports = function(grunt) {
       menus: {
         src: 'menus/**',
         dest: buildAppPath + '/'
+      },
+      fonts: {
+        src: 'fonts/**',
+        dest: buildAppPath + '/'
       }
     },
 
@@ -90,7 +94,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-shell');
 
-  grunt.registerTask('compile', 'rebuild contextify lib', function(n) {
+  grunt.registerTask('compile:dev', 'rebuild contextify lib', function(n) {
     var walk = require('walk');
 
     var options = {
@@ -112,21 +116,10 @@ module.exports = function(grunt) {
                     cwd: root
                   }
                 }
-              },
-              nodeBuildProd: {
-                command: 'node-gyp clean configure build',
-                options: {
-                  failOnError: true,
-                  stdout: true,
-                  stderr: true,
-                  execOptions: {
-                    cwd: path.join(buildAppPath, root)
-                  }
-                }
               }
             });
 
-            grunt.task.run(['shell:nodeBuildDev', 'shell:nodeBuildProd']);
+            grunt.task.run(['shell:nodeBuildDev']);
           }
           next();
         },
@@ -144,9 +137,52 @@ module.exports = function(grunt) {
     grunt.log.writeln('done');
   });
 
+  grunt.registerTask('compile:prod', 'rebuild contextify lib', function(n) {
+    var walk = require('walk');
+
+    var options = {
+      listeners: {
+        files: function(root, stat, next) {
+          var cFile = _.findWhere(stat, {name:'binding.gyp'});
+          var cDir = _.last(root.split('/'));
+
+          if (cFile && cDir === 'contextify') {
+
+            grunt.config.set('shell', {
+              nodeBuildProd: {
+              command: 'node-gyp clean configure build',
+                options: {
+                failOnError: true,
+                  stdout: true,
+                  stderr: true,
+                  execOptions: {
+                  cwd: path.join(buildAppPath, root)
+                }
+              }
+            }
+            });
+
+            grunt.task.run(['shell:nodeBuildProd']);
+          }
+          next();
+        },
+        names: function(root, stats, next) {
+          next();
+        },
+        errors: function(root, stats, next) {
+          next();
+        }
+      }
+    };
+
+    var walker = walk.walkSync(path.join(buildAppPath, 'node_modules'), options);
+
+    grunt.log.writeln('done');
+  });
+
   grunt.config.set('shell', {
     install: {
-      command: 'apm install .',
+      command: 'apm install . --production',
       options: {
         failOnError: true,
         stdout: true,
@@ -173,7 +209,7 @@ module.exports = function(grunt) {
     var flag = grunt.option('scratch');
 
     if (flag) {
-      grunt.task.run(['download-atom-shell', 'copy', 'shell:install', 'compile', 'sass']);
+      grunt.task.run(['download-atom-shell', 'copy', 'shell:install', 'compile:dev', 'compile:prod', 'sass']);
     } else {
       grunt.task.run(['copy','sass']);
     }

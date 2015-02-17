@@ -1,4 +1,3 @@
-//Sets up React var globally
 var React = require('react');
 
 require('node-jsx').install();
@@ -9,6 +8,6 @@ var viewRenderer = require('./components/viewRenderer');
 
 module.exports = {
   init: function() {
-    viewRenderer.render({notebookStore: NotebookStore});
+    viewRenderer.render({ notebookStore: NotebookStore });
   }
 };

@@ -4,13 +4,8 @@ var utils = require('../utils/global');
 
 var NotesAPI = (function() {
 
+  // Private API
   var api = {
-    saveNote: function(note, cb) {
-      var filename = api.noteFilename(note.attributes._id, note.attributes.title);
-      api.findNote(filename, function() {
-          api.writeNote(filename, note.attributes, cb);
-      });
-    },
     findNote: function(filename, cb) {
       utils.getNotesDirData(function(noteFilenames) {
         noteFilenames.indexOf(filename) >= 0 ? cb(true) : cb(false);
@@ -28,7 +23,16 @@ var NotesAPI = (function() {
     }
   };
 
-  return api;
+  // Public API
+  return {
+    saveNote: function(note, cb) {
+      var filename = api.noteFilename(note.attributes._id, note.attributes.title);
+      api.findNote(filename, function() {
+          api.writeNote(filename, note.attributes, cb);
+      });
+    }
+  };
+
 })();
 
 module.exports = NotesAPI;

@@ -2,8 +2,15 @@ var app = require('app');
 var fs = require('fs');
 
 var GlobalUtils = (function() {
+
   // Private
-  var MAX_FOR_HASHING = 1000000;
+  function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  };
+
+  function guid() {
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+  };
 
   // Public
   var api = {
@@ -25,14 +32,8 @@ var GlobalUtils = (function() {
         }
       });
     },
-    getIndexBelowMaxForKey: function(str) {
-      var hash = 0;
-      for (var i = 0; i < str.length; i++) {
-        hash = (hash<<5) + hash + str.charCodeAt(i);
-        hash = hash & hash;
-        hash = Math.abs(hash);
-      }
-      return hash % MAX_FOR_HASHING;
+    createGuid: function() {
+      return guid();
     }
   };
 

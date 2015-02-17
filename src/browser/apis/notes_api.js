@@ -11,11 +11,8 @@ var NotesAPI = (function() {
         noteFilenames.indexOf(filename) >= 0 ? cb(true) : cb(false);
       });
     },
-    noteFilename: function(noteId, noteTitle) {
-      return noteId + '_' + api.titleToFile(noteTitle) + '.json';
-    },
-    titleToFile: function(noteTitle) {
-      return noteTitle.toString().toLowerCase().replace(/\s+/gi, '_');
+    noteFilename: function(noteId) {
+      return noteId + '.json';
     },
     writeNote: function(filename, noteData, cb) {
       var filePath = utils.getNotesDirPath() + filename;
@@ -26,7 +23,7 @@ var NotesAPI = (function() {
   // Public API
   return {
     saveNote: function(note, cb) {
-      var filename = api.noteFilename(note.attributes._id, note.attributes.title);
+      var filename = api.noteFilename(note.attributes._id);
       api.findNote(filename, function() {
           api.writeNote(filename, note.attributes, cb);
       });

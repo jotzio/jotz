@@ -21,15 +21,18 @@ var Notebook = Backbone.Collection.extend({
       case 'new-note':
         // TODO: display creation/editing view
         break;
-      case 'create-note':
-        // add note to notebookstore
-        var note = this.set(this.prepareNoteData(payload), { remove: false });
-        // write note to file system
-        this.saveNote(note);
+      case 'save-note':
+        this.saveNote(payload);
         break;
       default:
         break;
     }
+  },
+
+  saveNote: function(payload) {
+    var note = this.set(this.prepareNoteData(payload), { remove: false });
+    if (!note.get('_id')) note.set('_id', utils.createGuid());
+    ipc.send('save-note', note);
   },
 
   prepareNoteData: function(payload) {
@@ -37,17 +40,12 @@ var Notebook = Backbone.Collection.extend({
       _id: payload.content._id,
       title: payload.content.title,
       blocks: payload.content.blocks,
-      notebookTitle: payload.content.notebookTitle,
-      notebookId: payload.content.notebookId
+      notebook: {
+        notebookTitle: payload.content.notebook.notebookTitle,
+        notebookId: payload.content.notebook.notebookId
+      }
     };
-    if (!noteData._id) {
-      noteData._id = utils.getIndexBelowMaxForKey(noteData.title);
-    }
     return noteData;
-  },
-
-  saveNote: function(note) {
-    ipc.send('save-note', note);
   },
 
   handleSaveNoteReply: function(err) {
@@ -56,6 +54,7 @@ var Notebook = Backbone.Collection.extend({
       // pull it out of collection and add error message to user?
     } else {
       // display 'note saved!' message to user
+      console.log('note saved successfully');
     }
   }
 });

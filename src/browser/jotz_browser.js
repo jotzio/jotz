@@ -47,15 +47,17 @@ var JotzBrowser = Backbone.Model.extend({
   },
   handleEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
-    ipc.on('save-note', function(e, note) {
-      NotesAPI.saveNote(note, function(result) {
-        e.sender.send('save-note-reply', result);
-      });
-    });
+    ipc.on('save-note', this.saveNote);
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);
+  },
+  saveNote: function(e, note) {
+    NotesAPI.saveNote(note, function(result) {
+      e.sender.send('save-note-reply', result);
+    });
   }
+
 });
 
 module.exports = JotzBrowser;

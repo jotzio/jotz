@@ -1,7 +1,7 @@
+var app = require('app');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var React = require('react');
-var app = require('app');
 var path = require('path');
 var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
@@ -48,10 +48,8 @@ var JotzBrowser = Backbone.Model.extend({
   handleEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     ipc.on('save-note', function(e, note) {
-      NotesAPI.saveNote(note, function(err, savedNote) {
-        // if err, send back error
-        // if err is null, send back note
-        // e.sender.send('save-note-reply', SOMETHING);
+      NotesAPI.saveNote(note, function(result) {
+        e.sender.send('save-note-reply', result);
       });
     });
   },

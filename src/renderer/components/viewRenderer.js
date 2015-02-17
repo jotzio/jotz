@@ -20,8 +20,5 @@ module.exports = {
       <Content notebookStore={props.notebookStore} />,
       document.getElementById('content')
     );
-    // TODO: REMOVE ME
-    // For testing back-end of note creation
-    props.notebookStore.dispatchCallback({ actionType: 'create-note', content: 'created note test content' });
   }
 };

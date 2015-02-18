@@ -2,12 +2,10 @@ var React = require('react');
 
 require('node-jsx').install();
 
-var NoteStore = require('./stores/Note');
-var NotebookStore = require('./stores/Notebook');
-var viewRenderer = require('./components/viewRenderer');
+var Jotz = require('./components/jotz');
 
 module.exports = {
   init: function() {
-    viewRenderer.render({ notebookStore: NotebookStore });
+    React.render(<Jotz />, document.body);
   }
 };

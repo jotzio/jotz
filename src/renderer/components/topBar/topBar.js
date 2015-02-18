@@ -3,7 +3,14 @@ var actionCreator = require('../../actions/actionCreator');
 
 var TopBar = React.createClass({
   handleNewNote: function() {
-    actionCreator.newNote();
+    actionCreator.saveNote({
+      title: 'Created Test Note Title',
+      blocks: [{}, {}],
+      notebook: {
+        notebookTitle: "Test Notebook",
+        notebookId: "1sdlkn134ksdfwasdf"
+      }
+    });
   },
 
   render: function() {

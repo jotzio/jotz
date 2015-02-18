@@ -16,7 +16,10 @@ var Editor = React.createClass({
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
   newBlock: function() {
-    var blocks = this.props.note.blocks.concat(['']);
+    var blocks = this.props.note.blocks.concat([{
+      language: 'text',
+      content: 'testingtesting'
+    }]);
     this.props.updateNoteBlock(blocks);
   },
 
@@ -33,6 +36,7 @@ var Editor = React.createClass({
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
+    console.log(this.props.note.blocks);
     actionCreator.saveNote(this.props.note);
   },
 

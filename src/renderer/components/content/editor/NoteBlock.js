@@ -13,13 +13,14 @@ var AceEditor = require('./aceEditor');
 
 var NoteBlock = React.createClass({
   updateNote: function() {
-    this.props.text = this.editor.getText();
-    this.props.updateBlock(this.props.blockIndex, this.props.text, this.props.language);
+    var text = this.editor.getText();
+    this.props.updateBlock(this.props.blockIndex, text, this.props.language);
   },
 
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
-    this.props.language = event.target.value;
+    //this.props.language = event.target.value;
+    this.props.updateBlock(this.props.blockIndex, this.props.text, event.target.value);
   },
 
   //This creates and appends an ace editor to the appropriate div
@@ -27,7 +28,7 @@ var NoteBlock = React.createClass({
   componentDidMount: function() {
     this.editor = new AceEditor('ace-editor' + this.props.blockIndex);
     this.editor.setText(this.props.text);
-    this.editor.changeLanguage(this.props.language);
+    this.editor.changeLanguage('ace/mode/' + this.props.language);
     this.editor.onChange(this.updateNote);
   },
 

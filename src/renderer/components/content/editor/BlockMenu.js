@@ -1,5 +1,10 @@
 var React = require('react');
 
+/*
+  note block contextual menu
+  TODO: change theme?
+ */
+
 var BlockMenu = React.createClass({
   render: function(){
     return (
@@ -13,7 +18,6 @@ var BlockMenu = React.createClass({
         <option value="html">HTML</option>
         <option value="json">JSON</option>
         <option value="markdown">Markdown</option>
-
       </select>
     );
   }

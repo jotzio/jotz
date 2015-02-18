@@ -5,10 +5,15 @@ var TopBar = require('./topBar/topBar');
 var NotebookStore = require('../stores/notebook');
 var actionCreator = require('../actions/actionCreator');
 
-var Editor = require('./content/editor/Editor');
-var newNote = require('./content/editor/newNote');
+/*
+  This is where the applications state is created/managed.
+  TODO: Link up fetchNotes to allNotes for notelist view (getInitialState)
+  TODO: Decide on React.js style guide eg: changeView vs newNote
+ */
 
 var Jotz = React.createClass({
+
+  //State created here
   getInitialState: function() {
     actionCreator.fetchNotes();
     return {
@@ -22,7 +27,7 @@ var Jotz = React.createClass({
 
   componentDidMount: function() {
     NotebookStore.on('all', function(result) {
-      this.updateNotes();
+      this.updateNotesList();
     }.bind(this), this);
   },
 
@@ -30,7 +35,12 @@ var Jotz = React.createClass({
     NotebookStore.off(null, null, this);
   },
 
-  updateNotes: function() {
+  /*
+    updateNotesList - updateBlocks are state managers. Passed to child components
+    as helper functions to change application state.
+   */
+
+  updateNotesList: function() {
     var newState = React.addons.update(this.state, {jotzState: {allNotes: {$set: NotebookStore.models}}});
     this.setState(newState);
   },
@@ -40,8 +50,9 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  newNote: function() {
-    var note = newNote();
+  //This changes view state to Editor, and currentNote to passed in note
+  //Editor will automatically read currentNote via states
+  newNote: function(note) {
     var newState = React.addons.update(this.state, {
       jotzState: {
         view: { $set: 'Editor' },
@@ -50,18 +61,7 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  //newBlock: function() {
-  //  var blocks = this.state.jotzState.currentNote.blocks.concat([' ']);
-  //  var newState = React.addons.update(this.state, {
-  //    jotzState: {
-  //      currentNote: {
-  //          blocks: { $set: blocks }
-  //      }
-  //    }});
-  //  this.setState(newState);
-  //},
-
-  updateBlocks: function(blocks) {
+  updateNoteBlock: function(blocks) {
     var newState = React.addons.update(this.state, {
       jotzState: {
         currentNote: {
@@ -71,6 +71,9 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
+  //children will access states/data that are passed to them as props
+  //never change props, clone and modify instead
+  //pass callbacks that change state as props to children
   render: function() {
     var right = 'right-container';
     var left = 'side-container';
@@ -86,7 +89,7 @@ var Jotz = React.createClass({
             allNotes={this.state.jotzState.allNotes}
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
-            updateBlocks={this.updateBlocks}
+            updateNoteBlock={this.updateNoteBlock}
           />
         </div>
       </div>
@@ -94,5 +97,4 @@ var Jotz = React.createClass({
   }
 });
 
-          //<Editor note={stub}/>
 module.exports = Jotz;

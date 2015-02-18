@@ -14,6 +14,7 @@ var Notebook = Backbone.Collection.extend({
   initialize: function() {
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
     ipc.on('save-note-reply', this.handleSaveNoteReply.bind(this));
+    ipc.on('destroy-note-reply', this.handleDestroyNoteReply.bind(this));
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply.bind(this));
   },
 
@@ -25,6 +26,8 @@ var Notebook = Backbone.Collection.extend({
       case 'save-note':
         this.saveNote(payload);
         break;
+      case 'destroy-note':
+        this.destroyNote(payload);
       case 'fetch-notes':
         this.fetchNotes();
       default:
@@ -36,6 +39,10 @@ var Notebook = Backbone.Collection.extend({
     var note = this.set(this.prepareNoteData(payload), { remove: false });
     if (!note.get('_id')) note.set('_id', utils.createGuid());
     ipc.send('save-note', note);
+  },
+
+  destroyNote: function(payload) {
+    ipc.send('destroy-note', payload.content._id);
   },
 
   fetchNotes: function() {
@@ -62,6 +69,16 @@ var Notebook = Backbone.Collection.extend({
     } else {
       // display 'note saved!' message to user
       console.log('note saved successfully');
+    }
+  },
+
+  handleDestroyNoteReply: function(err) {
+    if (err) {
+      // TODO: display note-deletion failure message to user
+      console.log('note deletion unsuccessful -- no note with that Id');
+    } else {
+      // display 'note deleted!' to user and change views
+      console.log('note deleted successfully');
     }
   },
 

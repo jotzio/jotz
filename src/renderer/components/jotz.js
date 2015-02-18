@@ -1,26 +1,24 @@
-var React = require('react');
+var React = require('react/addons');
 var SideMenu = require('./sidemenu/sidemenu');
 var Content = require('./content/content');
 var TopBar = require('./topBar/topBar');
 var NotebookStore = require('../stores/notebook');
+var actionCreator = require('../actions/actionCreator');
 
 var Jotz = React.createClass({
   getInitialState: function() {
+    actionCreator.fetchNotes();
     return {
       jotzState: {
-        view: 'Notes'
+        view: 'Notes',
+        allNotes: NotebookStore.models
       }
     };
   },
 
-  componentDidMount: function() {
-  },
-
-  componentWillUnmount: function() {
-  },
-
   changeView: function(newView) {
-    this.setState({jotzState: {view: newView }});
+    var newState = React.addons.update(this.state, {jotzState: {view: {$set: newView}}});
+    this.setState(newState);
   },
 
   render: function() {
@@ -33,7 +31,7 @@ var Jotz = React.createClass({
         </div>
         <div className={right}>
           <TopBar />
-          <Content view={this.state.jotzState.view} notebookStore={NotebookStore}/>
+          <Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />
         </div>
       </div>
     )

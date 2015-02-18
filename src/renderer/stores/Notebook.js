@@ -21,6 +21,7 @@ var Notebook = Backbone.Collection.extend({
   dispatchCallback: function(payload) {
     switch(payload.actionType) {
       case 'new-note':
+        console.log('display the creation/editing view');
         // TODO: display creation/editing view
         break;
       case 'save-note':

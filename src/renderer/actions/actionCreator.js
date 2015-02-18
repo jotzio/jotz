@@ -11,6 +11,11 @@ var actionCreator = {
     JotzDispatcher.dispatch({
       actionType: 'new-note',
     });
+  },
+  fetchNotes: function() {
+    JotzDispatcher.dispatch({
+      actionType: 'fetch-notes'
+    });
   }
 };
 

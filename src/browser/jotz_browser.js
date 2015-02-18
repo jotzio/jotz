@@ -49,6 +49,7 @@ var JotzBrowser = Backbone.Model.extend({
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
+    ipc.on('destroy-note', this.destroyNote);
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);
@@ -62,8 +63,12 @@ var JotzBrowser = Backbone.Model.extend({
     NotesAPI.fetchNotes(function(notes) {
       e.sender.send('fetch-notes-reply', notes);
     });
+  },
+  destroyNote: function(e, noteId) {
+    NotesAPI.destroyNote(noteId, function(err) {
+      e.sender.send('destroy-note-reply', err);
+    });
   }
-
 });
 
 module.exports = JotzBrowser;

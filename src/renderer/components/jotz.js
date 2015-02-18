@@ -47,6 +47,7 @@ var Jotz = React.createClass({
         view: { $set: 'Editor' },
         currentNote: { $set: note }
       }});
+    console.log(note.blocks);
     this.setState(newState);
   },
 

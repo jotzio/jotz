@@ -42,10 +42,16 @@ var Content = React.createClass({
 
   render: function() {
     var classes = 'content ';
+    var Content = null;
+    if (this.props.view === 'Notes') {
+      Content = <NotesList allNotes={this.props.allNotes}/>;
+    } else if (this.props.view === 'Editor') {
+      Content = <Editor note={this.props.currentNote} />;
+    }
     return (
       <div className={classes}>
         <h1>This is the main content area</h1>
-        {this.changeContent()}
+        {Content}
       </div>
     );
   }

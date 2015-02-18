@@ -2,16 +2,6 @@ var React = require('react');
 
 var NotesList = React.createClass({
 
-  componentDidMount: function() {
-    // this.state.notebookStore.on('add', function() {
-    //   this.forceUpdate();
-    // }.bind(this), this);
-  },
-
-  componentWillUnmount: function() {
-    // this.state.notebookStore.off(null, null, this);
-  },
-
   render: function() {
     var notes = this.props.allNotes.map(function(note) {
       return <li key={note.get('_id')}>{note.get('title')}</li>;

@@ -22,6 +22,10 @@ var Jotz = React.createClass({
     }.bind(this), this);
   },
 
+  componentWillUnmount: function() {
+    NotebookStore.off(null, null, this);
+  },
+
   updateNotes: function() {
     var newState = React.addons.update(this.state, {jotzState: {allNotes: {$set: NotebookStore.models}}});
     this.setState(newState);

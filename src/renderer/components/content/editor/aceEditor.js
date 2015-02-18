@@ -16,11 +16,17 @@ Editor.prototype.changeLanguage = function(languagePath) {
 };
 
 Editor.prototype.getText = function () {
-  console.log(this.editor.getValue());
+  return this.editor.getValue();
 };
 
 Editor.prototype.setText = function(text) {
   this.editor.setValue(text, 1);
+};
+
+Editor.prototype.onChange = function(func) {
+  this.editor.on('change', function(data) {
+    func();
+  });
 };
 
 Editor.prototype.deleteTextBlock = function () {

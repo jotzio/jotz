@@ -1,5 +1,6 @@
-var React = require('react');
+var React = require('react/addons');
 var AceEditor = require('./aceEditor');
+var _ = require('underscore');
 
 //TODO: refactor into separate file, add all languages
 var NoteBlockMenu = React.createClass({
@@ -16,15 +17,18 @@ var NoteBlockMenu = React.createClass({
 });
 
 var NoteBlock = React.createClass({
-  getNote: function() {
-    this.editor.getText();
+  updateNote: function() {
+    console.log(this.props.value);
+    this.props.value = this.editor.getText();
+    this.props.updateBlock(this.props.blockNum, this.props.value);
   },
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
   },
   componentDidMount: function() {
     this.editor = new AceEditor('ace-editor' + this.props.blockNum);
-    this.editor.setText(this.props.text);
+    this.editor.setText(this.props.value);
+    this.editor.onChange(this.updateNote);
   },
   render: function () {
     return (
@@ -40,14 +44,17 @@ var NoteBlock = React.createClass({
 });
 
 var Editor = React.createClass({
-  //saveNote: function() {
-  //  React.Children.forEach(this.state.blocks, function(block) {
-  //    block =
-  //  })
-  //},
+  saveNote: function() {
+    console.log(this.state.blocks);
+  },
+  updateBlock: function(index, value) {
+    var blocks = _.clone(this.state.blocks);
+    blocks[index] = value;
+    this.setState({blocks: blocks});
+  },
   newBlock: function() {
     console.log(this.state.blocks);
-    this.setState({blocks: this.state.blocks.concat(['hello'])});
+    this.setState({blocks: this.state.blocks.concat([''])});
   },
   getInitialState: function() {
     return {
@@ -56,11 +63,16 @@ var Editor = React.createClass({
     }
   },
   render: function() {
+    var save = this.handleSave;
     var noteBlocks = this.state.blocks.map(function (block, index) {
       return (
-        <NoteBlock blockNum={index} text={block} ref={'ae'+index} />
+        <NoteBlock
+          value={block}
+          blockNum={index}
+          updateBlock={this.updateBlock}
+        />
       );
-    });
+    }.bind(this));
     return (
       <div className='ace-editor-container'>
         <h3>{this.state.title}</h3>
@@ -73,28 +85,3 @@ var Editor = React.createClass({
 });
 
 module.exports = Editor;
-
-//TODO:
-/*
-append <div id='ace(int)' className = 'ace-editor-inner' onClick={this.editor.select}></div>
-this.editor.select -> ('ace(int)')
-on clicking another/new text block, previous block appends text to div
-on save, do ^ and save ace-editor-container to new doc
-on open note, pass note as props to be initiated with ace-editor-container
-
-<div id='container'>
-  <div id='textblock1'>some js</div>
-  <div id='textblock2'>some rtf</div>
-</div>
-
-on file open/save
-  map textblock divs to array in json object
-
-{
-  noteBlocks: [
-    'javascript:/unique-separator/:some js'
-    'rtf:/unique-separator/:some rtf'
-  ]
-}
-
- */

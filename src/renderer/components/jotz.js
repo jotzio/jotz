@@ -6,6 +6,7 @@ var NotebookStore = require('../stores/notebook');
 var actionCreator = require('../actions/actionCreator');
 
 var Editor = require('./content/editor/Editor');
+var newNote = require('./content/editor/newNote');
 
 var Jotz = React.createClass({
   getInitialState: function() {
@@ -13,7 +14,8 @@ var Jotz = React.createClass({
     return {
       jotzState: {
         view: 'Notes',
-        allNotes: []
+        allNotes: [],
+        currentNote: null
       }
     };
   },
@@ -38,18 +40,19 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
+  newNote: function() {
+    var note = newNote();
+    var newState = React.addons.update(this.state, {
+      jotzState: {
+        view: { $set: 'Editor' },
+        currentNote: { $set: note }
+      }});
+    this.setState(newState);
+  },
+
   render: function() {
     var right = 'right-container';
     var left = 'side-container';
-
-    var stub =  {
-      title: 'Created Test Note Title',
-      blocks: ['some', 'text', 'here'],
-      notebook: {
-        notebookTitle: "Test Notebook",
-        notebookId: "1sdlkn134ksdfwasdf"
-      }
-    };
 
     return (
       <div>
@@ -57,13 +60,17 @@ var Jotz = React.createClass({
           <SideMenu onChange={this.changeView}/>
         </div>
         <div className={right}>
-          <TopBar />
-          <Editor note={stub}/>
+          <TopBar newNote={this.newNote}/>
+          <Content
+            allNotes={this.state.jotzState.allNotes}
+            view={this.state.jotzState.view}
+            currentNote={this.state.jotzState.currentNote}
+          />
         </div>
       </div>
     )
   }
 });
-          //<Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />
 
+          //<Editor note={stub}/>
 module.exports = Jotz;

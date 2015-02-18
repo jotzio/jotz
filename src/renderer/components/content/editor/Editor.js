@@ -5,7 +5,14 @@ var NoteBlock = require('./NoteBlock');
 
 var Editor = React.createClass({
   newBlock: function() {
-    this.setState({blocks: this.state.note.blocks.concat([''])});
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $set: this.state.note.blocks.concat([''])
+        }
+      }
+    });
+    this.setState(newState);
   },
 
   updateBlock: function(index, value) {

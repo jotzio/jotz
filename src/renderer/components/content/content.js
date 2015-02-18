@@ -1,4 +1,5 @@
 var React = require('react');
+var Editor = require('./editor/Editor');
 
 var NotesList = React.createClass({
 
@@ -17,13 +18,34 @@ var NotesList = React.createClass({
   }
 });
 
+var stub =  {
+  title: 'Created Test Note Title',
+  blocks: ['some', 'text', 'here'],
+  notebook: {
+    notebookTitle: "Test Notebook",
+    notebookId: "1sdlkn134ksdfwasdf"
+  }
+};
+
 var Content = React.createClass({
+  changeContent: function() {
+    if(this.props.view === 'Notes') {
+      return (
+        <NotesList allNotes={this.props.allNotes}/>
+      );
+    } else if (this.props.view === 'Editor') {
+      return (
+        <Editor note={this.props.currentNote} />
+      );
+    }
+  },
+
   render: function() {
     var classes = 'content ';
     return (
       <div className={classes}>
         <h1>This is the main content area</h1>
-        {this.props.view === 'Notes' ? <NotesList allNotes={this.props.allNotes}/> : null}
+        {this.changeContent()}
       </div>
     );
   }

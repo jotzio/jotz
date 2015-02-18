@@ -14,7 +14,7 @@ var NotesList = React.createClass({
 
   render: function() {
     var notes = this.props.allNotes.map(function(note) {
-      return <li>{note.get('content')}</li>;
+      return <li key={note.get('_id')}>{note.get('title')}</li>;
     });
     return (
       <div>

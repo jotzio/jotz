@@ -5,6 +5,8 @@ var TopBar = require('./topBar/topBar');
 var NotebookStore = require('../stores/notebook');
 var actionCreator = require('../actions/actionCreator');
 
+var Editor = require('./content/editor/Editor');
+
 var Jotz = React.createClass({
   getInitialState: function() {
     actionCreator.fetchNotes();
@@ -39,6 +41,16 @@ var Jotz = React.createClass({
   render: function() {
     var right = 'right-container';
     var left = 'side-container';
+
+    var stub =  {
+      title: 'Created Test Note Title',
+      blocks: ['some', 'text', 'here'],
+      notebook: {
+        notebookTitle: "Test Notebook",
+        notebookId: "1sdlkn134ksdfwasdf"
+      }
+    };
+
     return (
       <div>
         <div className={left}>
@@ -46,7 +58,7 @@ var Jotz = React.createClass({
         </div>
         <div className={right}>
           <TopBar />
-          <Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />
+          <Editor note={stub}/>
         </div>
       </div>
     )
@@ -54,3 +66,4 @@ var Jotz = React.createClass({
 });
 
 module.exports = Jotz;
+          //<Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />

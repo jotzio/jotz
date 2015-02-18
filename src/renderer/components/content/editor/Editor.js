@@ -1,20 +1,7 @@
 var React = require('react/addons');
 var AceEditor = require('./aceEditor');
 var _ = require('underscore');
-
-//TODO: refactor into separate file, add all languages
-var NoteBlockMenu = React.createClass({
-  render: function(){
-    return (
-      <select defaultValue="javascript" onChange={this.props.changeLanguage}>
-        <option value="javascript">JavaScript</option>
-        <option value="coffee">CoffeeScript</option>
-        <option value="clojure">Clojure</option>
-        <option value="css">CSS</option>
-      </select>
-    );
-  }
-});
+var BlockMenu = require('./BlockMenu');
 
 var NoteBlock = React.createClass({
   updateNote: function() {
@@ -33,7 +20,7 @@ var NoteBlock = React.createClass({
   render: function () {
     return (
       <div>
-        <NoteBlockMenu changeLanguage={this.changeLanguage} />
+        <BlockMenu changeLanguage={this.changeLanguage} />
         <div
           id={'ace-editor' + this.props.blockNum}
           className='ace-editor-inner'

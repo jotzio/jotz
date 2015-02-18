@@ -17,20 +17,22 @@ var NotesAPI = (function() {
     },
     writeNote: function(filename, noteData, cb) {
       var filePath = utils.getNotesDirPath() + filename;
-      fs.writeFile(filePath, JSON.stringify(noteData), { encoding: 'utf8' }, cb);
+      jsf.writeFile(filePath, noteData, cb);
     },
     getNotesData: function(filenames, cb) {
-      var notes = [], c = 0;
+      var notes = [], c = filenames.length;
       filenames.forEach(function(filename) {
-        c++;
+        c--;
         var filepath = utils.getNotesDirPath() + filename;
         api.getNoteData(notes, filepath, cb, c);
       });
     },
     getNoteData: function(notes, filepath, cb, c) {
-      fs.readFile(filepath, { encoding: 'utf8' }, function(err, note) {
-        notes.push(note);
-        if (0 === --c) cb(notes);
+      jsf.readFile(filepath, function(err, note) {
+        if (note) {
+          notes.push(note);
+          if (c === 0) cb(notes);
+        }
       });
     },
     destroyNoteData: function(filename, cb) {

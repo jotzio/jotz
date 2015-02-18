@@ -1,9 +1,9 @@
 var JotzDispatcher = require('../dispatcher/JotzDispatcher.js');
 
 var actionCreator = {
-  createNote: function(content) {
+  saveNote: function(content) {
     JotzDispatcher.dispatch({
-      actionType: 'create-note',
+      actionType: 'save-note',
       content: content
     });
   },

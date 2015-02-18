@@ -82,8 +82,8 @@ var Notebook = Backbone.Collection.extend({
     }
   },
 
-  handleFetchNotesReply: function(JSONnotes) {
-    this.set(JSON.parse(JSONnotes));
+  handleFetchNotesReply: function(notes) {
+    this.set(notes);
   }
 });
 

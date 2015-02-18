@@ -41,7 +41,13 @@ var Jotz = React.createClass({
    */
 
   updateNotesList: function() {
-    var newState = React.addons.update(this.state, {jotzState: {allNotes: {$set: NotebookStore.models}}});
+    var newState = React.addons.update(this.state, {
+      jotzState: {
+        allNotes: {
+          $set: NotebookStore.models
+        }
+      }
+    });
     this.setState(newState);
   },
 

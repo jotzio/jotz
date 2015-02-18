@@ -37,7 +37,7 @@ var Notebook = Backbone.Collection.extend({
 
   saveNote: function(payload) {
     var note = this.set(this.prepareNoteData(payload), { remove: false });
-    if (!note.get('_id')) note.set('_id', utils.createGuid());
+    //if (!note.get('_id')) note.set('_id', utils.createGuid());
     ipc.send('save-note', note);
   },
 

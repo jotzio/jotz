@@ -1,5 +1,5 @@
 var React = require('react');
-var newNote = require('../content/editor/newNote');
+var createNote = require('../content/editor/createNote');
 
 /*
   Handles global note functions, create/search/filter.
@@ -8,7 +8,7 @@ var newNote = require('../content/editor/newNote');
 
 var TopBar = React.createClass({
   handleNewNote: function() {
-    var note = newNote();
+    var note = createNote();
     this.props.newNote(note);
   },
 

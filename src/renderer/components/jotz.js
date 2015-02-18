@@ -47,7 +47,17 @@ var Jotz = React.createClass({
         view: { $set: 'Editor' },
         currentNote: { $set: note }
       }});
-    console.log(note.blocks);
+    this.setState(newState);
+  },
+
+  newBlock: function() {
+    var blocks = this.state.jotzState.currentNote.blocks.concat([' ']);
+    var newState = React.addons.update(this.state, {
+      jotzState: {
+        currentNote: {
+            blocks: { $set: blocks }
+        }
+      }});
     this.setState(newState);
   },
 
@@ -66,6 +76,7 @@ var Jotz = React.createClass({
             allNotes={this.state.jotzState.allNotes}
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
+            newBlock={this.newBlock}
           />
         </div>
       </div>

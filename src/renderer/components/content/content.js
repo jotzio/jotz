@@ -18,14 +18,6 @@ var NotesList = React.createClass({
   }
 });
 
-var stub =  {
-  title: 'Created Test Note Title',
-  blocks: ['some', 'text', 'here'],
-  notebook: {
-    notebookTitle: "Test Notebook",
-    notebookId: "1sdlkn134ksdfwasdf"
-  }
-};
 
 var Content = React.createClass({
   changeContent: function() {
@@ -35,7 +27,7 @@ var Content = React.createClass({
       );
     } else if (this.props.view === 'Editor') {
       return (
-        <Editor note={this.props.currentNote} />
+        <Editor note={this.props.currentNote} newBlock={this.props.newBlock} />
       );
     }
   },
@@ -46,7 +38,7 @@ var Content = React.createClass({
     if (this.props.view === 'Notes') {
       Content = <NotesList allNotes={this.props.allNotes}/>;
     } else if (this.props.view === 'Editor') {
-      Content = <Editor note={this.props.currentNote} />;
+      Content = <Editor note={this.props.currentNote} newBlock={this.props.newBlock}/>;
     }
     return (
       <div className={classes}>

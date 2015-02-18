@@ -1,7 +1,7 @@
 var newNote = function() {
   return {
     title: '',
-    blocks: [''],
+    blocks: [' '],
     notebook: {
       notebookTitle: ''
     }

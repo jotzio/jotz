@@ -4,37 +4,17 @@ var actionCreator = require('../../../actions/actionCreator');
 var NoteBlock = require('./NoteBlock');
 
 var Editor = React.createClass({
-  newBlock: function() {
-    var newState = React.addons.update(this.state, {
-      note: {
-        blocks: {
-          $set: this.state.note.blocks.concat([''])
-        }
-      }
-    });
-    this.setState(newState);
-  },
-
   updateBlock: function(index, value) {
-    var note = _.clone(this.state.note);
-    note.blocks[index] = value;
-    this.setState({note: note});
+    this.props.note.blocks[index] = value;
   },
 
   saveNote: function() {
-    console.log(this.state.note.blocks);
-    actionCreator.saveNote(this.state.note);
-  },
-
-  getInitialState: function() {
-    return {
-      note: this.props.note
-    }
+    actionCreator.saveNote(this.props.note);
   },
 
   render: function() {
     var save = this.handleSave;
-    var noteBlocks = this.state.note.blocks.map(function (block, index) {
+    var noteBlocks = this.props.note.blocks.map(function (block, index) {
       return (
         <NoteBlock
           value={block}
@@ -45,8 +25,8 @@ var Editor = React.createClass({
     }.bind(this));
     return (
       <div className='ace-editor-container'>
-        <h3>{this.state.note.title}</h3>
-        <button onClick={this.newBlock}>NEW BLOCK</button>
+        <h3>{this.props.note.title}</h3>
+        <button onClick={this.props.newBlock}>NEW BLOCK</button>
         {noteBlocks}
         <button onClick={this.saveNote}>SAVE</button>
       </div>

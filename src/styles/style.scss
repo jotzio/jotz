@@ -3,19 +3,7 @@
 @import "base/base";
 @import "neat/neat";
 
-body {
-  @include outer-container();
-}
-.side-container {
-  @include span-columns(2);
-}
-.right-container {
-  @include span-columns(9);
+// Modules
+@import "modules/scaffolding";
+@import "modules/sidemenu";
 
-  .top-container {
-    @include fill-parent();
-  }
-  .content-container {
-    @include fill-parent();
-  }
-}

@@ -1,0 +1,74 @@
+.logo {
+  text-align: center;
+  font-size: 2.67 * $base-font-size;
+  @include margin(0 0 $base-spacing / 4 0);
+  @include padding($base-spacing / 3 0);
+  border-bottom: 4px solid white;
+}
+
+.main-nav {
+  text-align: center;
+
+  .main-nav-item {
+    width: 75%;
+    @include margin(0 auto $base-spacing / 4 auto);
+    @include padding($base-spacing / 4 0);
+
+    .main-nav-icon {
+      @include padding(5px 0 0 0);
+
+      .iconic-property-fill {
+        fill: $medium-gray;
+      }
+    }
+
+    .main-nav-title {
+      @include margin(0);
+      text-transform: uppercase;
+      font-size: 0.75 * $base-font-size;
+      font-weight: bold;
+      color: $dark-gray;
+    }
+
+    &.active {
+      background: $blue;
+
+      .main-nav-icon {
+        .iconic-property-fill {
+          fill: white;
+        }
+      }
+
+      .main-nav-title {
+        color: white;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.aux-nav-container {
+  @include position(absolute, null 0 0 0);
+
+  .aux-nav-list {
+    @include margin(0 0 $base-spacing / 3 0);
+    text-align: center;
+  }
+
+  .aux-nav-icon {
+    .iconic-property-fill {
+      fill: $dark-gray;
+    }
+
+
+    &:hover {
+      cursor: pointer;
+      .iconic-property-fill {
+        fill: $blue;
+      }
+    }
+  }
+}

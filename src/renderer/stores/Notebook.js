@@ -1,7 +1,4 @@
 var ipc = require('ipc');
-var remote = require('remote');
-var path = require('path');
-var utils = remote.require(path.join(__dirname, '../../browser/utils/global.js'));
 var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
@@ -37,7 +34,6 @@ var Notebook = Backbone.Collection.extend({
 
   saveNote: function(payload) {
     var note = this.set(this.prepareNoteData(payload), { remove: false });
-    //if (!note.get('_id')) note.set('_id', utils.createGuid());
     ipc.send('save-note', note);
   },
 

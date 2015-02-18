@@ -18,7 +18,7 @@ var Editor = React.createClass({
   newBlock: function() {
     var blocks = this.props.note.blocks.concat([{
       language: 'text',
-      content: 'testingtesting'
+      content: ''
     }]);
     this.props.updateNoteBlock(blocks);
   },

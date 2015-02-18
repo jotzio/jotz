@@ -1,4 +1,5 @@
 var fs = require('fs');
+var jsf = require('jsonfile');
 var ipc = require('ipc');
 var utils = require('../utils/global');
 

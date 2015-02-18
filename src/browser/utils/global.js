@@ -9,7 +9,7 @@ var GlobalUtils = (function() {
   };
 
   function guid() {
-    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    return (S4() + S4() + "_" + S4() + "_" + S4() + "_" + S4() + "_" + S4() + S4() + S4());
   };
 
   // Public

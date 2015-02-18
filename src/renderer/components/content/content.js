@@ -38,7 +38,7 @@ var Content = React.createClass({
     if (this.props.view === 'Notes') {
       Content = <NotesList allNotes={this.props.allNotes}/>;
     } else if (this.props.view === 'Editor') {
-      Content = <Editor note={this.props.currentNote} newBlock={this.props.newBlock}/>;
+      Content = <Editor note={this.props.currentNote} updateBlocks={this.props.updateBlocks}/>;
     }
     return (
       <div className={classes}>

@@ -4,8 +4,16 @@ var actionCreator = require('../../../actions/actionCreator');
 var NoteBlock = require('./NoteBlock');
 
 var Editor = React.createClass({
+  newBlock: function() {
+    var blocks = this.props.note.blocks.concat(['']);
+    this.props.updateBlocks(blocks);
+  },
+
   updateBlock: function(index, value) {
-    this.props.note.blocks[index] = value;
+    //this.props.note.blocks[index] = value;
+    var blocks = _.clone(this.props.note.blocks);
+    blocks[index] = value;
+    this.props.updateBlocks(blocks);
   },
 
   saveNote: function() {
@@ -26,7 +34,7 @@ var Editor = React.createClass({
     return (
       <div className='ace-editor-container'>
         <h3>{this.props.note.title}</h3>
-        <button onClick={this.props.newBlock}>NEW BLOCK</button>
+        <button onClick={this.newBlock}>NEW BLOCK</button>
         {noteBlocks}
         <button onClick={this.saveNote}>SAVE</button>
       </div>

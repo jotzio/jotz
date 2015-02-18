@@ -50,12 +50,22 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  newBlock: function() {
-    var blocks = this.state.jotzState.currentNote.blocks.concat([' ']);
+  //newBlock: function() {
+  //  var blocks = this.state.jotzState.currentNote.blocks.concat([' ']);
+  //  var newState = React.addons.update(this.state, {
+  //    jotzState: {
+  //      currentNote: {
+  //          blocks: { $set: blocks }
+  //      }
+  //    }});
+  //  this.setState(newState);
+  //},
+
+  updateBlocks: function(blocks) {
     var newState = React.addons.update(this.state, {
       jotzState: {
         currentNote: {
-            blocks: { $set: blocks }
+          blocks: { $set: blocks }
         }
       }});
     this.setState(newState);
@@ -76,7 +86,7 @@ var Jotz = React.createClass({
             allNotes={this.state.jotzState.allNotes}
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
-            newBlock={this.newBlock}
+            updateBlocks={this.updateBlocks}
           />
         </div>
       </div>

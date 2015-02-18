@@ -6,7 +6,6 @@ var NoteBlock = require('./NoteBlock');
 /*
   Contains functions for each note.
   Renders NoteBlocks which are stored together in an array as a note.
-  TODO: IMPORTANT!!! save and read language to/from blocks !!!
   TODO: change title h3 to input and add state callback to update note
   TODO: add note deletion
  */
@@ -21,9 +20,13 @@ var Editor = React.createClass({
     this.props.updateNoteBlock(blocks);
   },
 
-  updateBlock: function(index, value) {
+  updateBlock: function(index, value, language) {
+    var content = {
+      language: language,
+      content: value
+    };
     var blocks = _.clone(this.props.note.blocks);
-    blocks[index] = value;
+    blocks[index] = content;
     this.props.updateNoteBlock(blocks);
   },
 
@@ -36,11 +39,12 @@ var Editor = React.createClass({
   //Called in render, this reads the blocks data and creates NoteBLocks,
   //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.props.note.blocks.map(function (text, index) {
+    return this.props.note.blocks.map(function (block, index) {
       return (
         <NoteBlock
-          text={text}
-          blockNum={index}
+          text={block.content}
+          language={block.language}
+          blockIndex={index}
           updateBlock={this.updateBlock}
         />
       );

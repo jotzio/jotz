@@ -11,7 +11,7 @@ var Editor = function(target) {
     maxLines: 400,
     minLines: 5,
     useWorker: false,
-    mode: 'ace/mode/javascript',
+    mode: 'ace/mode/text',
     theme: 'ace/theme/monokai'
   });
 };

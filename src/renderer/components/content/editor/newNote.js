@@ -1,7 +1,10 @@
 var newNote = function() {
   return {
     title: '',
-    blocks: [' '],
+    blocks: [{
+      language: 'text',
+      content: ''
+    }],
     notebook: {
       notebookTitle: ''
     }

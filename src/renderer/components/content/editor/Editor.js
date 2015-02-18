@@ -2,6 +2,7 @@ var React = require('react/addons');
 var AceEditor = require('./aceEditor');
 var _ = require('underscore');
 var BlockMenu = require('./BlockMenu');
+var actionCreator = require('../../../actions/actionCreator');
 
 var NoteBlock = React.createClass({
   updateNote: function() {
@@ -31,27 +32,27 @@ var NoteBlock = React.createClass({
 });
 
 var Editor = React.createClass({
-  saveNote: function() {
-    console.log(this.state.blocks);
+  newBlock: function() {
+    console.log(this.state.note.blocks);
+    this.setState({blocks: this.state.note.blocks.concat([''])});
   },
   updateBlock: function(index, value) {
-    var blocks = _.clone(this.state.blocks);
-    blocks[index] = value;
-    this.setState({blocks: blocks});
+    var note = _.clone(this.state.note);
+    note.blocks[index] = value;
+    this.setState({note: note});
   },
-  newBlock: function() {
-    console.log(this.state.blocks);
-    this.setState({blocks: this.state.blocks.concat([''])});
+  saveNote: function() {
+    console.log(this.state.note.blocks);
+    actionCreator.saveNote(newNote);
   },
   getInitialState: function() {
     return {
-      title: this.props.note.title,
-      blocks: this.props.note.blocks
+      note: this.props.note
     }
   },
   render: function() {
     var save = this.handleSave;
-    var noteBlocks = this.state.blocks.map(function (block, index) {
+    var noteBlocks = this.state.note.blocks.map(function (block, index) {
       return (
         <NoteBlock
           value={block}
@@ -62,7 +63,7 @@ var Editor = React.createClass({
     }.bind(this));
     return (
       <div className='ace-editor-container'>
-        <h3>{this.state.title}</h3>
+        <h3>{this.state.note.title}</h3>
         <button onClick={this.newBlock}>NEW BLOCK</button>
         {noteBlocks}
         <button onClick={this.saveNote}>SAVE</button>

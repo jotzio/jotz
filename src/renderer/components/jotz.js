@@ -64,6 +64,6 @@ var Jotz = React.createClass({
     )
   }
 });
+          //<Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />
 
 module.exports = Jotz;
-          //<Content allNotes={this.state.jotzState.allNotes} view={this.state.jotzState.view} />

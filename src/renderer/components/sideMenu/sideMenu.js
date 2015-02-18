@@ -7,10 +7,15 @@ var MenuItem = React.createClass({
   },
 
   render: function() {
-    var className = this.props.active ? 'active' : null;
+    var className = this.props.active ? 'active ' : '';
+    className += 'main-nav-item';
+
+    var titleClassName = this.props.uid + ' main-nav-title';
+
     return (
-      <li className={className}>
-        <a href={'#'} className={this.props.uid} onClick={this.handleClick}>{this.props.uid}</a>
+      <li className={className} onClick={this.handleClick}>
+        <img data-src={this.props.icon} className='iconic iconic-md main-nav-icon' />
+        <p className={titleClassName}>{this.props.uid}</p>
       </li>
     )
   }
@@ -20,8 +25,14 @@ var SideMenu = React.createClass({
   getDefaultProps: function() {
     return {
       menuItems: [
-        {uid: 'Notes'},
-        {uid: 'Notebooks'}
+        {
+          uid: 'Notes',
+          icon: 'fonts/icons/document.svgz'
+        },
+        {
+          uid: 'Notebooks',
+          icon: 'fonts/icons/book.svgz'
+        }
       ]
     };
   },
@@ -45,6 +56,7 @@ var SideMenu = React.createClass({
           key={menuItem.ui}
           onSelect={this.setActiveMenuItem}
           uid={menuItem.uid}
+          icon={menuItem.icon}
         />
       );
     }.bind(this));
@@ -52,16 +64,18 @@ var SideMenu = React.createClass({
     var classes = {
       sidemenu: 'sidemenu',
       notebooksLink: 'notebooks-link'
-    }
+    };
     return (
       <div className={classes.sidemenu}>
-        <h2>Jotz</h2>
-        <ul>
+        <h1 className='logo'>Jotz</h1>
+        <ul className='main-nav'>
           {menuItems}
         </ul>
-        <div>
-          <ul>
-            <li>Settings</li>
+        <div className='aux-nav-container'>
+          <ul className='aux-nav-list'>
+            <li className='aux-nav-item'>
+              <img data-src='fonts/icons/cog.svgz' className='iconic iconic-sm aux-nav-icon'/>
+            </li>
           </ul>
         </div>
       </div>

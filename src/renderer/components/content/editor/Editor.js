@@ -39,6 +39,10 @@ var Editor = React.createClass({
     actionCreator.saveNote(this.props.note);
   },
 
+  closeEditor: function() {
+    this.props.changeView('Notes');
+  },
+
   //Called in render, this reads the blocks data and creates NoteBLocks,
   //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
@@ -61,6 +65,7 @@ var Editor = React.createClass({
         <button onClick={this.newBlock}>NEW BLOCK</button>
         {this.renderBlocks()}
         <button onClick={this.saveNote}>SAVE</button>
+        <button onClick={this.closeEditor}>CLOSE EDITOR</button>
       </div>
     );
   }

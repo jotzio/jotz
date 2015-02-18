@@ -25,7 +25,6 @@ var NotesList = React.createClass({
   }
 });
 
-
 var Content = React.createClass({
 
   //Checks view state, returns jsx for rendering
@@ -36,7 +35,11 @@ var Content = React.createClass({
       );
     } else if (this.props.view === 'Editor') {
       return (
-        <Editor note={this.props.currentNote} updateNoteBlock={this.props.updateNoteBlock} />
+        <Editor
+          note={this.props.currentNote}
+          updateNoteBlock={this.props.updateNoteBlock}
+          changeView={this.props.changeView}
+        />
       );
     }
   },

@@ -5,7 +5,7 @@ var utils = remote.require(path.join(__dirname, '../../../../browser/utils/globa
 var createNote = function() {
   return {
     _id: utils.createGuid(),
-    title: '',
+    title: 'Testing Title',
     blocks: [{
       language: 'text',
       content: ''

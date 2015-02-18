@@ -27,6 +27,7 @@ var Jotz = React.createClass({
 
   componentDidMount: function() {
     NotebookStore.on('all', function(result) {
+      console.log(NotebookStore.models);
       this.updateNotesList();
     }.bind(this), this);
   },
@@ -52,7 +53,13 @@ var Jotz = React.createClass({
   },
 
   changeView: function(newView) {
-    var newState = React.addons.update(this.state, {jotzState: {view: {$set: newView}}});
+    var newState = React.addons.update(this.state, {
+      jotzState: {
+        view: {
+          $set: newView
+        }
+      }
+    });
     this.setState(newState);
   },
 
@@ -96,6 +103,7 @@ var Jotz = React.createClass({
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
             updateNoteBlock={this.updateNoteBlock}
+            changeView={this.changeView}
           />
         </div>
       </div>

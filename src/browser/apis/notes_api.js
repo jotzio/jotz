@@ -31,6 +31,10 @@ var NotesAPI = (function() {
         notes.push(note);
         if (0 === --c) cb(notes);
       });
+    },
+    destroyNoteData: function(filename, cb) {
+      var filepath = utils.getNotesDirPath() + filename;
+      fs.unlink(filepath, cb);
     }
   };
 
@@ -41,6 +45,10 @@ var NotesAPI = (function() {
       api.findNote(filename, function() {
           api.writeNote(filename, note.attributes, cb);
       });
+    },
+    destroyNote: function(noteId, cb) {
+      var filename = api.noteFilename(noteId);
+      api.destroyNoteData(filename, cb);
     },
     fetchNotes: function(cb) {
       utils.getNotesDirData(function(filenames) {

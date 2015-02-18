@@ -36,7 +36,6 @@ var Editor = React.createClass({
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
-    console.log(this.props.note.blocks);
     actionCreator.saveNote(this.props.note);
   },
 

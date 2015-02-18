@@ -19,7 +19,6 @@ var NoteBlock = React.createClass({
 
   changeLanguage: function (event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
-    //this.props.language = event.target.value;
     this.props.updateBlock(this.props.blockIndex, this.props.text, event.target.value);
   },
 

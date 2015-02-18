@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Jotz</title>
+  <head>
+    <title>Jotz</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-</head>
-<body>
-  <script>
-    require('react');
-    require('node-jsx').install();
-    window.jotzApp = require('./renderer/main').init();
-  </script>
-</body>
+    <script src="renderer/lib/iconic.min.js"></script>
+  </head>
+  <body>
+    <div class="app-container">
+      <div id="sidemenu" class="side-container"></div>
+      <div class="right-container">
+        <div id="topbar" class="top-container"></div>
+        <div id="content" class="content-container"></div>
+      </div>
+    </div>
+    <script>
+      require('react');
+      require('node-jsx').install();		
+      window.jotzApp = require('./renderer/main').init();
+    </script>
+  </body>
 </html>

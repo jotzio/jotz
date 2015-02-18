@@ -1,0 +1,13 @@
+.app-container {
+  @include position(absolute, 0 0 0 0);
+}
+
+.side-container {
+  @include position(absolute, 0 null 0 0);
+  width: 150px;
+  background: $light-gray;
+}
+
+.right-container {
+  @include position(absolute, 0 0 0 150px);
+}

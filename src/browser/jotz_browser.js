@@ -14,8 +14,10 @@ var JotzBrowser = Backbone.Model.extend({
   },
   setConfigs: function() {
     this.set('config', {
-      w: 800,
-      h: 600,
+      w: 1024,
+      h: 768,
+      minH: 600,
+      minW: 800,
       index: path.join('file://', __dirname, '../index.html')
     });
   },
@@ -39,6 +41,8 @@ var JotzBrowser = Backbone.Model.extend({
     this.set('mainWindow', new BrowserWindow({
       width: this.get('config').w,
       height: this.get('config').h,
+      'min-height': this.get('config').minH,
+      'min-width': this.get('config').minW,
       show: false
     }));
     this.get('mainWindow').loadUrl(this.get('config').index);

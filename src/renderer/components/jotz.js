@@ -11,9 +11,20 @@ var Jotz = React.createClass({
     return {
       jotzState: {
         view: 'Notes',
-        allNotes: NotebookStore.models
+        allNotes: []
       }
     };
+  },
+
+  componentDidMount: function() {
+    NotebookStore.on('all', function(result) {
+      this.updateNotes();
+    }.bind(this), this);
+  },
+
+  updateNotes: function() {
+    var newState = React.addons.update(this.state, {jotzState: {allNotes: {$set: NotebookStore.models}}});
+    this.setState(newState);
   },
 
   changeView: function(newView) {

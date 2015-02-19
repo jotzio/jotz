@@ -33,7 +33,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    var note = this.set(this.prepareNoteData(payload), { remove: false });
+    var note = this.set(payload.content);
     ipc.send('save-note', note);
     NotebooksStore.saveNotebook(note);
   },

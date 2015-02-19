@@ -33,9 +33,10 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    var note = this.set(payload.content);
+    var note = this.set(payload.content, { remove: false });
     ipc.send('save-note', note);
-    NotebooksStore.saveNotebook(note);
+    // TODO: Add this back in after moving NoteBook to a Backbone Model
+    //NotebooksStore.saveNotebook(note);
   },
 
   fetchNotes: function() {

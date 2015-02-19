@@ -6,16 +6,23 @@ var utils = remote.require(path.join(__dirname, '../../browser/utils/global.js')
 var Note = Backbone.Model.extend({
 
   defaults: {
-    _id: utils.createGuid(),
     title: 'Test title',
     blocks: [{
       language: 'text',
       content: ''
     }],
     notebook: {
-      _id: utils.createGuid(),
       notebookTitle: ''
     }
+  },
+
+  initialize: function() {
+    this.set({
+      _id: utils.createGuid(),
+      notebook: {
+        _id: utils.createGuid()
+      }
+    })
   }
 
 });

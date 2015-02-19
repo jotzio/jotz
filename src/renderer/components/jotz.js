@@ -16,6 +16,7 @@ var Jotz = React.createClass({
   //State created here
   getInitialState: function() {
     actionCreator.fetchNotes();
+    actionCreator.fetchNotebooks();
     return {
       jotzState: {
         view: 'Notes',

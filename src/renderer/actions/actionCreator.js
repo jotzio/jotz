@@ -16,6 +16,17 @@ var actionCreator = {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notes'
     });
+  },
+  saveNotebook: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'save-notebook',
+      content: content
+    });
+  },
+  fetchNotebooks: function() {
+    JotzDispatcher.dispatch({
+      actionType: 'fetch-notebooks'
+    });
   }
 };
 

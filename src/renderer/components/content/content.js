@@ -1,29 +1,12 @@
 var React = require('react');
 var Editor = require('./editor/Editor');
+var NotesList = require('./noteBrowser/NotesList');
 
 /*
   This manages what is displayed in the content area,
   Notes or Editor.
-  TODO: Refactor NotesList to separate file
   TODO: Create NoteBook View
  */
-
-var NotesList = React.createClass({
-
-  render: function() {
-    var notes = this.props.allNotes.map(function(note) {
-      return <li key={note.get('_id')}>{note.get('title')}</li>;
-    });
-    return (
-      <div>
-        <h1>Hooray for the NotesList!!!</h1>
-        <ul>
-          {notes}
-        </ul>
-      </div>
-    );
-  }
-});
 
 var Content = React.createClass({
 

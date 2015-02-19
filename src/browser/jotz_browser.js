@@ -77,12 +77,12 @@ var JotzBrowser = Backbone.Model.extend({
   },
   saveNotebook: function(e, notebook) {
     NotebooksAPI.saveNotebook(notebook, function(err) {
-
+      e.sender.send('save-notebook-reply', err);
     });
   },
   fetchNotebooks: function(e) {
     NotebooksAPI.fetchNotebooks(function(notebooks) {
-
+      e.sender.send('fetch-notebooks-reply', notebooks);
     });
   }
 });

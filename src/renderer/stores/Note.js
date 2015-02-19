@@ -13,6 +13,7 @@ var Note = Backbone.Model.extend({
       content: ''
     }],
     notebook: {
+      _id: utils.createGuid(),
       notebookTitle: ''
     }
   }

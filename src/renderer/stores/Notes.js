@@ -3,6 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
 var Note = require('./Note');
+var NotebooksStore = require('./Notebooks');
 
 
 var Notes = Backbone.Collection.extend({

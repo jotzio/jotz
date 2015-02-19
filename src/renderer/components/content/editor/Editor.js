@@ -40,7 +40,7 @@ var Editor = React.createClass({
   },
 
   closeEditor: function() {
-    this.props.changeView('Notes');
+    this.props.swapListView(this.props.allNotes);
   },
 
   //Called in render, this reads the blocks data and creates NoteBLocks,

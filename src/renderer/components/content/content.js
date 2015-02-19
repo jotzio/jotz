@@ -14,7 +14,10 @@ var Content = React.createClass({
   renderContent: function() {
     if(this.props.view === 'Notes') {
       return (
-        <NotesList allNotes={this.props.allNotes}/>
+        <NotesList
+          allNotes={this.props.allNotes}
+          newNote={this.props.newNote}
+        />
       );
     } else if (this.props.view === 'Editor') {
       return (

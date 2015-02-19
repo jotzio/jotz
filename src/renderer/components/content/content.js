@@ -16,13 +16,15 @@ var Content = React.createClass({
       return (
         <NotesList
           allNotes={this.props.allNotes}
-          newNote={this.props.newNote}
+          swapNoteView={this.props.swapNoteView}
         />
       );
     } else if (this.props.view === 'Editor') {
       return (
         <Editor
           note={this.props.currentNote}
+          allNotes={this.props.allNotes}
+          swapListView={this.props.swapListView}
           updateNoteBlock={this.props.updateNoteBlock}
           changeView={this.props.changeView}
         />

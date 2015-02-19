@@ -2,7 +2,7 @@ var React = require('react/addons');
 var SideMenu = require('./sidemenu/sidemenu');
 var Content = require('./content/content');
 var TopBar = require('./topBar/topBar');
-var NotebookStore = require('../stores/notebook');
+var NotesStore = require('../stores/Notes');
 var actionCreator = require('../actions/actionCreator');
 
 /*
@@ -26,14 +26,13 @@ var Jotz = React.createClass({
   },
 
   componentDidMount: function() {
-    NotebookStore.on('all', function(result) {
-      console.log(NotebookStore.models);
+    NotesStore.on('all', function(result) {
       this.updateNotesList();
     }.bind(this), this);
   },
 
   componentWillUnmount: function() {
-    NotebookStore.off(null, null, this);
+    NotesStore.off(null, null, this);
   },
 
   /*
@@ -45,7 +44,7 @@ var Jotz = React.createClass({
     var newState = React.addons.update(this.state, {
       jotzState: {
         allNotes: {
-          $set: NotebookStore.models
+          $set: NotesStore.models
         }
       }
     });

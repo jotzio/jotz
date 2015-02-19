@@ -6,7 +6,7 @@ var path = require('path');
 var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
-
+var NotebooksAPI = require('./apis/notebooks_api');
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
@@ -54,6 +54,8 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);
+    ipc.on('save-notebook', this.saveNotebook);
+    ipc.on('fetch-notebooks', this.fetchNotebooks);
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);
@@ -71,6 +73,16 @@ var JotzBrowser = Backbone.Model.extend({
   destroyNote: function(e, noteId) {
     NotesAPI.destroyNote(noteId, function(err) {
       e.sender.send('destroy-note-reply', err);
+    });
+  },
+  saveNotebook: function(e, notebook) {
+    NotebooksAPI.saveNotebook(notebook, function(err) {
+
+    });
+  },
+  fetchNotebooks: function(e) {
+    NotebooksAPI.fetchNotebooks(function(notebooks) {
+
     });
   }
 });

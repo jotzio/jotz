@@ -5,7 +5,7 @@ var JotzDispatcher = require('../dispatcher/JotzDispatcher');
 var Note = require('./Note');
 
 
-var Notebook = Backbone.Collection.extend({
+var Notes = Backbone.Collection.extend({
   model: Note,
 
   initialize: function() {
@@ -13,6 +13,8 @@ var Notebook = Backbone.Collection.extend({
     ipc.on('save-note-reply', this.handleSaveNoteReply.bind(this));
     ipc.on('destroy-note-reply', this.handleDestroyNoteReply.bind(this));
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply.bind(this));
+    ipc.on('save-note-reply', this.handleSaveNotebookReply.bind(this));
+    ipc.on('fetch-notes-reply', this.handleFetchNotebooksReply.bind(this));
   },
 
   dispatchCallback: function(payload) {
@@ -23,10 +25,18 @@ var Notebook = Backbone.Collection.extend({
       case 'save-note':
         this.saveNote(payload);
         break;
-      case 'destroy-note':
-        this.destroyNote(payload);
       case 'fetch-notes':
         this.fetchNotes();
+        break;
+      case 'destroy-note':
+        this.destroyNote(payload);
+        break;
+      case 'save-notebook':
+        this.saveNotebook(payload);
+        break;
+      case 'fetch-notebooks':
+        this.fetchNotebooks();
+        break;
       default:
         break;
     }
@@ -37,12 +47,20 @@ var Notebook = Backbone.Collection.extend({
     ipc.send('save-note', note);
   },
 
+  fetchNotes: function() {
+    ipc.send('fetch-notes');
+  },
+
   destroyNote: function(payload) {
     ipc.send('destroy-note', payload.content._id);
   },
 
-  fetchNotes: function() {
-    ipc.send('fetch-notes');
+  saveNotebook: function(payload) {
+
+  },
+
+  fetchNotebooks: function() {
+
   },
 
   prepareNoteData: function(payload) {
@@ -68,6 +86,10 @@ var Notebook = Backbone.Collection.extend({
     }
   },
 
+  handleFetchNotesReply: function(notes) {
+    this.set(notes);
+  },
+
   handleDestroyNoteReply: function(err) {
     if (err) {
       // TODO: display note-deletion failure message to user
@@ -78,11 +100,15 @@ var Notebook = Backbone.Collection.extend({
     }
   },
 
-  handleFetchNotesReply: function(notes) {
-    this.set(notes);
+  handleSaveNotebookReply: function(err) {
+
+  },
+
+  handleFetchNotebooksReply: function(notebooks) {
+
   }
 });
 
-var NotebookStore = new Notebook();
+var NotesStore = new Notes();
 
-module.exports = NotebookStore;
+module.exports = NotesStore;

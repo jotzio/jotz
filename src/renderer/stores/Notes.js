@@ -46,19 +46,6 @@ var Notes = Backbone.Collection.extend({
     ipc.send('destroy-note', payload.content._id);
   },
 
-  prepareNoteData: function(payload) {
-    var noteData = {
-      _id: payload.content._id,
-      title: payload.content.title,
-      blocks: payload.content.blocks,
-      notebook: {
-        title: payload.content.notebook.title,
-        _id: payload.content.notebook._id
-      }
-    };
-    return noteData;
-  },
-
   handleSaveNoteReply: function(err) {
     if (err) {
       // TODO: ask guys how we want to handle error

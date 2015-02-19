@@ -3,6 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
 var Note = require('./Note');
+var NotebooksStore = require('./Notebooks');
 
 
 var Notes = Backbone.Collection.extend({
@@ -13,15 +14,10 @@ var Notes = Backbone.Collection.extend({
     ipc.on('save-note-reply', this.handleSaveNoteReply.bind(this));
     ipc.on('destroy-note-reply', this.handleDestroyNoteReply.bind(this));
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply.bind(this));
-    ipc.on('save-note-reply', this.handleSaveNotebookReply.bind(this));
-    ipc.on('fetch-notes-reply', this.handleFetchNotebooksReply.bind(this));
   },
 
   dispatchCallback: function(payload) {
     switch(payload.actionType) {
-      case 'new-note':
-        // TODO: display creation/editing view
-        break;
       case 'save-note':
         this.saveNote(payload);
         break;
@@ -31,12 +27,6 @@ var Notes = Backbone.Collection.extend({
       case 'destroy-note':
         this.destroyNote(payload);
         break;
-      case 'save-notebook':
-        this.saveNotebook(payload);
-        break;
-      case 'fetch-notebooks':
-        this.fetchNotebooks();
-        break;
       default:
         break;
     }
@@ -45,6 +35,7 @@ var Notes = Backbone.Collection.extend({
   saveNote: function(payload) {
     var note = this.set(this.prepareNoteData(payload), { remove: false });
     ipc.send('save-note', note);
+    NotebooksStore.saveNotebook(note);
   },
 
   fetchNotes: function() {
@@ -55,22 +46,14 @@ var Notes = Backbone.Collection.extend({
     ipc.send('destroy-note', payload.content._id);
   },
 
-  saveNotebook: function(payload) {
-
-  },
-
-  fetchNotebooks: function() {
-
-  },
-
   prepareNoteData: function(payload) {
     var noteData = {
       _id: payload.content._id,
       title: payload.content.title,
       blocks: payload.content.blocks,
       notebook: {
-        notebookTitle: payload.content.notebook.notebookTitle,
-        notebookId: payload.content.notebook.notebookId
+        title: payload.content.notebook.title,
+        _id: payload.content.notebook._id
       }
     };
     return noteData;
@@ -98,14 +81,6 @@ var Notes = Backbone.Collection.extend({
       // display 'note deleted!' to user and change views
       console.log('note deleted successfully');
     }
-  },
-
-  handleSaveNotebookReply: function(err) {
-
-  },
-
-  handleFetchNotebooksReply: function(notebooks) {
-
   }
 });
 

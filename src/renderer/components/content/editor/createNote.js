@@ -11,7 +11,8 @@ var createNote = function() {
       content: ''
     }],
     notebook: {
-      notebookTitle: ''
+      title: '',
+      _id: utils.createGuid()
     }
   }
 };

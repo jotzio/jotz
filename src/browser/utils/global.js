@@ -1,5 +1,6 @@
 var app = require('app');
 var fs = require('fs');
+var jsf = require('jsonfile');
 
 var GlobalUtils = (function() {
 
@@ -19,6 +20,21 @@ var GlobalUtils = (function() {
     },
     getNotesDirPath: function() {
       return api.getAppDirPath() + '/notes/';
+    },
+    getNotebooksPath: function() {
+      return api.getAppDirPath() + '/notebooks.json';
+    },
+    createNotebooksFile: function(cb) {
+      jsf.writeFile(api.getNotebooksPath(), [], cb);
+    },
+    getNotebooksFileData: function(cb) {
+      jsf.readFile(api.getNotebooksPath(), function(err, notebooks) {
+        if (!err) {
+          cb(notebooks);
+        } else {
+          api.createNotebooksFile(function() { cb([]) });
+        }
+      });
     },
     createNotesDir: function(cb) {
       fs.mkdir(api.getNotesDirPath(), cb);

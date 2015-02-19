@@ -45,7 +45,7 @@ var Jotz = React.createClass({
     var newState = React.addons.update(this.state, {
       jotzState: {
         allNotes: {
-          $set: NotesStore.models
+          $set: NotesStore
         }
       }
     });
@@ -102,6 +102,7 @@ var Jotz = React.createClass({
             allNotes={this.state.jotzState.allNotes}
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
+            newNote={this.newNote}
             updateNoteBlock={this.updateNoteBlock}
             changeView={this.changeView}
           />

@@ -33,7 +33,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    var note = this.set(this.prepareNoteData(payload), { remove: false });
+    var note = this.set(payload.content);
     ipc.send('save-note', note);
     NotebooksStore.saveNotebook(note);
   },
@@ -44,19 +44,6 @@ var Notes = Backbone.Collection.extend({
 
   destroyNote: function(payload) {
     ipc.send('destroy-note', payload.content._id);
-  },
-
-  prepareNoteData: function(payload) {
-    var noteData = {
-      _id: payload.content._id,
-      title: payload.content.title,
-      blocks: payload.content.blocks,
-      notebook: {
-        title: payload.content.notebook.title,
-        _id: payload.content.notebook._id
-      }
-    };
-    return noteData;
   },
 
   handleSaveNoteReply: function(err) {

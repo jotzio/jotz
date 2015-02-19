@@ -1,16 +1,15 @@
 var React = require('react');
-var actionCreator = require('../../actions/actionCreator');
+var createNote = require('../content/editor/createNote');
+
+/*
+  Handles global note functions, create/search/filter.
+  TODO: Note Search
+ */
 
 var TopBar = React.createClass({
   handleNewNote: function() {
-    actionCreator.saveNote({
-      title: 'Created Test Note Title',
-      blocks: [{}, {}],
-      notebook: {
-        notebookTitle: "Test Notebook",
-        notebookId: "1sdlkn134ksdfwasdf"
-      }
-    });
+    var note = createNote();
+    this.props.newNote(note);
   },
 
   render: function() {

@@ -9,7 +9,7 @@ var actionCreator = {
   },
   newNote: function() {
     JotzDispatcher.dispatch({
-      actionType: 'new-note',
+      actionType: 'new-note'
     });
   },
   fetchNotes: function() {

@@ -65,11 +65,20 @@ var Jotz = React.createClass({
 
   //This changes view state to Editor, and currentNote to passed in note
   //Editor will automatically read currentNote via states
-  newNote: function(note) {
+  swapNoteView: function(note) {
     var newState = React.addons.update(this.state, {
       jotzState: {
         view: { $set: 'Editor' },
         currentNote: { $set: note }
+      }});
+    this.setState(newState);
+  },
+
+  swapListView: function(notes) {
+    var newState = React.addons.update(this.state, {
+      jotzState: {
+        view: { $set: 'Notes' },
+        currentNote: { $set: notes }
       }});
     this.setState(newState);
   },
@@ -97,12 +106,13 @@ var Jotz = React.createClass({
           <SideMenu onChange={this.changeView}/>
         </div>
         <div className={right}>
-          <TopBar newNote={this.newNote}/>
+          <TopBar swapNoteView={this.swapNoteView}/>
           <Content
             allNotes={this.state.jotzState.allNotes}
             view={this.state.jotzState.view}
             currentNote={this.state.jotzState.currentNote}
-            newNote={this.newNote}
+            swapNoteView={this.swapNoteView}
+            swapListView={this.swapListView}
             updateNoteBlock={this.updateNoteBlock}
             changeView={this.changeView}
           />

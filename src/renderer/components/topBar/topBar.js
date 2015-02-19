@@ -14,12 +14,9 @@ var TopBar = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <div>
-          <h1>Hello this is the top bar.</h1>
-        </div>
-        <div>
-          <button onClick={this.handleNewNote}>New Note</button>
+      <div className='topbar-container'>
+        <div className='action-container'>
+          <button className='btn' onClick={this.handleNewNote}>New Note</button>
         </div>
       </div>
     );

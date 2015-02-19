@@ -11,3 +11,14 @@
 .right-container {
   @include position(absolute, 0 0 0 150px);
 }
+
+.topbar-container {
+  @include position(relative);
+  height: 98px;
+  text-align: right;
+  border-bottom: 4px solid $light-gray;
+}
+
+.main-container {
+  @include padding($base-spacing / 2);
+}

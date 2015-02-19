@@ -28,7 +28,7 @@ var Content = React.createClass({
   },
 
   render: function() {
-    var classes = 'content ';
+    var classes = 'content main-container ';
     return (
       <div className={classes}>
         <h1>This is the main content area</h1>

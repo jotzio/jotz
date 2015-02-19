@@ -29,7 +29,7 @@ var Notebooks = Backbone.Collection.extend({
 
   saveNotebook: function(note) {
     var noteData = this.prepareNotebookData(note);
-    this.set(noteData);
+    this.set(noteData, { remove: false });
     ipc.send('save-notebook', noteData);
   },
 

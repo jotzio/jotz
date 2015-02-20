@@ -16,10 +16,10 @@ var Editor = React.createClass({
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
   newBlock: function() {
-    var blocks = this.props.note.blocks.concat([{
+    var blocks = this.props.note.set('blocks', [[{
       language: 'text',
       content: ''
-    }]);
+    }]]);
   },
 
   updateBlock: function(index, value, language) {
@@ -27,13 +27,14 @@ var Editor = React.createClass({
       language: language,
       content: value
     };
-    this.props.note.blocks[index] = content;
+    var blocks = this.props.note.get('blocks');
+    blocks[index] = content;
+    this.props.note.set('blocks', blocks);
   },
 
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
-    debugger
     actionCreator.saveNote(this.props.note);
   },
 
@@ -44,7 +45,7 @@ var Editor = React.createClass({
   //Called in render, this reads the blocks data and creates NoteBLocks,
   //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.props.note.blocks.map(function (block, index) {
+    return this.props.note.get('blocks').map(function (block, index) {
       return (
         <NoteBlock
           text={block.content}
@@ -59,7 +60,7 @@ var Editor = React.createClass({
   render: function() {
     return (
       <div className='ace-editor-container'>
-        <h3>{this.props.note.title}</h3>
+        <h3>{this.props.note.get('title')}</h3>
         <button onClick={this.newBlock}>NEW BLOCK</button>
         {this.renderBlocks()}
         <button onClick={this.saveNote}>SAVE</button>

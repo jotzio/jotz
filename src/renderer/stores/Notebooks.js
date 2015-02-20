@@ -1,7 +1,7 @@
 var ipc = require('ipc');
 var _ = require('underscore');
 var Backbone = require('backbone');
-var JotzDispatcher = require('../dispatcher/JotzDispatcher');
+var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Notebook = require('./notebook');
 
 

@@ -103,7 +103,6 @@ var Jotz = React.createClass({
             currentNote={this.state.jotzState.currentNote}
             swapNoteView={this.swapNoteView}
             swapListView={this.swapListView}
-            updateNoteBlock={this.updateNoteBlock}
             changeView={this.changeView}
           />
         </div>

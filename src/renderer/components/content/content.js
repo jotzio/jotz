@@ -25,7 +25,6 @@ var Content = React.createClass({
           note={this.props.currentNote.clone()}
           allNotes={this.props.allNotes}
           swapListView={this.props.swapListView}
-          updateNoteBlock={this.props.updateNoteBlock}
           changeView={this.props.changeView}
         />
       );

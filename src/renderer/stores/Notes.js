@@ -33,7 +33,6 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    debugger
     var notes = this.add(payload.content, { merge: true });
     ipc.send('save-note', notes);
     // TODO: Add this back in after moving NoteBook to a Backbone Model
@@ -55,6 +54,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       // display 'note saved!' message to user
       console.log('note saved successfully');
+      this.fetchNotes();
     }
   },
 

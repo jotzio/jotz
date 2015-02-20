@@ -44,6 +44,7 @@ var NotesAPI = (function() {
   // Public API
   return {
     saveNote: function(note, cb) {
+      note.attributes._id = note.attributes._id || utils.createGuid();
       var filename = api.noteFilename(note.attributes._id);
       api.findNote(filename, function() {
           api.writeNote(filename, note.attributes, cb);

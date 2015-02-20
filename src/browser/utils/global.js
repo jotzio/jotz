@@ -7,11 +7,11 @@ var GlobalUtils = (function() {
   // Private
   function S4() {
     return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  };
+  }
 
   function guid() {
     return (S4() + S4() + "_" + S4() + "_" + S4() + "_" + S4() + "_" + S4() + S4() + S4());
-  };
+  }
 
   // Public
   var api = {
@@ -32,7 +32,7 @@ var GlobalUtils = (function() {
         if (!err) {
           cb(notebooks);
         } else {
-          api.createNotebooksFile(function() { cb([]) });
+          api.createNotebooksFile(function() { cb([]); });
         }
       });
     },
@@ -44,7 +44,7 @@ var GlobalUtils = (function() {
         if (!err) {
           cb(noteFilenames);
         } else {
-          api.createNotesDir(function() { cb([]) });
+          api.createNotesDir(function() { cb([]); });
         }
       });
     },

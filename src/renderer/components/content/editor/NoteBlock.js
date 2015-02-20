@@ -40,8 +40,9 @@ var NoteBlock = React.createClass({
           className='ace-editor-inner'
         ></div>
       </div>
-    )
+    );
   }
 });
 
 module.exports = NoteBlock;
+

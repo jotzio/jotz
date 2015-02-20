@@ -9,11 +9,11 @@ var NotesList = React.createClass({
     e.preventDefault();
     var noteId = e.target.attributes.getNamedItem('data-note').value;
     var note = this.props.allNotes.findWhere({ _id: noteId });
-    this.props.swapNoteView(note.attributes);
+    this.props.swapNoteView(note);
   },
 
   render: function() {
-    var notes = this.props.allNotes.map(function(note) {
+    var notes = this.props.allNotes.sortBy('_id').map(function(note) {
       return <li onClick={this.handleClick} data-note={note.get('_id')} key={note.get('_id')}>{note.get('title')}</li>;
     }.bind(this));
     return (
@@ -28,3 +28,4 @@ var NotesList = React.createClass({
 });
 
 module.exports = NotesList;
+

@@ -20,7 +20,7 @@ var Jotz = React.createClass({
     return {
       jotzState: {
         view: 'Notes',
-        allNotes: [],
+        allNotes: NotesStore,
         currentNote: null
       }
     };
@@ -74,21 +74,11 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  swapListView: function(notes) {
+  swapListView: function() {
     var newState = React.addons.update(this.state, {
       jotzState: {
         view: { $set: 'Notes' },
-        currentNote: { $set: notes }
-      }});
-    this.setState(newState);
-  },
-
-  updateNoteBlock: function(blocks) {
-    var newState = React.addons.update(this.state, {
-      jotzState: {
-        currentNote: {
-          blocks: { $set: blocks }
-        }
+        currentNote: { $set: null }
       }});
     this.setState(newState);
   },
@@ -113,13 +103,13 @@ var Jotz = React.createClass({
             currentNote={this.state.jotzState.currentNote}
             swapNoteView={this.swapNoteView}
             swapListView={this.swapListView}
-            updateNoteBlock={this.updateNoteBlock}
             changeView={this.changeView}
           />
         </div>
       </div>
-    )
+    );
   }
 });
 
 module.exports = Jotz;
+

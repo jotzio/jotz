@@ -15,16 +15,7 @@ var Note = Backbone.Model.extend({
       notebookTitle: ''
     }
   },
-
-  initialize: function() {
-    this.set({
-      _id: utils.createGuid(),
-      notebook: {
-        _id: utils.createGuid()
-      }
-    })
-  }
-
 });
 
 module.exports = Note;
+

@@ -9,7 +9,11 @@ var NotesAPI = (function() {
   var api = {
     findNote: function(filename, cb) {
       utils.getNotesDirData(function(noteFilenames) {
-        noteFilenames.indexOf(filename) >= 0 ? cb(true) : cb(false);
+        if (noteFilenames.indexOf(filename) >= 0) {
+          cb(true);
+        } else {
+          cb(false);
+        }
       });
     },
     noteFilename: function(noteId) {
@@ -31,7 +35,9 @@ var NotesAPI = (function() {
       jsf.readFile(filepath, function(err, note) {
         if (note) {
           notes.push(note);
-          if (c === 0) cb(notes);
+          if (c === 0) {
+            cb(notes);
+          }
         }
       });
     },
@@ -44,6 +50,7 @@ var NotesAPI = (function() {
   // Public API
   return {
     saveNote: function(note, cb) {
+      note.attributes._id = note.attributes._id || utils.createGuid();
       var filename = api.noteFilename(note.attributes._id);
       api.findNote(filename, function() {
           api.writeNote(filename, note.attributes, cb);

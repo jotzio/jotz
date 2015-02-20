@@ -22,10 +22,9 @@ var Content = React.createClass({
     } else if (this.props.view === 'Editor') {
       return (
         <Editor
-          note={this.props.currentNote}
+          note={this.props.currentNote.clone()}
           allNotes={this.props.allNotes}
           swapListView={this.props.swapListView}
-          updateNoteBlock={this.props.updateNoteBlock}
           changeView={this.props.changeView}
         />
       );

@@ -17,7 +17,7 @@ var NoteBlock = React.createClass({
     this.props.updateBlock(this.props.blockIndex, text, this.props.language);
   },
 
-  changeLanguage: function (event) {
+  changeLanguage: function(event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
     this.props.updateBlock(this.props.blockIndex, this.props.text, event.target.value);
   },
@@ -31,10 +31,10 @@ var NoteBlock = React.createClass({
     this.editor.onChange(this.updateNote);
   },
 
-  render: function () {
+  render: function() {
     return (
       <div>
-        <BlockMenu changeLanguage={this.changeLanguage} />
+        <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
         <div
           id={'ace-editor' + this.props.blockIndex}
           className='ace-editor-inner'

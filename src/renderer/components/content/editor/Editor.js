@@ -34,6 +34,7 @@ var Editor = React.createClass({
       language: language,
       content: value
     };
+
     var blocks = this.props.note.get('blocks');
     blocks[index] = content;
     this.props.note.set('blocks', blocks);
@@ -43,6 +44,9 @@ var Editor = React.createClass({
   //via dispatch to update store
   saveNote: function() {
     actionCreator.saveNote(this.props.note);
+    if (!this.props.note.get('id')) {
+      this.closeEditor();
+    }
   },
 
   closeEditor: function() {

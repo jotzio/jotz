@@ -1,6 +1,6 @@
 var React = require('react');
-var Editor = require('./editor/Editor');
-var NotesList = require('./noteBrowser/NotesList');
+var Editor = require('./editor/editor');
+var NotesList = require('./note_browser/notes_list');
 
 /*
   This manages what is displayed in the content area,

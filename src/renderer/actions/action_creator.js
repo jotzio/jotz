@@ -1,4 +1,4 @@
-var JotzDispatcher = require('../dispatcher/JotzDispatcher.js');
+var JotzDispatcher = require('../dispatcher/jotz_dispatcher.js');
 
 var actionCreator = {
   saveNote: function(content) {

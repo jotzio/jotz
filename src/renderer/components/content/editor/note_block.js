@@ -1,6 +1,6 @@
 var React = require('react');
-var BlockMenu = require('./BlockMenu');
-var AceEditor = require('./aceEditor');
+var BlockMenu = require('./block_menu');
+var AceEditor = require('./ace_editor');
 
 /*
   Each NoteBlock contains an instance of AceEditor.
@@ -45,4 +45,3 @@ var NoteBlock = React.createClass({
 });
 
 module.exports = NoteBlock;
-

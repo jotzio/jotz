@@ -1,9 +1,9 @@
 var React = require('react/addons');
 var SideMenu = require('./sidemenu/sidemenu');
 var Content = require('./content/content');
-var TopBar = require('./topBar/topBar');
-var NotesStore = require('../stores/Notes');
-var actionCreator = require('../actions/actionCreator');
+var TopBar = require('./top_bar/top_bar');
+var NotesStore = require('../stores/notes');
+var actionCreator = require('../actions/action_creator');
 
 /*
   This is where the applications state is created/managed.
@@ -112,4 +112,3 @@ var Jotz = React.createClass({
 });
 
 module.exports = Jotz;
-

@@ -1,4 +1,4 @@
-var Ace = require('./aceConfig');
+var Ace = require('./ace_config');
 
 /*
   Editor Helper functions

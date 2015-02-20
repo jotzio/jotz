@@ -9,7 +9,7 @@ var Note = require('../../stores/Note');
 var TopBar = React.createClass({
   handleNewNote: function() {
     var note = new Note();
-    this.props.swapNoteView(note.attributes);
+    this.props.swapNoteView(note);
   },
 
   render: function() {

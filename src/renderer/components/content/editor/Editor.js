@@ -20,7 +20,6 @@ var Editor = React.createClass({
       language: 'text',
       content: ''
     }]);
-    this.props.updateNoteBlock(blocks);
   },
 
   updateBlock: function(index, value, language) {
@@ -28,19 +27,18 @@ var Editor = React.createClass({
       language: language,
       content: value
     };
-    var blocks = _.clone(this.props.note.blocks);
-    blocks[index] = content;
-    this.props.updateNoteBlock(blocks);
+    this.props.note.blocks[index] = content;
   },
 
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
+    debugger
     actionCreator.saveNote(this.props.note);
   },
 
   closeEditor: function() {
-    this.props.swapListView(this.props.allNotes);
+    this.props.swapListView();
   },
 
   //Called in render, this reads the blocks data and creates NoteBLocks,

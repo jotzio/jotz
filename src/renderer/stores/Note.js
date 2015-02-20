@@ -22,9 +22,10 @@ var Note = Backbone.Model.extend({
       notebook: {
         _id: utils.createGuid()
       }
-    })
+    });
   }
 
 });
 
 module.exports = Note;
+

@@ -8,7 +8,6 @@ var Note = require('../../stores/Note');
 
 var TopBar = React.createClass({
   handleNewNote: function() {
-    debugger
     var note = new Note(
       {
         blocks: [
@@ -34,3 +33,4 @@ var TopBar = React.createClass({
 });
 
 module.exports = TopBar;
+

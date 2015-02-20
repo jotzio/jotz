@@ -13,7 +13,7 @@ var NotesList = React.createClass({
   },
 
   render: function() {
-    var notes = this.props.allNotes.map(function(note) {
+    var notes = this.props.allNotes.sortBy('_id').map(function(note) {
       return <li onClick={this.handleClick} data-note={note.get('_id')} key={note.get('_id')}>{note.get('title')}</li>;
     }.bind(this));
     return (

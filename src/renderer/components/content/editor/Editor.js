@@ -12,14 +12,21 @@ var NoteBlock = require('./NoteBlock');
 
 
 var Editor = React.createClass({
+  componentWillUpdate: function() {
+  },
+
   //newBlock and updateBlock = self explanatory
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
   newBlock: function() {
-    var blocks = this.props.note.set('blocks', [[{
-      language: 'text',
-      content: ''
-    }]]);
+    var block = [
+      {
+        language: 'text',
+        content: ''
+      }
+    ];
+
+    this.props.note.get('blocks').concat(block);
   },
 
   updateBlock: function(index, value, language) {

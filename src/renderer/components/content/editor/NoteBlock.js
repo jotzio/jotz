@@ -1,5 +1,5 @@
 var React = require('react');
-var BlockMenu = require('./BlockMenu');
+var BlockMenu = require('./block_menu');
 var AceEditor = require('./ace_editor');
 
 /*

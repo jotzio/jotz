@@ -1,6 +1,6 @@
 var React = require('react/addons');
 var _ = require('underscore');
-var actionCreator = require('../../../actions/actionCreator');
+var actionCreator = require('../../../actions/action_creator');
 var NoteBlock = require('./note_block');
 
 /*

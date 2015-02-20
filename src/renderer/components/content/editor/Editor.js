@@ -1,7 +1,7 @@
 var React = require('react/addons');
 var _ = require('underscore');
 var actionCreator = require('../../../actions/actionCreator');
-var NoteBlock = require('./NoteBlock');
+var NoteBlock = require('./note_block');
 
 /*
   Contains functions for each note.
@@ -88,4 +88,3 @@ var Editor = React.createClass({
 });
 
 module.exports = Editor;
-

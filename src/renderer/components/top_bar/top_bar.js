@@ -18,7 +18,8 @@ var TopBar = React.createClass({
         ]
       }
     );
-    this.props.swapNoteView(note);
+    console.log('swapping to editor');
+    this.props.swapView('Editor', note);
   },
 
   render: function() {

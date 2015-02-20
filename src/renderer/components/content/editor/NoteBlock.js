@@ -45,3 +45,4 @@ var NoteBlock = React.createClass({
 });
 
 module.exports = NoteBlock;
+

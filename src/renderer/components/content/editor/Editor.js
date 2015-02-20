@@ -17,7 +17,7 @@ var Editor = React.createClass({
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
 
   componentDidMount: function() {
-    this.props.note.on('change', function() {
+    this.props.note.on('change:blocks', function() {
       this.forceUpdate();
     }.bind(this), this);
   },
@@ -53,9 +53,6 @@ var Editor = React.createClass({
   //via dispatch to update store
   saveNote: function() {
     actionCreator.saveNote(this.props.note);
-    if (!this.props.note.get('id')) {
-      this.closeEditor();
-    }
   },
 
   closeEditor: function() {

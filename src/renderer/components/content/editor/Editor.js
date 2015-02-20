@@ -15,6 +15,17 @@ var Editor = React.createClass({
   //newBlock and updateBlock = self explanatory
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
+
+  componentDidMount: function() {
+    this.props.note.on('change', function() {
+      this.forceUpdate();
+    }.bind(this), this);
+  },
+
+  componentWillUnmount: function() {
+    this.props.note.off(null, null, this);
+  },
+
   newBlock: function() {
     var block = [
       {
@@ -23,7 +34,8 @@ var Editor = React.createClass({
       }
     ];
 
-    this.props.note.get('blocks').concat(block);
+    var blocks = this.props.note.get('blocks').concat(block);
+    this.props.note.set('blocks', blocks);
   },
 
   updateBlock: function(index, value, language) {

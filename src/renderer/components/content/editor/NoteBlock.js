@@ -34,7 +34,7 @@ var NoteBlock = React.createClass({
   render: function () {
     return (
       <div>
-        <BlockMenu changeLanguage={this.changeLanguage} />
+        <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
         <div
           id={'ace-editor' + this.props.blockIndex}
           className='ace-editor-inner'

@@ -11,13 +11,16 @@ var Editor = function(target) {
     maxLines: 400,
     minLines: 5,
     useWorker: false,
+    showPrintMargin: false,
+    showLineNumbers: false,
+    showGutter: false,
     mode: 'ace/mode/text',
     theme: 'ace/theme/monokai'
   });
 };
 
 Editor.prototype.changeLanguage = function(languagePath) {
-  this.editor.session.setMode(languagePath);
+  this.editor.getSession().setMode(languagePath);
 };
 
 Editor.prototype.getText = function () {

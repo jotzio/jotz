@@ -1,5 +1,5 @@
 var React = require('react');
-var Note = require('../../stores/Note');
+var Note = require('../../stores/note');
 
 /*
   Handles global note functions, create/search/filter.

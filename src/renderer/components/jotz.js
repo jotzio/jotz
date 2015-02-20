@@ -2,7 +2,7 @@ var React = require('react/addons');
 var SideMenu = require('./sidemenu/sidemenu');
 var Content = require('./content/content');
 var TopBar = require('./topBar/topBar');
-var NotesStore = require('../stores/Notes');
+var NotesStore = require('../stores/notes');
 var actionCreator = require('../actions/actionCreator');
 
 /*

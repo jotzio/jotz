@@ -2,7 +2,7 @@ var ipc = require('ipc');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/JotzDispatcher');
-var Notebook = require('./Notebook');
+var Notebook = require('./notebook');
 
 
 var Notebooks = Backbone.Collection.extend({

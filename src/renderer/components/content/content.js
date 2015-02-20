@@ -1,5 +1,5 @@
 var React = require('react');
-var Editor = require('./editor/Editor');
+var Editor = require('./editor/editor');
 var NotesList = require('./noteBrowser/NotesList');
 
 /*

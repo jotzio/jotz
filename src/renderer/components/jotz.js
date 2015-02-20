@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var SideMenu = require('./sidemenu/sidemenu');
+var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
 var NotesStore = require('../stores/notes');

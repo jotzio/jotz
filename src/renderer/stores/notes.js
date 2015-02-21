@@ -10,12 +10,13 @@ var Notes = Backbone.Collection.extend({
   model: Note,
 
   initialize: function() {
-    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
     _.bindAll(this,
-      'handleSaveNoteReply',
-      'handleDestroyNoteReply',
-      'handleFetchNotesReply'
+        'dispatchCallback',
+        'handleSaveNoteReply',
+        'handleDestroyNoteReply',
+        'handleFetchNotesReply'
     );
+    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-note-reply', this.handleSaveNoteReply);
     ipc.on('destroy-note-reply', this.handleDestroyNoteReply);
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply);

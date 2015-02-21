@@ -23,7 +23,6 @@ var Content = React.createClass({
       return (
         <Editor
           note={this.props.currentNote}
-          notes={this.props.notes}
           swapView={this.props.swapView}
         />
       );

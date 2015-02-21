@@ -12,18 +12,17 @@ var Content = React.createClass({
 
   //Checks view state, returns jsx for rendering
   renderContent: function() {
-    if(this.props.view === 'Notes') {
+    if (this.props.view === 'Notes') {
       return (
         <NotesList
-          allNotes={this.props.allNotes}
+          notes={this.props.notes}
           swapView={this.props.swapView}
         />
       );
     } else if (this.props.view === 'Editor') {
       return (
         <Editor
-          note={this.props.currentNote.clone()}
-          allNotes={this.props.allNotes}
+          note={this.props.currentNote}
           swapView={this.props.swapView}
         />
       );

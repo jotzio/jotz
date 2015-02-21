@@ -8,13 +8,14 @@ var NotesList = React.createClass({
   handleClick: function(e) {
     e.preventDefault();
     var noteId = e.target.attributes.getNamedItem('data-note').value;
-    var note = this.props.allNotes.findWhere({ _id: noteId });
+    var note = this.props.notes.findWhere({ _id: noteId });
     this.props.swapView('Editor', note);
   },
 
   render: function() {
-    var notes = this.props.allNotes.sortBy('_id').map(function(note) {
-      return <li onClick={this.handleClick} data-note={note.get('_id')} key={note.get('_id')}>{note.get('title')}</li>;
+    var notes = this.props.notes.sortBy('_id').map(function(note) {
+      var noteId = note.get('_id');
+      return <li onClick={this.handleClick} data-note={noteId} key={noteId}>{note.get('title')}</li>;
     }.bind(this));
     return (
       <div>

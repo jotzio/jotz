@@ -72,6 +72,9 @@ var NotesAPI = (function() {
       utils.getNotesDirData(function(filenames) {
         api.getNotesData(filenames, cb);
       });
+    },
+    shouldSave: function(cb) {
+      dialog.showMessageBox(api.savePrompt(), cb);
     }
   };
 

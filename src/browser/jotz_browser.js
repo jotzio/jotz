@@ -58,6 +58,7 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('destroy-note', this.destroyNote);
     ipc.on('save-notebook', this.saveNotebook);
     ipc.on('fetch-notebooks', this.fetchNotebooks);
+    ipc.on('check-for-save', this.shouldSave);
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);

@@ -88,16 +88,16 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('fetch-notebooks-reply', notebooks);
     });
   },
-  shouldSave: function(e) {
+  shouldSave: function(e, note) {
     NotesAPI.shouldSave(function(result) {
-      this.sendCheckSaveReply(result, e);
+      this.sendCheckSaveReply(result, e, note);
     }.bind(this));
   },
-  sendCheckSaveReply: function(result, e) {
+  sendCheckSaveReply: function(result, e, note) {
     if (result === 1) {
-      e.sender.send('check-for-save-reply', false);
+      e.sender.send('check-for-save-reply', false, null);
     } else {
-      e.sender.send('check-for-save-reply', true);
+      e.sender.send('check-for-save-reply', true, note);
     }
   }
 });

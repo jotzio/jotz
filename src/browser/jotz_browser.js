@@ -27,7 +27,9 @@ var JotzBrowser = Backbone.Model.extend({
       'setConfigs',
       'startMainWindow',
       'handleEvents',
-      'removeWindow'
+      'removeWindow',
+      'shouldSave',
+      'sendCheckSaveReply'
     );
   },
   initialize: function() {

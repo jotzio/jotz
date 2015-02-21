@@ -23,11 +23,11 @@ var JotzBrowser = Backbone.Model.extend({
   },
   bindMtds: function() {
     _.bindAll(this,
-        'setupReporters',
-        'setConfigs',
-        'startMainWindow',
-        'handleEvents',
-        'removeWindow'
+      'setupReporters',
+      'setConfigs',
+      'startMainWindow',
+      'handleEvents',
+      'removeWindow'
     );
   },
   initialize: function() {

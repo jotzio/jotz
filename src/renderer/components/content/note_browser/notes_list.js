@@ -9,7 +9,7 @@ var NotesList = React.createClass({
     e.preventDefault();
     var noteId = e.target.attributes.getNamedItem('data-note').value;
     var note = this.props.allNotes.findWhere({ _id: noteId });
-    this.props.swapNoteView(note);
+    this.props.swapView('Editor', note);
   },
 
   render: function() {

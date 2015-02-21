@@ -37,7 +37,7 @@ var Jotz = React.createClass({
   },
 
   /*
-    updateNotesList - updateBlocks are state managers. Passed to child components
+    updateNotesList & swapView are state managers. Passed to child components
     as helper functions to change application state.
    */
 
@@ -53,10 +53,11 @@ var Jotz = React.createClass({
   },
 
   swapView: function(newView, note) {
+    var note = note || null;
     var newState = React.addons.update(this.state, {
       jotzState: {
         view: { $set: newView },
-        currentNote: { $set: note ? note : null }
+        currentNote: { $set: note }
       }
     });
     this.setState(newState);

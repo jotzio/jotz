@@ -74,6 +74,7 @@ var NoteBlock = React.createClass({
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
           <button className="btn alt" onClick={this.makeGist}>Create Gist</button>
+          <button onClick={this.props.deleteBlock}>Delete Block</button>
         </div>
         <div id={'ace-editor' + this.props.blockIndex} className='ace-editor-inner'></div>
       </div>

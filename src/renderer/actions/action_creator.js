@@ -41,10 +41,16 @@ var actionCreator = {
     });
   },
   updateTitle: function(content) {
-    JotzDispatcher.dispatch({
+     JotzDispatcher.dispatch({
       actionType: 'update-title',
       content: content
     });
+  },
+
+  deleteBlock: function(index) {
+      actionType: 'delete-block',
+      index: index
+    })
   },
   saveNotebook: function(content) {
     JotzDispatcher.dispatch({

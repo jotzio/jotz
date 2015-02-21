@@ -63,6 +63,12 @@ var Editor = React.createClass({
     actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
+  deleteBlock: function(index) {
+    actionCreator.deleteBlock({
+      index: index
+    })
+  },
+
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
@@ -88,6 +94,7 @@ var Editor = React.createClass({
         language={block.language}
         blockIndex={index}
         updateBlock={this.updateBlock}
+        deleteBlock={this.deleteBlock}
         makeGist={this.makeGist}
       />
     );

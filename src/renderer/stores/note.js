@@ -28,6 +28,8 @@ var Note = Backbone.Model.extend({
         break;
       case 'update-title':
         this.updateTitle(payload);
+      case 'delete-block':
+        this.deleteBlock(payload);
         break;
       default:
         break;
@@ -57,7 +59,15 @@ var Note = Backbone.Model.extend({
     };
     this.set('blocks', blocks);
     this.trigger('block-updated');
+  },
+  
+  deleteBlock: function(payload) {
+    var blocks = this.get('blocks');
+    blocks.splice(payload.index, 1);
+    this.set('blocks', blocks);
+    this.trigger('block-updated');
   }
+  
 });
 
 module.exports = Note;

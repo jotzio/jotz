@@ -7,14 +7,25 @@ var actionCreator = {
       content: content
     });
   },
-  newNote: function() {
+  createNote: function() {
     JotzDispatcher.dispatch({
-      actionType: 'new-note'
+      actionType: 'create-note'
     });
   },
   fetchNotes: function() {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notes'
+    });
+  },
+  createBlock: function() {
+    JotzDispatcher.dispatch({
+      actionType: 'create-block'
+    });
+  },
+  updateBlock: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'update-block',
+      content: content
     });
   },
   saveNotebook: function(content) {

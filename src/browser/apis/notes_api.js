@@ -1,6 +1,7 @@
 var fs = require('fs');
 var jsf = require('jsonfile');
 var ipc = require('ipc');
+var dialog = require('dialog');
 var utils = require('../utils/global');
 
 var NotesAPI = (function() {
@@ -44,6 +45,13 @@ var NotesAPI = (function() {
     destroyNoteData: function(filename, cb) {
       var filepath = utils.getNotesDirPath() + filename;
       fs.unlink(filepath, cb);
+    },
+    savePrompt: function() {
+      return {
+        type: 'info',
+        buttons: ['Save Changes', 'Discard Changes'],
+        message: 'Would you like to save your recent changes before closing this note?'
+      };
     }
   };
 
@@ -64,6 +72,10 @@ var NotesAPI = (function() {
       utils.getNotesDirData(function(filenames) {
         api.getNotesData(filenames, cb);
       });
+    },
+    shouldSave: function(cb) {
+      var result = dialog.showMessageBox(api.savePrompt());
+      cb(result);
     }
   };
 

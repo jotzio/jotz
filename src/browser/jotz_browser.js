@@ -27,7 +27,9 @@ var JotzBrowser = Backbone.Model.extend({
       'setConfigs',
       'startMainWindow',
       'handleEvents',
-      'removeWindow'
+      'removeWindow',
+      'shouldSave',
+      'sendCheckSaveReply'
     );
   },
   initialize: function() {
@@ -56,6 +58,7 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('destroy-note', this.destroyNote);
     ipc.on('save-notebook', this.saveNotebook);
     ipc.on('fetch-notebooks', this.fetchNotebooks);
+    ipc.on('check-for-save', this.shouldSave);
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);
@@ -84,6 +87,18 @@ var JotzBrowser = Backbone.Model.extend({
     NotebooksAPI.fetchNotebooks(function(notebooks) {
       e.sender.send('fetch-notebooks-reply', notebooks);
     });
+  },
+  shouldSave: function(e) {
+    NotesAPI.shouldSave(function(result) {
+      this.sendCheckSaveReply(result, e);
+    }.bind(this));
+  },
+  sendCheckSaveReply: function(result, e) {
+    if (result === 1) {
+      e.sender.send('check-for-save-reply', false);
+    } else {
+      e.sender.send('check-for-save-reply', true);
+    }
   }
 });
 

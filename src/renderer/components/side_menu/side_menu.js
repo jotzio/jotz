@@ -53,7 +53,7 @@ var SideMenu = React.createClass({
       return (
         <MenuItem
           active={this.state.activeMenuItemUid === menuItem.uid}
-          key={menuItem.ui}
+          key={menuItem.uid}
           onSelect={this.setActiveMenuItem}
           uid={menuItem.uid}
           icon={menuItem.icon}
@@ -62,11 +62,11 @@ var SideMenu = React.createClass({
     }.bind(this));
 
     var classes = {
-      sidemenu: 'sidemenu',
+      sideMenu: 'side-menu',
       notebooksLink: 'notebooks-link'
     };
     return (
-      <div className={classes.sidemenu}>
+      <div className={classes.sideMenu}>
         <h1 className='logo'>Jotz</h1>
         <ul className='main-nav'>
           {menuItems}

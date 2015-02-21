@@ -22,16 +22,6 @@ var Jotz = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    this.props.notes.on('all', function() {
-      this.forceUpdate();
-    }.bind(this), this);
-  },
-
-  componentWillUnmount: function() {
-    this.props.notes.off(null, null, this);
-  },
-
   /*
     updateNotesList & swapView are state managers. Passed to child components
     as helper functions to change application state.

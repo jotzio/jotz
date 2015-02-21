@@ -17,7 +17,7 @@ var Editor = React.createClass({
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
 
   componentDidMount: function() {
-    this.props.note.on('change:blocks', function() {
+    this.props.note.on('block-updated', function() {
       this.forceUpdate();
     }.bind(this), this);
   },
@@ -26,27 +26,16 @@ var Editor = React.createClass({
     this.props.note.off(null, null, this);
   },
 
-  newBlock: function() {
-    var block = [
-      {
-        language: 'text',
-        content: ''
-      }
-    ];
-
-    var blocks = this.props.note.get('blocks').concat(block);
-    this.props.note.set('blocks', blocks);
+  createBlock: function() {
+    actionCreator.createBlock();
   },
 
-  updateBlock: function(index, value, language) {
-    var content = {
-      language: language,
-      content: value
-    };
-
-    var blocks = this.props.note.get('blocks');
-    blocks[index] = content;
-    this.props.note.set('blocks', blocks);
+  updateBlock: function(index, content, language) {
+    actionCreator.updateBlock({
+      index: index,
+      content: content,
+      language: language
+    })
   },
 
   //flux activity here, props is sent (not changed)
@@ -78,7 +67,7 @@ var Editor = React.createClass({
     return (
       <div className='ace-editor-container'>
         <h3>{this.props.note.get('title')}</h3>
-        <button onClick={this.newBlock}>NEW BLOCK</button>
+        <button onClick={this.createBlock}>NEW BLOCK</button>
         {this.renderBlocks()}
         <button onClick={this.saveNote}>SAVE</button>
         <button onClick={this.closeEditor}>CLOSE EDITOR</button>

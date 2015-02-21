@@ -74,7 +74,8 @@ var NotesAPI = (function() {
       });
     },
     shouldSave: function(cb) {
-      dialog.showMessageBox(api.savePrompt(), cb);
+      var result = dialog.showMessageBox(api.savePrompt());
+      cb(result);
     }
   };
 

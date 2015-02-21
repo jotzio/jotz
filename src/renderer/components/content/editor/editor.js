@@ -23,6 +23,7 @@ var Editor = React.createClass({
   },
 
   componentWillUnmount: function() {
+    actionCreator.saveNote(this.props.note);
     this.props.note.off(null, null, this);
   },
 

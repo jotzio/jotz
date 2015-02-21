@@ -45,7 +45,7 @@ var SideMenu = React.createClass({
 
   setActiveMenuItem: function(uid) {
     this.setState({activeMenuItemUid: uid});
-    this.props.onChange(uid);
+    this.props.swapView(uid);
   },
 
   render: function() {

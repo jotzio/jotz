@@ -53,7 +53,7 @@ var Jotz = React.createClass({
   },
 
   swapView: function(newView, note) {
-    var note = note || null;
+    note = note || null;
     var newState = React.addons.update(this.state, {
       jotzState: {
         view: { $set: newView },
@@ -73,7 +73,7 @@ var Jotz = React.createClass({
     return (
       <div>
         <div className={left}>
-          <SideMenu onChange={this.changeView}/>
+          <SideMenu swapView={this.swapView}/>
         </div>
         <div className={right}>
           <TopBar swapView={this.swapView}/>

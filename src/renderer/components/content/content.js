@@ -12,7 +12,7 @@ var Content = React.createClass({
 
   //Checks view state, returns jsx for rendering
   renderContent: function() {
-    if(this.props.view === 'Notes') {
+    if (this.props.view === 'Notes') {
       return (
         <NotesList
           notes={this.props.notes}

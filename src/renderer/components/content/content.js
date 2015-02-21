@@ -15,15 +15,15 @@ var Content = React.createClass({
     if(this.props.view === 'Notes') {
       return (
         <NotesList
-          allNotes={this.props.allNotes}
+          notes={this.props.notes}
           swapView={this.props.swapView}
         />
       );
     } else if (this.props.view === 'Editor') {
       return (
         <Editor
-          note={this.props.currentNote.clone()}
-          allNotes={this.props.allNotes}
+          note={this.props.currentNote}
+          notes={this.props.notes}
           swapView={this.props.swapView}
         />
       );

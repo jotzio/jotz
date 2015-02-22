@@ -7,6 +7,8 @@ var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
 var NotebooksAPI = require('./apis/notebooks_api');
+var GistAPI = require('./apis/gist_api');
+
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
@@ -29,7 +31,8 @@ var JotzBrowser = Backbone.Model.extend({
       'handleEvents',
       'removeWindow',
       'shouldSave',
-      'sendCheckSaveReply'
+      'sendCheckSaveReply',
+      'makeGist'
     );
   },
   initialize: function() {
@@ -99,6 +102,12 @@ var JotzBrowser = Backbone.Model.extend({
     } else {
       e.sender.send('check-for-save-reply', true, note);
     }
+  },
+  makeGist: function(e, noteBlock) {
+    GistAPI.makeGist(noteBlock, function(result) {
+
+      //e.sender.send('make-gist-reply');
+    });
   }
 });
 

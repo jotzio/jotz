@@ -44,15 +44,11 @@ var Notes = Backbone.Collection.extend({
   },
 
   checkForSave: function(payload) {
-    var note = payload.content.note;
-    var changed = payload.content.changed;
-
-    if (changed) {
-      ipc.send('check-for-save', note);
+    if (payload.content.changed) {
+      ipc.send('check-for-save', payload.content.note);
     } else {
       console.log('model is the same');
     }
-
   },
 
   saveNote: function(payload) {

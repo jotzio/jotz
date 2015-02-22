@@ -47,8 +47,6 @@ var Notes = Backbone.Collection.extend({
     var note = payload.content.note;
     var changed = payload.content.changed;
 
-    debugger;
-
     if (changed) {
       ipc.send('check-for-save', note);
     } else {

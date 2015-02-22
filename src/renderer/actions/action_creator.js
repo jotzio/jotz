@@ -44,6 +44,12 @@ var actionCreator = {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notebooks'
     });
+  },
+  makeGist: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'make-gist',
+      content: content
+    });
   }
 };
 

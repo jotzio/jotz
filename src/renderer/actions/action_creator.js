@@ -17,6 +17,12 @@ var actionCreator = {
       actionType: 'fetch-notes'
     });
   },
+  checkForSave: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'check-for-save',
+      content: content
+    });
+  },
   createBlock: function() {
     JotzDispatcher.dispatch({
       actionType: 'create-block'

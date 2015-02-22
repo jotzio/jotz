@@ -71,6 +71,10 @@ var Notes = Backbone.Collection.extend({
     ipc.send('destroy-note', payload.content._id);
   },
 
+  makeGist: function(payload) {
+    ipc.send('make-gist', payload.content);
+  },
+
   handleCheckForSaveReply: function(saveStatus, note) {
     if (saveStatus && note) {
       this.add(note, { merge: true });
@@ -104,6 +108,10 @@ var Notes = Backbone.Collection.extend({
       console.log('note deleted successfully');
       this.fetchNotes();
     }
+  },
+
+  handleMakeGistReply: function() {
+
   }
 });
 

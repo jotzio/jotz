@@ -45,15 +45,15 @@ var Editor = React.createClass({
     });
   },
 
-  updateBlock: function(index, content, language) {
-    actionCreator.updateBlock({
-      index: index,
-      content: content,
-      language: language
-    });
+  updateBlock: function(blockData) {
+    actionCreator.updateBlock(blockData);
     this.setState({
       changed: true
     });
+  },
+
+  makeGist: function(blockIndex) {
+    actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
   //flux activity here, props is sent (not changed)

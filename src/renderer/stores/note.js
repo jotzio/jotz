@@ -37,6 +37,7 @@ var Note = Backbone.Model.extend({
       language: 'text',
       content: ''
     });
+    debugger;
     this.set('blocks', blocks);
     this.trigger('block-updated');
   },

@@ -14,12 +14,14 @@ var Notes = Backbone.Collection.extend({
         'dispatchCallback',
         'handleSaveNoteReply',
         'handleDestroyNoteReply',
-        'handleFetchNotesReply'
+        'handleFetchNotesReply',
+        'handleCheckForSaveReply'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-note-reply', this.handleSaveNoteReply);
     ipc.on('destroy-note-reply', this.handleDestroyNoteReply);
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply);
+    ipc.on('check-for-save-reply', this.handleCheckForSaveReply);
   },
 
   dispatchCallback: function(payload) {
@@ -33,9 +35,26 @@ var Notes = Backbone.Collection.extend({
       case 'destroy-note':
         this.destroyNote(payload);
         break;
+      case 'check-for-save':
+        this.checkForSave(payload);
+        break;
       default:
         break;
     }
+  },
+
+  checkForSave: function(payload) {
+    var note = payload.content.note;
+    var changed = payload.content.changed;
+
+    debugger;
+
+    if (changed) {
+      ipc.send('check-for-save', note);
+    } else {
+      console.log('model is the same');
+    }
+
   },
 
   saveNote: function(payload) {
@@ -51,6 +70,15 @@ var Notes = Backbone.Collection.extend({
 
   destroyNote: function(payload) {
     ipc.send('destroy-note', payload.content._id);
+  },
+
+  handleCheckForSaveReply: function(saveStatus, note) {
+    if (saveStatus && note) {
+      this.add(note, { merge: true });
+      ipc.send('save-note', note);
+    } else {
+      this.fetchNotes();
+    }
   },
 
   handleSaveNoteReply: function(err) {

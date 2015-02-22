@@ -19,13 +19,11 @@ var Editor = React.createClass({
   getInitialState: function() {
     return {
       changed: false
-    }
+    };
   },
 
   componentDidMount: function() {
-    this.props.note.on('all', function() {
-      this.forceUpdate();
-    }.bind(this), this);
+    this.props.note.on('all', this.updateComp, this);
   },
 
   componentWillUnmount: function() {
@@ -34,6 +32,10 @@ var Editor = React.createClass({
       changed: this.state.changed
     });
     this.props.note.off(null, null, this);
+  },
+
+  updateComp: function() {
+    this.forceUpdate();
   },
 
   createBlock: function() {

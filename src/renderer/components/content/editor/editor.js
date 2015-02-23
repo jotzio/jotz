@@ -66,6 +66,11 @@ var Editor = React.createClass({
     this.props.swapView('Notes');
   },
 
+  deleteNote: function() {
+    actionCreator.destroyNote(this.props.note);
+    this.props.swapView('Notes');
+  },
+
   newBlock: function(block, index) {
     return (
       <NoteBlock
@@ -85,6 +90,10 @@ var Editor = React.createClass({
   },
 
   render: function() {
+    var deleteBtn = null;
+    if (this.props.note.get('_id')) {
+      deleteBtn = <button onClick={this.deleteNote}>Delete</button>;
+    }
     return (
       <div className='ace-editor-container'>
         <h3>{this.props.note.get('title')}</h3>
@@ -92,6 +101,7 @@ var Editor = React.createClass({
         {this.renderBlocks()}
         <button onClick={this.saveNote}>Save</button>
         <button onClick={this.closeEditor}>Close Note</button>
+        {deleteBtn}
       </div>
     );
   }

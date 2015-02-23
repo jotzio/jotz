@@ -12,6 +12,12 @@ var actionCreator = {
       actionType: 'create-note'
     });
   },
+  destroyNote: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'destroy-note',
+      content: content
+    });
+  },
   fetchNotes: function() {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notes'

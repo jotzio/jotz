@@ -96,7 +96,7 @@ var Editor = React.createClass({
         <h3>{this.props.note.get('title')}</h3>
         <button onClick={this.createBlock}>New Block</button>
         {this.renderBlocks()}
-        <button onClick={this.saveNote}> Save</button>
+        <button onClick={this.saveNote}>Save</button>
         <button onClick={this.closeEditor}>Close Note</button>
         {deleteBtn}
       </div>

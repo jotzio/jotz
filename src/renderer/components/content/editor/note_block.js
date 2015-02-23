@@ -12,6 +12,12 @@ var AceEditor = require('./ace_editor');
  */
 
 var NoteBlock = React.createClass({
+  getInitialState: function() {
+    return {
+      focused: false
+    }
+  },
+
   updateNote: function() {
     this.props.updateBlock(this.blockData());
   },
@@ -37,6 +43,18 @@ var NoteBlock = React.createClass({
     return this.editor.getText();
   },
 
+  focusBlock: function() {
+    this.setState({
+      focused: true
+    });
+  },
+
+  blurBlock: function() {
+    this.setState({
+      focused: false
+    });
+  },
+
   //This creates and appends an ace editor to the appropriate div
   //blockIndex is the associated index in the blocks array
   componentDidMount: function() {
@@ -47,14 +65,17 @@ var NoteBlock = React.createClass({
   },
 
   render: function() {
+    var containerClass = 'editor-block-container';
+    if (this.state.focused) {
+      containerClass += ' focused';
+    }
     return (
-      <div>
-        <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
-        <button onClick={this.makeGist}>Create Gist</button>
-        <div
-          id={'ace-editor' + this.props.blockIndex}
-          className='ace-editor-inner'
-        ></div>
+      <div className={containerClass} onBlur={this.blurBlock} onFocus={this.focusBlock}>
+        <div className="editor-block-actions">
+          <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
+          <button className="btn alt" onClick={this.makeGist}>Create Gist</button>
+        </div>
+        <div id={'ace-editor' + this.props.blockIndex} className='ace-editor-inner'></div>
       </div>
     );
   }

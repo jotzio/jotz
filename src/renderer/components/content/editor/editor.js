@@ -90,7 +90,10 @@ var Editor = React.createClass({
   },
 
   render: function() {
-    var deleteBtn = this.props.note.get('_id') ? <button onClick={this.deleteNote}>DELETE</button> : null;
+    var deleteBtn = null;
+    if (this.props.note.get('_id')) {
+      deleteBtn = <button onClick={this.deleteNote}>DELETE</button>;
+    }
     return (
       <div className='ace-editor-container'>
         <h3>{this.props.note.get('title')}</h3>

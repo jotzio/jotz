@@ -19,13 +19,11 @@ var Editor = React.createClass({
   getInitialState: function() {
     return {
       changed: false
-    }
+    };
   },
 
   componentDidMount: function() {
-    this.props.note.on('all', function() {
-      this.forceUpdate();
-    }.bind(this), this);
+    this.props.note.on('all', this.updateComp, this);
   },
 
   componentWillUnmount: function() {
@@ -36,6 +34,10 @@ var Editor = React.createClass({
     this.props.note.off(null, null, this);
   },
 
+  updateComp: function() {
+    this.forceUpdate();
+  },
+
   createBlock: function() {
     actionCreator.createBlock();
     this.setState({
@@ -43,15 +45,15 @@ var Editor = React.createClass({
     });
   },
 
-  updateBlock: function(index, content, language) {
-    actionCreator.updateBlock({
-      index: index,
-      content: content,
-      language: language
-    });
+  updateBlock: function(blockData) {
+    actionCreator.updateBlock(blockData);
     this.setState({
       changed: true
     });
+  },
+
+  makeGist: function(blockIndex) {
+    actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
   //flux activity here, props is sent (not changed)
@@ -64,29 +66,32 @@ var Editor = React.createClass({
     this.props.swapView('Notes');
   },
 
+  newBlock: function(block, index) {
+    return (
+      <NoteBlock
+        text={block.content}
+        language={block.language}
+        blockIndex={index}
+        updateBlock={this.updateBlock}
+        makeGist={this.makeGist}
+      />
+    );
+  },
+
   //Called in render, this reads the blocks data and creates NoteBLocks,
   //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.props.note.get('blocks').map(function (block, index) {
-      return (
-        <NoteBlock
-          text={block.content}
-          language={block.language}
-          blockIndex={index}
-          updateBlock={this.updateBlock}
-        />
-      );
-    }.bind(this));
+    return this.props.note.get('blocks').map(this.newBlock);
   },
 
   render: function() {
     return (
       <div className='ace-editor-container'>
         <h3>{this.props.note.get('title')}</h3>
-        <button onClick={this.createBlock}>NEW BLOCK</button>
+        <button onClick={this.createBlock}>New Block</button>
         {this.renderBlocks()}
-        <button onClick={this.saveNote}>SAVE</button>
-        <button onClick={this.closeEditor}>CLOSE EDITOR</button>
+        <button onClick={this.saveNote}>Save</button>
+        <button onClick={this.closeEditor}>Close Note</button>
       </div>
     );
   }

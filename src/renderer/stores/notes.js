@@ -11,17 +11,19 @@ var Notes = Backbone.Collection.extend({
 
   initialize: function() {
     _.bindAll(this,
-        'dispatchCallback',
-        'handleSaveNoteReply',
-        'handleDestroyNoteReply',
-        'handleFetchNotesReply',
-        'handleCheckForSaveReply'
+      'dispatchCallback',
+      'handleSaveNoteReply',
+      'handleDestroyNoteReply',
+      'handleFetchNotesReply',
+      'handleCheckForSaveReply',
+      'handleMakeGistReply'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-note-reply', this.handleSaveNoteReply);
     ipc.on('destroy-note-reply', this.handleDestroyNoteReply);
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply);
     ipc.on('check-for-save-reply', this.handleCheckForSaveReply);
+    ipc.on('make-gist-reply', this.handleMakeGistReply);
   },
 
   dispatchCallback: function(payload) {
@@ -37,6 +39,9 @@ var Notes = Backbone.Collection.extend({
         break;
       case 'check-for-save':
         this.checkForSave(payload);
+        break;
+      case 'make-gist':
+        this.makeGist(payload);
         break;
       default:
         break;
@@ -64,6 +69,10 @@ var Notes = Backbone.Collection.extend({
 
   destroyNote: function(payload) {
     ipc.send('destroy-note', payload.content._id);
+  },
+
+  makeGist: function(payload) {
+    ipc.send('make-gist', payload.content);
   },
 
   handleCheckForSaveReply: function(saveStatus, note) {
@@ -99,6 +108,10 @@ var Notes = Backbone.Collection.extend({
       console.log('note deleted successfully');
       this.fetchNotes();
     }
+  },
+
+  handleMakeGistReply: function() {
+
   }
 });
 

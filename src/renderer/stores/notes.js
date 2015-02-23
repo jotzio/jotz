@@ -81,8 +81,8 @@ var Notes = Backbone.Collection.extend({
       // pull it out of collection and add error message to user?
     } else {
       // display 'note saved!' message to user
-      console.log('note saved successfully');
       this.fetchNotes();
+      console.log('note saved successfully');
     }
   },
 
@@ -97,6 +97,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       // display 'note deleted!' to user and change views
       console.log('note deleted successfully');
+      this.fetchNotes();
     }
   }
 });

@@ -21,7 +21,7 @@ var Jotz = React.createClass({
   },
 
   componentDidMount: function() {
-    this.props.notes.on('all', function() {
+    this.props.notes.on('add remove reset', function() {
       this.forceUpdate();
     }.bind(this), this);
   },

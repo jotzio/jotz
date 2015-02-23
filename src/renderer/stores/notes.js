@@ -24,6 +24,7 @@ var Notes = Backbone.Collection.extend({
     ipc.on('fetch-notes-reply', this.handleFetchNotesReply);
     ipc.on('check-for-save-reply', this.handleCheckForSaveReply);
     ipc.on('make-gist-reply', this.handleMakeGistReply);
+    this.fetchNotes();
   },
 
   dispatchCallback: function(payload) {
@@ -68,7 +69,9 @@ var Notes = Backbone.Collection.extend({
   },
 
   destroyNote: function(payload) {
-    ipc.send('destroy-note', payload.content._id);
+    var _id = payload.content.get('_id');
+    this.remove(payload.content);
+    ipc.send('destroy-note', _id);
   },
 
   makeGist: function(payload) {

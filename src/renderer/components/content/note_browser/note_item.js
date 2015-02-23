@@ -9,7 +9,7 @@ var NoteItem = React.createClass({
 
   handleDelete: function(e) {
     e.preventDefault();
-    actionCreator.destroyNote(this.props.note.attributes);
+    actionCreator.destroyNote(this.props.note);
   },
 
   render: function() {

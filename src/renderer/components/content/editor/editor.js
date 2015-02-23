@@ -60,6 +60,9 @@ var Editor = React.createClass({
   //via dispatch to update store
   saveNote: function() {
     actionCreator.saveNote(this.props.note);
+    this.setState({
+      changed: false
+    });
   },
 
   closeEditor: function() {

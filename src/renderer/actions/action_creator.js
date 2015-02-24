@@ -41,7 +41,7 @@ var actionCreator = {
     });
   },
   updateTitle: function(content) {
-     JotzDispatcher.dispatch({
+    JotzDispatcher.dispatch({
       actionType: 'update-title',
       content: content
     });

@@ -1,6 +1,12 @@
 var JotzDispatcher = require('../dispatcher/jotz_dispatcher.js');
 
 var actionCreator = {
+  searchNotes: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'search-notes',
+      content: content
+    });
+  },
   saveNote: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'save-note',

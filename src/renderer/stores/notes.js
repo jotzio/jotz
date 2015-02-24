@@ -29,6 +29,9 @@ var Notes = Backbone.Collection.extend({
 
   dispatchCallback: function(payload) {
     switch(payload.actionType) {
+      case 'search-notes':
+        this.reset(this.where({title: payload.content}));
+        break;
       case 'save-note':
         this.saveNote(payload);
         break;

@@ -2,3 +2,6 @@
   @include vertical-align();
   @include position(absolute, null $base-spacing null null);
 }
+.search-box {
+  @include vertical-align();
+}

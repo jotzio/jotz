@@ -14,14 +14,27 @@ var NotesList = React.createClass({
     this.props.notes.off(null, null, this);
   },
 
+  filterItems: function (note) {
+    if (!this.props.titleFilter) {
+      return true;
+    } else {
+      return note.get('title').toLowerCase().indexOf(this.props.titleFilter) > -1;
+    }
+  },
+
   render: function() {
+    var notes = this.props.notes.filter(this.filterItems).map(function(note) {
+                  return <NoteItem 
+                            key={note.get('_id')} 
+                            swapView={this.props.swapView} 
+                            note={note} 
+                          />;
+                }.bind(this));
     return (
       <div>
         <h1>Hooray for the NotesList!!!</h1>
         <ul>
-          {this.props.notes.map(function(note) {
-            return <NoteItem key={note.get('_id')} swapView={this.props.swapView} note={note} />;
-          }.bind(this))}
+          {notes}
         </ul>
       </div>
     );

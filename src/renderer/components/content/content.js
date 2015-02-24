@@ -16,6 +16,7 @@ var Content = React.createClass({
     if (this.props.view === 'Notes') {
       return (
         <NotesList
+          titleFilter={this.props.titleFilter}
           notes={NotesStore}
           swapView={this.props.swapView}
         />

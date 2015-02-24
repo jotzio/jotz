@@ -16,10 +16,16 @@ var Jotz = React.createClass({
   getInitialState: function() {
     return {
       view: 'Notes',
-      currentNote: null
+      currentNote: null,
+      titleFilter: ''
     };
   },
 
+  updateSearch: function (event) {
+    this.setState({
+      titleFilter: event.target.value
+    });
+  },
 
   /*
     updateNotesList & swapView are state managers. Passed to child components
@@ -44,8 +50,13 @@ var Jotz = React.createClass({
           <SideMenu swapView={this.swapView}/>
         </div>
         <div className='right-container'>
-          <TopBar swapView={this.swapView}/>
+          <TopBar 
+            titleFilter={this.state.titleFilter}
+            updateSearch={this.updateSearch}
+            swapView={this.swapView}
+          />
           <Content
+            titleFilter={this.state.titleFilter}
             view={this.state.view}
             currentNote={this.state.currentNote}
             swapView={this.swapView}

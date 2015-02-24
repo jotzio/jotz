@@ -36,7 +36,6 @@ var Note = Backbone.Model.extend({
 
   updateTitle: function(payload) {
     this.set('title', payload.content);
-    this.trigger('title-updated');
   },
 
   createBlock: function() {

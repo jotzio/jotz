@@ -1,34 +1,37 @@
 var React = require('react');
 var Editor = require('./editor/editor');
 var NotesList = require('./note_browser/notes_list');
+var Notebooks = require('./note_browser/notebooks');
 var NotesStore = require('../../stores/notes');
+var NotebookStore = require('../../stores/notebooks');
 
 /*
   This manages what is displayed in the content area,
   Notes or Editor.
-  TODO: Create NoteBook View
  */
 
 var Content = React.createClass({
 
+  renderNotes: function() {
+    return <NotesList notes={NotesStore} swapView={this.props.swapView}/>;
+  },
+
+  renderNotebooks: function() {
+    return <Notebooks notes={NotesStore} noteBooks={NotebookStore} swapView={this.props.swapView}/>;
+  },
+
+  renderEditor: function() {
+    return <Editor note={this.props.currentNote} swapView={this.props.swapView}/>;
+  },
+
   //Checks view state, returns jsx for rendering
   renderContent: function() {
-    if (this.props.view === 'Notes') {
-      return (
-        <NotesList
-          titleFilter={this.props.titleFilter}
-          notes={NotesStore}
-          swapView={this.props.swapView}
-        />
-      );
-    } else if (this.props.view === 'Editor') {
-      return (
-        <Editor
-          note={this.props.currentNote}
-          swapView={this.props.swapView}
-        />
-      );
-    }
+    content = {
+      Notes: this.renderNotes,
+      Notebooks: this.renderNotebooks,
+      Editor: this.renderEditor
+    };
+    return content[this.props.view]();
   },
 
   render: function() {

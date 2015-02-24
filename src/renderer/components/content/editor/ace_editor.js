@@ -1,7 +1,6 @@
 var Ace = require('./ace_config');
 
 var Editor = function(target) {
-  this.silent = false;
   this.editor = Ace.edit(target);
   this.editor.setOptions({
     maxLines: 400,
@@ -13,6 +12,7 @@ var Editor = function(target) {
     mode: 'ace/mode/text',
     theme: 'ace/theme/monokai'
   });
+  this.silent = false;
 };
 
 Editor.prototype.changeLanguage = function(languagePath) {
@@ -30,16 +30,16 @@ Editor.prototype.setText = function(text) {
 };
 
 Editor.prototype.onChange = function(func) {
-  var silent = this.isSilent.bind(this);
+  var isSilent = this.isSilentAction.bind(this);
   this.editor.on('change', function(data) {
-    if(silent()){
+    if(isSilent()){
       return;
     }
     func();
   });
 };
 
-Editor.prototype.isSilent = function () {
+Editor.prototype.isSilentAction = function () {
   return this.silent;
 };
 

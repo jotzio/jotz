@@ -39,7 +39,7 @@ Editor.prototype.onChange = function(func) {
   });
 };
 
-Editor.prototype.isSilentAction = function () {
+Editor.prototype.isSilentAction = function() {
   return this.silent;
 };
 

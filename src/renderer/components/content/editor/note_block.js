@@ -42,15 +42,9 @@ var NoteBlock = React.createClass({
     return this.editor.getText();
   },
 
-  focusBlock: function() {
+  changeFocus: function() {
     this.setState({
-      focused: true
-    });
-  },
-
-  blurBlock: function() {
-    this.setState({
-      focused: false
+      focused: !this.state.focused
     });
   },
 
@@ -73,7 +67,7 @@ var NoteBlock = React.createClass({
       containerClass += ' focused';
     }
     return (
-      <div className={containerClass} onBlur={this.blurBlock} onFocus={this.focusBlock}>
+      <div className={containerClass} onBlur={this.changeFocus} onFocus={this.changeFocus}>
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
           <button className="btn alt" onClick={this.makeGist}>Create Gist</button>

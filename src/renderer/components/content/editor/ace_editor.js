@@ -32,7 +32,7 @@ Editor.prototype.setText = function(text) {
 Editor.prototype.onChange = function(func) {
   var isSilent = this.isSilentAction.bind(this);
   this.editor.on('change', function(data) {
-    if(isSilent()){
+    if (isSilent()) {
       return;
     }
     func();

@@ -64,8 +64,8 @@ var Note = Backbone.Model.extend({
   },
   
   deleteBlock: function(payload) {
-    debugger;
     var blocks = this.get('blocks');
+    console.log(blocks);
     blocks.splice(payload.index, 1);
     console.log(blocks);
     this.set('blocks', blocks);

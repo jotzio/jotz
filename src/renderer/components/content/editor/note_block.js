@@ -64,6 +64,11 @@ var NoteBlock = React.createClass({
     this.editor.onChange(this.updateNote);
   },
 
+  componentDidUpdate: function(prevProps) {
+    //console.log(prevProps.text +' vs : ' + this.props.text);
+    this.editor.setText(this.props.text);
+  },
+
   render: function() {
     var containerClass = 'editor-block-container';
     if (this.state.focused) {

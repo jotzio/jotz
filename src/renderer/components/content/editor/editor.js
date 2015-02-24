@@ -23,7 +23,7 @@ var Editor = React.createClass({
   },
 
   componentDidMount: function() {
-    this.props.note.on('all', this.updateComp, this);
+    this.props.note.on('block-updated', this.updateComp, this);
   },
 
   componentWillUnmount: function() {
@@ -64,9 +64,10 @@ var Editor = React.createClass({
   },
 
   deleteBlock: function(index) {
-    actionCreator.deleteBlock({
-      index: index
-    })
+    actionCreator.deleteBlock(index);
+    this.setState({
+      changed: true
+    });
   },
 
   //flux activity here, props is sent (not changed)
@@ -94,7 +95,7 @@ var Editor = React.createClass({
         language={block.language}
         blockIndex={index}
         updateBlock={this.updateBlock}
-        deleteBlock={this.deleteBlock}
+        deleteBlock={_.partial(this.deleteBlock, index)}
         makeGist={this.makeGist}
       />
     );

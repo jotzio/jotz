@@ -6,6 +6,7 @@ var Ace = require('./ace_config');
  */
 
 var Editor = function(target) {
+  this.silent = false;
   this.editor = Ace.edit(target);
   this.editor.setOptions({
     maxLines: 400,
@@ -28,17 +29,23 @@ Editor.prototype.getText = function () {
 };
 
 Editor.prototype.setText = function(text) {
+  this.silent = true;
   this.editor.setValue(text, 1);
+  this.silent = false;
 };
 
 Editor.prototype.onChange = function(func) {
+  var silent = this.isSilent.bind(this);
   this.editor.on('change', function(data) {
+    if(silent()){
+      return;
+    }
     func();
   });
 };
 
-Editor.prototype.deleteTextBlock = function () {
-
+Editor.prototype.isSilent = function () {
+  return this.silent;
 };
 
 module.exports = Editor;

@@ -11,7 +11,11 @@ var AceEditor = require('./ace_editor');
  */
 
 var NoteBlock = React.createClass({
-  focused: false,
+  getInitialState: function() {
+    return {
+      focused: false
+    };
+  },
 
   updateNote: function() {
     this.props.updateBlock(this.blockData());
@@ -39,11 +43,15 @@ var NoteBlock = React.createClass({
   },
 
   focusBlock: function() {
-    this.focused = true
+    this.setState({
+      focused: true
+    });
   },
 
   blurBlock: function() {
-    this.focused = false
+    this.setState({
+      focused: false
+    });
   },
 
   //This creates and appends an ace editor to the appropriate div
@@ -55,13 +63,13 @@ var NoteBlock = React.createClass({
     this.editor.onChange(this.updateNote);
   },
 
-  componentDidUpdate: function(prevProps) {
+  componentDidUpdate: function() {
     this.editor.setText(this.props.text);
   },
 
   render: function() {
     var containerClass = 'editor-block-container';
-    if (this.focused) {
+    if (this.state.focused) {
       containerClass += ' focused';
     }
     return (

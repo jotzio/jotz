@@ -48,9 +48,10 @@ var actionCreator = {
   },
 
   deleteBlock: function(index) {
+    JotzDispatcher.dispatch({
       actionType: 'delete-block',
       index: index
-    })
+    });
   },
   saveNotebook: function(content) {
     JotzDispatcher.dispatch({

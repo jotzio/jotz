@@ -46,7 +46,6 @@ var Note = Backbone.Model.extend({
       language: 'text',
       content: ''
     });
-    console.log(blocks);
     this.set('blocks', blocks);
     this.trigger('block-updated');
   },
@@ -58,7 +57,6 @@ var Note = Backbone.Model.extend({
       language: payload.content.language,
       content: payload.content.content || ''
     };
-    console.log(blocks);
     this.set('blocks', blocks);
     this.trigger('block-updated');
   },

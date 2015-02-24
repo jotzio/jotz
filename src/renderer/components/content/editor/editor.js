@@ -18,7 +18,7 @@ var Editor = React.createClass({
   changed: false,
 
   componentDidMount: function() {
-    this.props.note.on('block-updated', this.updateComp, this);
+    this.props.note.on('all', this.updateComp, this);
   },
 
   componentWillUnmount: function() {

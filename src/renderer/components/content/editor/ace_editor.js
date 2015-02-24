@@ -1,10 +1,5 @@
 var Ace = require('./ace_config');
 
-/*
-  Editor Helper functions
-  TODO: deleteTextBlock
- */
-
 var Editor = function(target) {
   this.editor = Ace.edit(target);
   this.editor.setOptions({
@@ -17,6 +12,7 @@ var Editor = function(target) {
     mode: 'ace/mode/text',
     theme: 'ace/theme/monokai'
   });
+  this.silent = false;
 };
 
 Editor.prototype.changeLanguage = function(languagePath) {
@@ -28,17 +24,23 @@ Editor.prototype.getText = function () {
 };
 
 Editor.prototype.setText = function(text) {
+  this.silent = true;
   this.editor.setValue(text, 1);
+  this.silent = false;
 };
 
 Editor.prototype.onChange = function(func) {
+  var isSilent = this.isSilentAction.bind(this);
   this.editor.on('change', function(data) {
+    if (isSilent()) {
+      return;
+    }
     func();
   });
 };
 
-Editor.prototype.deleteTextBlock = function () {
-
+Editor.prototype.isSilentAction = function() {
+  return this.silent;
 };
 
 module.exports = Editor;

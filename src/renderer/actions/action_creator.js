@@ -46,6 +46,13 @@ var actionCreator = {
       content: content
     });
   },
+
+  deleteBlock: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'delete-block',
+      index: content
+    });
+  },
   saveNotebook: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'save-notebook',

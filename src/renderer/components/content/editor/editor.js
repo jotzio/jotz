@@ -52,6 +52,13 @@ var Editor = React.createClass({
     });
   },
 
+  updateTitle: function(event) {
+    actionCreator.updateTitle(event.target.value);
+    this.setState({
+      changed: true
+    });
+  },
+
   makeGist: function(blockIndex) {
     actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
@@ -94,17 +101,28 @@ var Editor = React.createClass({
 
   render: function() {
     var deleteBtn = null;
+    var noteTitle = '';
     if (this.props.note.get('_id')) {
-      deleteBtn = <button onClick={this.deleteNote}>Delete</button>;
+      deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
+      noteTitle = this.props.note.get('title');
     }
     return (
       <div className='ace-editor-container'>
-        <h3>{this.props.note.get('title')}</h3>
-        <button onClick={this.createBlock}>New Block</button>
+        <div className="editor-top-bar">
+          <input
+            type='text'
+            onChange={this.updateTitle}
+            placeholder='Note title'
+            defaultValue={noteTitle}
+          />
+          <button className="btn" onClick={this.createBlock}>New Block</button>
+        </div>
         {this.renderBlocks()}
-        <button onClick={this.saveNote}>Save</button>
-        <button onClick={this.closeEditor}>Close Note</button>
-        {deleteBtn}
+        <div className="editor-actions">
+          <button className="btn" onClick={this.saveNote}>Save</button>
+          <button className="btn" onClick={this.closeEditor}>Close Note</button>
+          {deleteBtn}
+        </div>
       </div>
     );
   }

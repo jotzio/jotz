@@ -26,9 +26,16 @@ var Note = Backbone.Model.extend({
       case 'update-block':
         this.updateBlock(payload);
         break;
+      case 'update-title':
+        this.updateTitle(payload);
+        break;
       default:
         break;
     }
+  },
+
+  updateTitle: function(payload) {
+    this.set('title', payload.content);
   },
 
   createBlock: function() {

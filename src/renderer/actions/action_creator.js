@@ -40,6 +40,12 @@ var actionCreator = {
       content: content
     });
   },
+  updateTitle: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'update-title',
+      content: content
+    });
+  },
   saveNotebook: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'save-notebook',

@@ -1,32 +1,20 @@
 var React = require('react');
-var actionCreator = require('../../actions/action_creator');
 
 var Search = React.createClass({
-  getInitialState: function() {
-    return {value: ''};
+  getDefaultProps: function() {
+    return {
+      query: ''
+    };
   },
 
-  inputSubmit: function(e) {
-    this.setState({value: ''});
-  },
-
-  handleChange: function(e) {
-    this.setState({value: e.target.value});
-  },
-
-  handleSearch: function(e) {
-    //_.escape()
-    if (e.keyCode === 13) {
-      actionCreator.searchNotes(this.state.value);
-      console.log('searching and swapping to notes list');
-      this.props.swapView('Notes');
-    }
+  search: function() {
+    var query=this.refs.searchInput.getDOMNode().value;
+    this.props.setFilter(query);
   },
 
   render: function() {
-    var value = this.state.value;
     return (
-      <input type='search' value={value} onKeyDown={this.handleSearch} onChange={this.handleChange} />
+      <input type='search' ref='searchInput' placeholder='Search Notes' value={this.props.query} onChange={this.search} />
     );
   }
 });

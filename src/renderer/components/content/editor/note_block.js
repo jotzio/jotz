@@ -15,7 +15,7 @@ var NoteBlock = React.createClass({
   getInitialState: function() {
     return {
       focused: false
-    }
+    };
   },
 
   updateNote: function() {

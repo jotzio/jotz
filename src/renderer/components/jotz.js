@@ -20,15 +20,6 @@ var Jotz = React.createClass({
     };
   },
 
-  componentDidMount: function() {
-    this.props.notes.on('all', function() {
-      this.forceUpdate();
-    }.bind(this), this);
-  },
-
-  componentWillUnmount: function() {
-    this.props.notes.off(null, null, this);
-  },
 
   /*
     updateNotesList & swapView are state managers. Passed to child components
@@ -55,7 +46,6 @@ var Jotz = React.createClass({
         <div className='right-container'>
           <TopBar swapView={this.swapView}/>
           <Content
-            notes={this.props.notes}
             view={this.state.view}
             currentNote={this.state.currentNote}
             swapView={this.swapView}

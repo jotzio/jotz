@@ -99,7 +99,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   handleFetchNotesReply: function(notes) {
-    this.set(notes);
+    this.reset(notes);
   },
 
   handleDestroyNoteReply: function(err) {

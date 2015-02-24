@@ -1,6 +1,7 @@
 var React = require('react');
 var Editor = require('./editor/editor');
 var NotesList = require('./note_browser/notes_list');
+var NotesStore = require('../../stores/notes');
 
 /*
   This manages what is displayed in the content area,
@@ -15,7 +16,7 @@ var Content = React.createClass({
     if (this.props.view === 'Notes') {
       return (
         <NotesList
-          notes={this.props.notes}
+          notes={NotesStore}
           swapView={this.props.swapView}
         />
       );

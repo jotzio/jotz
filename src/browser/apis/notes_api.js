@@ -3,6 +3,7 @@ var jsf = require('jsonfile');
 var ipc = require('ipc');
 var dialog = require('dialog');
 var utils = require('../utils/global');
+var _ = require('underscore');
 
 var NotesAPI = (function() {
 
@@ -25,20 +26,18 @@ var NotesAPI = (function() {
       jsf.writeFile(filePath, noteData, cb);
     },
     getNotesData: function(filenames, cb) {
-      var notes = [], c = filenames.length;
+      var notes = [], count = filenames.length - 1;
+      var cbOneTime = _.after(count, cb);
       filenames.forEach(function(filename) {
-        c--;
         var filepath = utils.getNotesDirPath() + filename;
-        api.getNoteData(notes, filepath, cb, c);
+        api.getNoteData(notes, filepath, cbOneTime);
       });
     },
-    getNoteData: function(notes, filepath, cb, c) {
+    getNoteData: function(notes, filepath, cbOneTime) {
       jsf.readFile(filepath, function(err, note) {
         if (note) {
           notes.push(note);
-          if (c === 0) {
-            cb(notes);
-          }
+          cbOneTime(notes);
         }
       });
     },

@@ -4,7 +4,13 @@ var Search = React.createClass({
 
   render: function() {
     return (
-      <input type='search' ref='searchInput' placeholder='Search Notes' value={this.props.titleFilter} onChange={this.props.updateSearch} />
+      <input 
+        type='search' 
+        ref='searchInput' 
+        placeholder='Search Notes' 
+        value={this.props.titleFilter} 
+        onChange={this.props.updateSearch} 
+       />
     );
   }
 });

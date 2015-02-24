@@ -48,7 +48,7 @@ var Notebooks = Backbone.Collection.extend({
   },
 
   handleFetchNotebooksReply: function(notebooks) {
-    this.set(notebooks);
+    this.reset(notebooks);
   },
 
   prepareNotebookData: function(note) {

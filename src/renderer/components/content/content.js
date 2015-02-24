@@ -10,25 +10,13 @@ var NotesStore = require('../../stores/notes');
  */
 
 var Content = React.createClass({
-  getInitialState: function() {
-    return {
-      titleFilter: ''
-    };
-  },
-
-  updateSearch: function (event) {
-    this.setState({
-      titleFilter: event.target.value
-    });
-  },
 
   //Checks view state, returns jsx for rendering
   renderContent: function() {
     if (this.props.view === 'Notes') {
       return (
         <NotesList
-          titleFilter={this.state.titleFilter}
-          updateSearch={this.updateSearch}
+          titleFilter={this.props.titleFilter}
           notes={NotesStore}
           swapView={this.props.swapView}
         />

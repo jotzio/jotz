@@ -34,7 +34,6 @@ var NotesList = React.createClass({
         <ul>
           {notes}
         </ul>
-        <input onChange={this.props.updateSearch} type="text" value={this.props.titleFilter}/>
       </div>
     );
   }

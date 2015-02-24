@@ -26,7 +26,12 @@ var TopBar = React.createClass({
     return (
       <div className='topbar-container'>
         <div className='action-container'>
-          <Search className='search-box' swapView={this.props.swapView} />
+          <Search 
+            titleFilter={this.props.titleFilter}
+            updateSearch={this.props.updateSearch}
+            className='search-box' 
+            swapView={this.props.swapView} 
+          />
           <button className='btn' onClick={this.handleNewNote}>New Note</button>
         </div>
       </div>

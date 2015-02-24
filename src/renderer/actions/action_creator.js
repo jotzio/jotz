@@ -47,10 +47,10 @@ var actionCreator = {
     });
   },
 
-  deleteBlock: function(index) {
+  deleteBlock: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'delete-block',
-      index: index
+      index: content
     });
   },
   saveNotebook: function(content) {

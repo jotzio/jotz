@@ -7,7 +7,6 @@ var NoteBlock = require('./note_block');
  Contains functions for each note.
  Renders NoteBlocks which are stored together in an array as a note.
  TODO: change title h3 to input and add state callback to update note
- TODO: add note deletion
  */
 
 

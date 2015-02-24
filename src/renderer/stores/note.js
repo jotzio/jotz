@@ -28,6 +28,7 @@ var Note = Backbone.Model.extend({
         break;
       case 'update-title':
         this.updateTitle(payload);
+        break;
       case 'delete-block':
         this.deleteBlock(payload);
         break;

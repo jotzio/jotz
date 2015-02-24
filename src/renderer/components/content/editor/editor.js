@@ -16,11 +16,7 @@ var Editor = React.createClass({
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
 
-  getInitialState: function() {
-    return {
-      changed: false
-    };
-  },
+  changed: false,
 
   componentDidMount: function() {
     this.props.note.on('block-updated', this.updateComp, this);
@@ -29,7 +25,7 @@ var Editor = React.createClass({
   componentWillUnmount: function() {
     actionCreator.checkForSave({
       note: this.props.note,
-      changed: this.state.changed
+      changed: this.changed
     });
     this.props.note.off(null, null, this);
   },
@@ -40,23 +36,17 @@ var Editor = React.createClass({
 
   createBlock: function() {
     actionCreator.createBlock();
-    this.setState({
-      changed: true
-    });
+    this.changed = true;
   },
 
   updateBlock: function(blockData) {
     actionCreator.updateBlock(blockData);
-    this.setState({
-      changed: true
-    });
+    this.changed = true;
   },
 
   updateTitle: function(event) {
     actionCreator.updateTitle(event.target.value);
-    this.setState({
-      changed: true
-    });
+    this.changed = true;
   },
 
   makeGist: function(blockIndex) {
@@ -65,18 +55,14 @@ var Editor = React.createClass({
 
   deleteBlock: function(index) {
     actionCreator.deleteBlock(index);
-    this.setState({
-      changed: true
-    });
+    this.changed = true;
   },
 
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
     actionCreator.saveNote(this.props.note);
-    this.setState({
-      changed: false
-    });
+    this.changed = false;
   },
 
   closeEditor: function() {

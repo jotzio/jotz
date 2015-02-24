@@ -8,7 +8,6 @@ var AceEditor = require('./ace_editor');
   Callbacks for changing langauges and themes defined here
   BlockMenu is where the changeable menu items are located
   TODO: add themes, make text blocks render different themes than code blocks
-  TODO: add block deletion (here, AceEditor, and probably a callback in jotz.js)
  */
 
 var NoteBlock = React.createClass({
@@ -65,7 +64,6 @@ var NoteBlock = React.createClass({
   },
 
   componentDidUpdate: function(prevProps) {
-    //console.log(prevProps.text +' vs : ' + this.props.text);
     this.editor.setText(this.props.text);
   },
 

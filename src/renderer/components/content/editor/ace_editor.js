@@ -1,10 +1,5 @@
 var Ace = require('./ace_config');
 
-/*
-  Editor Helper functions
-  TODO: deleteTextBlock
- */
-
 var Editor = function(target) {
   this.silent = false;
   this.editor = Ace.edit(target);

@@ -17,15 +17,24 @@ var Content = React.createClass({
   },
 
   renderNotes: function() {
-    return <NotesList notes={NotesStore} swapView={this.props.swapView}/>;
+    return <NotesList
+      notes={NotesStore}
+      swapView={this.props.swapView}
+      titleFilter={this.props.titleFilter}
+    />;
   },
 
   renderNotebooks: function() {
-    return <Notebooks notes={NotesStore} notebooks={NotebookStore} swapView={this.props.swapView}/>;
+    return <Notebooks
+      notes={NotesStore}
+      notebooks={NotebookStore}
+      swapView={this.props.swapView}/>;
   },
 
   renderEditor: function() {
-    return <Editor note={this.props.currentNote} swapView={this.props.swapView}/>;
+    return <Editor
+      note={this.props.currentNote}
+      swapView={this.props.swapView}/>;
   },
 
   //Checks view state, returns jsx for rendering

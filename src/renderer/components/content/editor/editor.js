@@ -2,6 +2,7 @@ var React = require('react/addons');
 var _ = require('underscore');
 var actionCreator = require('../../../actions/action_creator');
 var NoteBlock = require('./note_block');
+var NotebookSelector = require('./notebook_selector');
 var Note = require('../../../stores/note');
 
 /*
@@ -27,9 +28,6 @@ var getNewNote = function(note) {
 };
 
 var Editor = React.createClass({
-  getInitialState: function() {
-    return getNewNote(this.props.note);
-  },
   //newBlock and updateBlock = self explanatory
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
@@ -128,6 +126,7 @@ var Editor = React.createClass({
             placeholder='Note title'
             defaultValue={noteTitle}
           />
+          <NotebookSelector notebooks={this.props.notebooks} />
           <button className="btn editor-new-block" onClick={this.createBlock}>New Block</button>
         </div>
         {this.renderBlocks()}

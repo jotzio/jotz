@@ -1,4 +1,5 @@
 var React = require('react');
+var _ = require('underscore');
 var NoteItem = require('./note_item');
 var actionCreator = require('../../../actions/action_creator');
 
@@ -14,11 +15,24 @@ var NotesList = React.createClass({
     this.props.notes.off(null, null, this);
   },
 
+  filterTitle: function(note) { 
+    return note.get('title')
+               .toLowerCase()
+               .indexOf(this.props.titleFilter);
+  },
+
+  filterBlocks: function(note) {
+    var blocks = _.pluck(note.get('blocks'), 'content');
+    return blocks.join(' ')
+                 .toLowerCase()
+                 .indexOf(this.props.titleFilter);
+  },
+
   filterItems: function (note) {
     if (!this.props.titleFilter) {
       return true;
     } else {
-      return note.get('title').toLowerCase().indexOf(this.props.titleFilter) > -1;
+      return this.filterTitle(note) > -1 || this.filterBlocks(note) > -1;
     }
   },
 

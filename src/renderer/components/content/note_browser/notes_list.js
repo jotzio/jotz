@@ -22,19 +22,22 @@ var NotesList = React.createClass({
     }
   },
 
+  renderNotes: function() {
+    return this.props.notes.filter(this.filterItems).map(function(note) {
+      return <NoteItem
+        key={note.get('_id')}
+        swapView={this.props.swapView}
+        note={note}
+      />;
+    }.bind(this));
+  },
+
   render: function() {
-    var notes = this.props.notes.filter(this.filterItems).map(function(note) {
-                  return <NoteItem 
-                            key={note.get('_id')} 
-                            swapView={this.props.swapView} 
-                            note={note} 
-                          />;
-                }.bind(this));
     return (
       <div>
         <h1>Hooray for the NotesList!!!</h1>
         <ul>
-          {notes}
+          {this.renderNotes()}
         </ul>
       </div>
     );

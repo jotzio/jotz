@@ -17,7 +17,8 @@ var Jotz = React.createClass({
     return {
       view: 'Notes',
       currentNote: null,
-      titleFilter: ''
+      titleFilter: '',
+      createNotebook: false
     };
   },
 
@@ -27,10 +28,11 @@ var Jotz = React.createClass({
     });
   },
 
-  /*
-    updateNotesList & swapView are state managers. Passed to child components
-    as helper functions to change application state.
-   */
+  toggleCreateNb: function() {
+    this.setState({
+      createNotebook: !this.state.createNotebook
+    });
+  },
 
   swapView: function(newView, note) {
     note = note || null;
@@ -54,6 +56,8 @@ var Jotz = React.createClass({
             titleFilter={this.state.titleFilter}
             updateSearch={this.updateSearch}
             swapView={this.swapView}
+            toggleCreateNb={this.toggleCreateNb}
+            showCreateNb={this.state.createNotebook}
           />
           <Content
             titleFilter={this.state.titleFilter}

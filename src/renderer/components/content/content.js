@@ -21,7 +21,7 @@ var Content = React.createClass({
   },
 
   renderNotebooks: function() {
-    return <Notebooks notes={NotesStore} noteBooks={NotebookStore} swapView={this.props.swapView}/>;
+    return <Notebooks notes={NotesStore} notebooks={NotebookStore} swapView={this.props.swapView}/>;
   },
 
   renderEditor: function() {

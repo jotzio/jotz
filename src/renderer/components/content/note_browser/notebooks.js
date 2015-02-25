@@ -6,7 +6,7 @@ var NoteBookList = React.createClass({
   componentDidMount: function() {
     this.props.notebooks.on('add remove reset', function() {
       this.forceUpdate();
-    }.bind(this), this)
+    }.bind(this), this);
   },
 
   componentWillUnmount: function() {
@@ -15,7 +15,12 @@ var NoteBookList = React.createClass({
 
   renderNotes: function() {
     return this.props.notes.map(function(note) {
-      return <NoteItem key={note.get('_id')} swapView={this.props.swapView} note={note} />;
+      return <NoteItem
+        key={note.get('_id')}
+        swapView={this.props.swapView}
+        note={note}
+        hidden={true}
+      />;
     }.bind(this));
   },
 
@@ -23,10 +28,7 @@ var NoteBookList = React.createClass({
     return this.props.notebooks.map(function(notebook, index) {
       return (
         <div>
-          <h1>Notebooks</h1>
-          <ul>
-            {this.renderNotes()}
-          </ul>
+          {this.renderNotes()}
         </div>
       );
     });
@@ -35,8 +37,11 @@ var NoteBookList = React.createClass({
   render: function() {
     return (
       <div>
-        {this.renderNoteBook()}
+        <h1>Notebooks</h1>
+        {this.renderNotebook()}
       </div>
     );
   }
 });
+
+module.exports = NoteBookList;

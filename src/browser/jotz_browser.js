@@ -7,8 +7,9 @@ var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
 var NotebooksAPI = require('./apis/notebooks_api');
-var GistAPI = require('./apis/gist_api');
-
+var AuthAPI = require('./apis/auth_api');
+var GistBrowser = require('./apis/gist_api');
+var OAuthWindow = AuthAPI.oAuthWindow;
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {

@@ -30,7 +30,8 @@ var JotzBrowser = Backbone.Model.extend({
       'shouldSave',
       'sendCheckSaveReply',
       'makeGist',
-      'handleOAuthCompletion'
+      'handleOAuthCompletion',
+      'publishGist'
     );
   },
   initialize: function() {
@@ -104,24 +105,28 @@ var JotzBrowser = Backbone.Model.extend({
     this.get('gistBrowser').makeGist(noteBlock);
   },
   handleOAuthCompletion: function() {
-    // TODO: START HERE
-    // TODO: -> 1. app side user_data.json 2. jotz-services api
+    // TODO: 1. app side user_data.json
+    // TODO: 2. jotz-services api
+
+    // 1. fetch githubId and accessToken -> request.get('/api/auth/userdata');
+    // 2. write response githubId and accessToken to user_data.json
 
     // User is authed and stuff stored in DB
     // Show loading display progress to user ('saving your settings')
 
-    // fetch githubId and access token
-    // request.get('/api/auth/userdata');
-      // -> endpoint pushes through ghOauth again without showing to user,
-      // should skip and return gh id and access token
+
     // write response gh id and access token to user_data.json
-    // trigger event with noteblock gh id and accesstoken, listen and publish gist
-
-    // example noteBlock passed all the way through oAuth process
-    console.log(this.get('noteBlock'));
-
-    //this.get('gistBrowser').publishGist(noteBlock /* githubId, ghAccessToken */);
-
+    // set gh id and access token on this model
+    //this.set('githubId', githubId);
+    //this.set('ghAccesstoken', ghAccessToken);
+    // trigger event, listen and publish gist
+    //this.trigger('gh-authenticated');
+  },
+  publishGist: function(e) {
+    //var noteBlock = this.get('noteBlock');
+    //var githubId = this.get('githubId');
+    //var accessToken = this.get('ghAccessToken');
+    //this.get('gistBrowser').publishGist(noteBlock, githubId, accessToken);
   }
 });
 

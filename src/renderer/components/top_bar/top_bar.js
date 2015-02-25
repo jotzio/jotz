@@ -1,7 +1,6 @@
 var React = require('react');
 var Note = require('../../stores/note');
 var Search = require('./search');
-var NewNotebook = require('./new_notebook');
 
 /*
   Handles global note functions, create/search/filter.
@@ -20,10 +19,10 @@ var TopBar = React.createClass({
           <Search 
             filterQuery={this.props.filterQuery}
             updateSearch={this.props.updateSearch}
-            swapView={this.props.swapView} 
+            className='search-box'
+            swapView={this.props.swapView}
           />
           <button className='btn' onClick={this.handleNewNote}>New Note</button>
-          <NewNotebook toggleCreateNb={this.props.toggleCreateNb} showCreateNb={this.props.showCreateNb}/>
         </div>
       </div>
     );

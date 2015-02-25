@@ -7,8 +7,9 @@ var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
 var NotebooksAPI = require('./apis/notebooks_api');
-var GistAPI = require('./apis/gist_api');
-
+var AuthAPI = require('./apis/auth_api');
+var GistBrowser = require('./apis/gist_api');
+var OAuthWindow = AuthAPI.oAuthWindow;
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
@@ -28,11 +29,12 @@ var JotzBrowser = Backbone.Model.extend({
       'setupReporters',
       'setConfigs',
       'startMainWindow',
-      'handleEvents',
+      'registerEvents',
       'removeWindow',
       'shouldSave',
       'sendCheckSaveReply',
-      'makeGist'
+      'makeGist',
+      'handleOAuthCompletion'
     );
   },
   initialize: function() {
@@ -50,12 +52,15 @@ var JotzBrowser = Backbone.Model.extend({
       'min-width': this.get('config').minW,
       show: false
     }));
+    this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
+    this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
     this.get('mainWindow').loadUrl(this.get('config').index);
-    this.handleEvents();
+    this.registerEvents();
     this.get('mainWindow').show();
   },
-  handleEvents: function() {
+  registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
+    this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);
@@ -105,10 +110,27 @@ var JotzBrowser = Backbone.Model.extend({
     }
   },
   makeGist: function(e, noteBlock) {
-    GistAPI.makeGist(noteBlock, function(result) {
+    this.get('gistBrowser').makeGist(noteBlock);
+  },
+  handleOAuthCompletion: function() {
+    // TODO: START HERE
+    // TODO: -> 1. app side user_data.json 2. jotz-services api
 
-      //e.sender.send('make-gist-reply');
-    });
+    // User is authed and stuff stored in DB
+    // Show loading display progress to user ('saving your settings')
+
+    // fetch githubId and access token
+    // request.get('/api/auth/userdata');
+      // -> endpoint pushes through ghOauth again without showing to user,
+      // should skip and return gh id and access token
+    // write response gh id and access token to user_data.json
+    // trigger event with noteblock gh id and accesstoken, listen and publish gist
+
+    // example noteBlock passed all the way through oAuth process
+    console.log(this.get('noteBlock'));
+
+    //this.get('gistBrowser').publishGist(noteBlock /* githubId, ghAccessToken */);
+
   }
 });
 

@@ -29,11 +29,12 @@ var JotzBrowser = Backbone.Model.extend({
       'setupReporters',
       'setConfigs',
       'startMainWindow',
-      'handleEvents',
+      'registerEvents',
       'removeWindow',
       'shouldSave',
       'sendCheckSaveReply',
-      'makeGist'
+      'makeGist',
+      'handleOAuthCompletion'
     );
   },
   initialize: function() {
@@ -51,12 +52,15 @@ var JotzBrowser = Backbone.Model.extend({
       'min-width': this.get('config').minW,
       show: false
     }));
+    this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
+    this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
     this.get('mainWindow').loadUrl(this.get('config').index);
-    this.handleEvents();
+    this.registerEvents();
     this.get('mainWindow').show();
   },
-  handleEvents: function() {
+  registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
+    this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);

@@ -10,19 +10,15 @@ var NotebooksAPI = require('./apis/notebooks_api');
 var AuthAPI = require('./apis/auth_api');
 var GistBrowser = require('./apis/gist_api');
 var OAuthWindow = AuthAPI.oAuthWindow;
+var mainWindowConfigs = require('./config/main_window');
+
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
     require('crash-reporter').start();
   },
   setConfigs: function() {
-    this.set('config', {
-      w: 1024,
-      h: 768,
-      minH: 600,
-      minW: 800,
-      index: path.join('file://', __dirname, '../index.html')
-    });
+    this.set('mainWindowConfigs', mainWindowConfigs);
   },
   bindMtds: function() {
     _.bindAll(this,
@@ -45,22 +41,17 @@ var JotzBrowser = Backbone.Model.extend({
     app.on('ready', this.startMainWindow);
   },
   startMainWindow: function() {
-    this.set('mainWindow', new BrowserWindow({
-      width: this.get('config').w,
-      height: this.get('config').h,
-      'min-height': this.get('config').minH,
-      'min-width': this.get('config').minW,
-      show: false
-    }));
+    this.set('mainWindow', new BrowserWindow(this.get('mainWindowConfigs')));
     this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
     this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
-    this.get('mainWindow').loadUrl(this.get('config').index);
+    this.get('mainWindow').loadUrl(this.get('mainWindowConfigs').index);
     this.registerEvents();
     this.get('mainWindow').show();
   },
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);

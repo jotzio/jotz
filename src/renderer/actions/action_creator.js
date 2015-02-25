@@ -46,7 +46,6 @@ var actionCreator = {
       content: content
     });
   },
-
   deleteBlock: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'delete-block',

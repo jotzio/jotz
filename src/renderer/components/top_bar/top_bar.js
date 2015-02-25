@@ -29,7 +29,6 @@ var TopBar = React.createClass({
           <Search 
             filterQuery={this.props.filterQuery}
             updateSearch={this.props.updateSearch}
-            className='search-box' 
             swapView={this.props.swapView} 
           />
           <button className='btn' onClick={this.handleNewNote}>New Note</button>

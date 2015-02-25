@@ -16,7 +16,7 @@ var NoteItem = React.createClass({
     return (
       <li>
         <a onClick={this.handleClick} href=''>{this.props.note.get('title')}</a>
-        <a onClick={this.handleDelete} href=''> delete</a>
+        <a onClick={this.handleDelete} href=''>delete</a>
       </li>
     );
   }

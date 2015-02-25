@@ -27,11 +27,6 @@ var Jotz = React.createClass({
     });
   },
 
-  /*
-    updateNotesList & swapView are state managers. Passed to child components
-    as helper functions to change application state.
-   */
-
   swapView: function(newView, note) {
     note = note || null;
     this.setState({

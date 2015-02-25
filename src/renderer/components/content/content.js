@@ -33,21 +33,16 @@ var Content = React.createClass({
       swapView={this.props.swapView}/>;
   },
 
-  //Checks view state, returns jsx for rendering
-  renderContent: function() {
-    content = {
+  render: function() {
+    var content = {
       Notes: this.renderNotes,
       Notebooks: this.renderNotebooks,
       Editor: this.renderEditor
     };
-    return content[this.props.view]();
-  },
-
-  render: function() {
     var classes = 'content main-container ';
     return (
       <div className={classes}>
-        {this.renderContent()}
+        {content[this.props.view]()}
       </div>
     );
   }

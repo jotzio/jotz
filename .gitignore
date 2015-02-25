@@ -29,6 +29,7 @@ node_modules
 
 # Atom shell
 atom_shell
+atom_cache
 
 # Webstorm
 .idea

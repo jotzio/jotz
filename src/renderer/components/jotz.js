@@ -17,13 +17,20 @@ var Jotz = React.createClass({
     return {
       view: 'Notes',
       currentNote: null,
-      titleFilter: ''
+      titleFilter: '',
+      createNotebook: false
     };
   },
 
   updateSearch: function (event) {
     this.setState({
       titleFilter: event.target.value
+    });
+  },
+
+  toggleCreateNb: function() {
+    this.setState({
+      createNotebook: !this.state.createNotebook
     });
   },
 
@@ -49,6 +56,8 @@ var Jotz = React.createClass({
             titleFilter={this.state.titleFilter}
             updateSearch={this.updateSearch}
             swapView={this.swapView}
+            toggleCreateNb={this.toggleCreateNb}
+            showCreateNb={this.state.createNotebook}
           />
           <Content
             titleFilter={this.state.titleFilter}

@@ -12,6 +12,7 @@ var Notebooks = Backbone.Collection.extend({
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
     ipc.on('save-notebook-reply', this.handleSaveNotebookReply.bind(this));
     ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply.bind(this));
+    this.fetchNotebooks();
   },
 
   dispatchCallback: function(payload) {

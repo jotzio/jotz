@@ -15,24 +15,24 @@ var NotesList = React.createClass({
     this.props.notes.off(null, null, this);
   },
 
-  filterTitle: function(note) { 
+  filterQuery: function(note) { 
     return note.get('title')
                .toLowerCase()
-               .indexOf(this.props.titleFilter);
+               .indexOf(this.props.filterQuery);
   },
 
   filterBlocks: function(note) {
     var blocks = _.pluck(note.get('blocks'), 'content');
     return blocks.join(' ')
                  .toLowerCase()
-                 .indexOf(this.props.titleFilter);
+                 .indexOf(this.props.filterQuery);
   },
 
   filterItems: function (note) {
-    if (!this.props.titleFilter) {
+    if (!this.props.filterQuery) {
       return true;
     } else {
-      return this.filterTitle(note) > -1 || this.filterBlocks(note) > -1;
+      return this.filterQuery(note) > -1 || this.filterBlocks(note) > -1;
     }
   },
 

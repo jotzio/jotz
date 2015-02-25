@@ -27,7 +27,7 @@ var TopBar = React.createClass({
       <div className='topbar-container'>
         <div className='action-container'>
           <Search 
-            titleFilter={this.props.titleFilter}
+            filterQuery={this.props.filterQuery}
             updateSearch={this.props.updateSearch}
             className='search-box' 
             swapView={this.props.swapView} 

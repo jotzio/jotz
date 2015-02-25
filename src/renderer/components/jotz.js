@@ -17,13 +17,13 @@ var Jotz = React.createClass({
     return {
       view: 'Notes',
       currentNote: null,
-      titleFilter: ''
+      filterQuery: ''
     };
   },
 
   updateSearch: function (event) {
     this.setState({
-      titleFilter: event.target.value
+      filterQuery: event.target.value
     });
   },
 
@@ -51,12 +51,12 @@ var Jotz = React.createClass({
         </div>
         <div className='right-container'>
           <TopBar 
-            titleFilter={this.state.titleFilter}
+            filterQuery={this.state.filterQuery}
             updateSearch={this.updateSearch}
             swapView={this.swapView}
           />
           <Content
-            titleFilter={this.state.titleFilter}
+            filterQuery={this.state.filterQuery}
             view={this.state.view}
             currentNote={this.state.currentNote}
             swapView={this.swapView}

@@ -126,7 +126,11 @@ var JotzBrowser = Backbone.Model.extend({
     // write response gh id and access token to user_data.json
     // trigger event with noteblock gh id and accesstoken, listen and publish gist
 
+    // example noteBlock passed all the way through oAuth process
+    console.log(this.get('noteBlock'));
+
     //this.get('gistBrowser').publishGist(noteBlock /* githubId, ghAccessToken */);
+
   }
 });
 

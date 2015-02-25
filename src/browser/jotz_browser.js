@@ -10,19 +10,15 @@ var NotebooksAPI = require('./apis/notebooks_api');
 var AuthAPI = require('./apis/auth_api');
 var GistBrowser = require('./apis/gist_api');
 var OAuthWindow = AuthAPI.oAuthWindow;
+var mainWindowConfigs = require('./config/main_window');
+
 
 var JotzBrowser = Backbone.Model.extend({
   setupReporters: function() {
     require('crash-reporter').start();
   },
   setConfigs: function() {
-    this.set('config', {
-      w: 1024,
-      h: 768,
-      minH: 600,
-      minW: 800,
-      index: path.join('file://', __dirname, '../index.html')
-    });
+    this.set('mainWindowConfigs', mainWindowConfigs);
   },
   bindMtds: function() {
     _.bindAll(this,
@@ -34,7 +30,8 @@ var JotzBrowser = Backbone.Model.extend({
       'shouldSave',
       'sendCheckSaveReply',
       'makeGist',
-      'handleOAuthCompletion'
+      'handleOAuthCompletion',
+      'publishGist'
     );
   },
   initialize: function() {
@@ -45,22 +42,17 @@ var JotzBrowser = Backbone.Model.extend({
     app.on('ready', this.startMainWindow);
   },
   startMainWindow: function() {
-    this.set('mainWindow', new BrowserWindow({
-      width: this.get('config').w,
-      height: this.get('config').h,
-      'min-height': this.get('config').minH,
-      'min-width': this.get('config').minW,
-      show: false
-    }));
+    this.set('mainWindow', new BrowserWindow(this.get('mainWindowConfigs')));
     this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
     this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
-    this.get('mainWindow').loadUrl(this.get('config').index);
+    this.get('mainWindow').loadUrl(this.get('mainWindowConfigs').index);
     this.registerEvents();
     this.get('mainWindow').show();
   },
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);
@@ -113,24 +105,28 @@ var JotzBrowser = Backbone.Model.extend({
     this.get('gistBrowser').makeGist(noteBlock);
   },
   handleOAuthCompletion: function() {
-    // TODO: START HERE
-    // TODO: -> 1. app side user_data.json 2. jotz-services api
+    // TODO: 1. app side user_data.json
+    // TODO: 2. jotz-services api
+
+    // 1. fetch githubId and accessToken -> request.get('/api/auth/userdata');
+    // 2. write response githubId and accessToken to user_data.json
 
     // User is authed and stuff stored in DB
     // Show loading display progress to user ('saving your settings')
 
-    // fetch githubId and access token
-    // request.get('/api/auth/userdata');
-      // -> endpoint pushes through ghOauth again without showing to user,
-      // should skip and return gh id and access token
+
     // write response gh id and access token to user_data.json
-    // trigger event with noteblock gh id and accesstoken, listen and publish gist
-
-    // example noteBlock passed all the way through oAuth process
-    console.log(this.get('noteBlock'));
-
-    //this.get('gistBrowser').publishGist(noteBlock /* githubId, ghAccessToken */);
-
+    // set gh id and access token on this model
+    //this.set('githubId', githubId);
+    //this.set('ghAccesstoken', ghAccessToken);
+    // trigger event, listen and publish gist
+    //this.trigger('gh-authenticated');
+  },
+  publishGist: function(e) {
+    //var noteBlock = this.get('noteBlock');
+    //var githubId = this.get('githubId');
+    //var accessToken = this.get('ghAccessToken');
+    //this.get('gistBrowser').publishGist(noteBlock, githubId, accessToken);
   }
 });
 

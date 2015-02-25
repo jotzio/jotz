@@ -75,8 +75,14 @@ var AuthAPI = (function() {
     oAuthWindow: OAuthWindow,
     ghAuthenticated: function(cb) {
       // check user_data.json for githubId and accessToken
+      //if (githubId && accessToken) {
+      //  cb(githubId, accessToken);
+      //} else {
+      //  cb(false);
+      //}
+
+      // FOR TESTING GH OAUTH FLOW - REMOVE ME
       cb(false);
-      // cb(githubId, accessToken);
     }
   };
 

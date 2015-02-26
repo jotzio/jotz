@@ -7,9 +7,8 @@ var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
 var NotebooksAPI = require('./apis/notebooks_api');
-var AuthAPI = require('./apis/auth_api');
 var GistBrowser = require('./apis/gist_api');
-var OAuthWindow = AuthAPI.oAuthWindow;
+var OAuthBrowser = require('./apis/auth_api').oAuthBrowser;
 var mainWindowConfigs = require('./config/main_window');
 
 
@@ -43,7 +42,7 @@ var JotzBrowser = Backbone.Model.extend({
   },
   startMainWindow: function() {
     this.set('mainWindow', new BrowserWindow(this.get('mainWindowConfigs')));
-    this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
+    this.set('oAuthBrowser', new OAuthBrowser({ jotzBrowser: this }));
     this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
     this.get('mainWindow').loadUrl(this.get('mainWindowConfigs').index);
     this.registerEvents();
@@ -51,7 +50,7 @@ var JotzBrowser = Backbone.Model.extend({
   },
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
-    this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.get('oAuthBrowser').on('oauth-window-closed', this.handleOAuthCompletion);
     this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);

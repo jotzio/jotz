@@ -55,9 +55,8 @@ var Editor = React.createClass({
     this.changed = true;
   },
 
-  updateNotebook: function(title) {
-    console.log('updating');
-    actionCreator.updateNotebook(title);
+  updateNotebook: function(notebook) {
+    actionCreator.updateNotebook(notebook);
     this.changed = true;
   },
 
@@ -115,11 +114,11 @@ var Editor = React.createClass({
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
-    var notebook = null;
-    if (this.state.note.get('_id')) {
+    var notebookId = null;
+    if (this.props.note.get('_id')) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
-      noteTitle = this.state.note.get('title');
-      notebook = this.props.note.get('notebook').notebookTitle;
+      noteTitle = this.props.note.get('title');
+      notebookId = this.props.note.get('notebook')._id;
     }
     return (
       <div className='ace-editor-container'>
@@ -132,7 +131,7 @@ var Editor = React.createClass({
             defaultValue={noteTitle}
           />
           <NotebookSelector
-            notebook={notebook}
+            notebookId={notebookId}
             notebooks={this.props.notebooks}
             updateNotebook={this.updateNotebook}
           />

@@ -1,14 +1,23 @@
 var React = require('react');
 var actionCreator = require('../../../actions/action_creator');
 
+function S4() {
+  return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
+
+function guid() {
+  return (S4() + S4() + "_" + S4() + "_" + S4() + "_" + S4() + "_" + S4() + S4() + S4());
+}
+
 var NotebookCreator = React.createClass({
-  updateNotebook: function(event) {
-    console.log(event.target.value);
-    this.props.updateNotebook(event.target.value);
-  },
 
   saveNotebook: function() {
-    actionCreator.saveNotebook(this.refs.newNotebook.getDOMNode().value.trim());
+    var notebook = {
+      title: this.refs.newNotebook.getDOMNode().value.trim(),
+      _id: guid()
+    };
+    this.props.updateNotebook(notebook);
+    actionCreator.saveNotebook(notebook);
     this.props.toggleNotebookInput();
   },
 
@@ -17,13 +26,11 @@ var NotebookCreator = React.createClass({
       <div>
         <input
           type='text'
-          onChange={this.updateNotebook}
           placeholder='untitled'
           ref='newNotebook'
         />
         <input type='submit' onClick={this.saveNotebook} />
       </div>
-
     );
   }
 });

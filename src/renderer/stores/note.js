@@ -33,7 +33,7 @@ var Note = Backbone.Model.extend({
         this.deleteBlock(payload);
         break;
       case 'update-notebook':
-        this.updateNotebook(payload);
+        this.updateNotebook(payload.content);
         break;
       default:
         break;
@@ -44,12 +44,13 @@ var Note = Backbone.Model.extend({
     this.set('title', payload.content);
   },
 
-  updateNotebook: function(payload) {
+  updateNotebook: function(notebook) {
     var notebook = {
-      notebookTitle: payload.content
+      notebookTitle: notebook.title,
+      _id: notebook._id
     };
     this.set('notebook', notebook);
-    this.trigger('block-updated');
+    this.trigger('notebook-updated');
   },
 
   createBlock: function() {

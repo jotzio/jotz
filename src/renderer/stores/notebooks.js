@@ -23,7 +23,7 @@ var Notebooks = Backbone.Collection.extend({
   dispatchCallback: function(payload) {
     switch(payload.actionType) {
       case 'save-notebook':
-        this.saveNotebook(payload);
+        this.saveNotebook(payload.content);
         break;
       case 'fetch-notebooks':
         this.fetchNotebooks();
@@ -33,8 +33,8 @@ var Notebooks = Backbone.Collection.extend({
     }
   },
 
-  saveNotebook: function(note) {
-    var noteData = this.prepareNotebookData(note);
+  saveNotebook: function(notebook) {
+    var noteData = this.prepareNotebookData(notebook);
     ipc.send('save-notebook', noteData);
   },
 
@@ -57,10 +57,10 @@ var Notebooks = Backbone.Collection.extend({
     this.reset(notebooks);
   },
 
-  prepareNotebookData: function(note) {
+  prepareNotebookData: function(notebook) {
     var notebookData = {
-      title: note.content,
-      _id: null
+      title: notebook.title,
+      _id: notebook._id
     };
     return notebookData;
   }

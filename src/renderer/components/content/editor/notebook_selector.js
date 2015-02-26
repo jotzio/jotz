@@ -9,7 +9,7 @@ var NotebookSelector = React.createClass({
   },
 
   componentDidMount: function() {
-    this.props.notebooks.on('all', this.updateComp, this);
+    this.props.notebooks.on('add', this.updateComp, this);
   },
 
   updateComp: function() {
@@ -20,7 +20,9 @@ var NotebookSelector = React.createClass({
     if (event.target.value === 'create-new-notebook') {
       this.toggleNotebookInput();
     } else {
-      this.props.updateNotebook(event.target.value);
+      this.props.updateNotebook({
+        _id: event.target.value
+      });
     }
   },
 
@@ -32,8 +34,13 @@ var NotebookSelector = React.createClass({
 
   renderNotebooks: function() {
     return this.props.notebooks.map(function(notebook) {
+      var id = notebook.get('_id');
+      var title = notebook.get('title');
       return(
-        <option>{notebook.get('title')}</option>
+        <option
+          value={id}
+          key={id}
+        >{title}</option>
       );
     });
   },
@@ -48,7 +55,7 @@ var NotebookSelector = React.createClass({
       );
     }
     return (
-      <select value={this.props.notebook || 'default'} onChange={this.changeNotebook}>
+      <select value={this.props.notebookId || 'default'} onChange={this.changeNotebook}>
         <option value='default' disabled>Notebooks</option>
         {this.renderNotebooks()}
         <option value='create-new-notebook'>create notebook</option>

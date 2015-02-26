@@ -1,4 +1,5 @@
 var fs = require('fs');
+var request = require('request');
 var jsf = require('jsonfile');
 var ipc = require('ipc');
 var BrowserWindow = require('browser-window');
@@ -6,6 +7,7 @@ var dialog = require('dialog');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var utils = require('../utils/global');
+var bodyScraper = require('../utils/body_scraper');
 
 
 var AuthAPI = (function() {

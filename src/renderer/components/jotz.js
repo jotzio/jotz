@@ -2,12 +2,10 @@ var React = require('react/addons');
 var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
-var actionCreator = require('../actions/action_creator');
 
 /*
   This is where the applications state is created/managed.
   TODO: Link up fetchNotes to allNotes for notelist view (getInitialState)
-  TODO: Decide on React.js style guide eg: changeView vs newNote
  */
 
 var Jotz = React.createClass({
@@ -17,7 +15,7 @@ var Jotz = React.createClass({
     return {
       view: 'Notes',
       currentNote: null,
-      filterQuery: ''
+      filterQuery: '',
       createNotebook: false
     };
   },

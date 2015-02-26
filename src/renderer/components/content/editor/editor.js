@@ -136,6 +136,7 @@ var Editor = React.createClass({
           <NotebookSelector
             notebookId={notebookId}
             notebooks={this.props.notebooks}
+            note={this.props.note}
             updateNotebook={this.updateNotebook}
           />
           <button className="btn editor-new-block" onClick={this.createBlock}>New Block</button>

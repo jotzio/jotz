@@ -10,6 +10,7 @@ var NotebookSelector = React.createClass({
 
   componentDidMount: function() {
     this.props.notebooks.on('add', this.updateComp, this);
+    this.props.note.on('all', this.updateComp, this);
   },
 
   updateComp: function() {

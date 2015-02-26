@@ -13,23 +13,10 @@ var NoteBookList = React.createClass({
     this.props.notebooks.off(null, null, this);
   },
 
-  renderNotes: function() {
-    return this.props.notes.map(function(note) {
-      return <NoteItem
-        key={note.get('_id')}
-        swapView={this.props.swapView}
-        note={note}
-        hidden={true}
-      />;
-    }.bind(this));
-  },
-
   renderNotebook: function() {
-    return this.props.notebooks.map(function(notebook, index) {
+    return this.props.notebooks.map(function(notebook) {
       return (
-        <div>
-          {this.renderNotes()}
-        </div>
+        <li>{notebook.get('title')}</li>
       );
     });
   },
@@ -38,7 +25,9 @@ var NoteBookList = React.createClass({
     return (
       <div>
         <h1>Notebooks</h1>
-        {this.renderNotebook()}
+        <ul>
+          {this.renderNotebook()}
+        </ul>
       </div>
     );
   }

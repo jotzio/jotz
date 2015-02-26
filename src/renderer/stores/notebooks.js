@@ -59,8 +59,7 @@ var Notebooks = Backbone.Collection.extend({
 
   prepareNotebookData: function(note) {
     var notebookData = {
-      title: note.get('notebook').notebookTitle,
-      _id: note.get('notebook')._id
+      title: note
     };
     return notebookData;
   }

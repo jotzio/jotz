@@ -7,7 +7,8 @@ var Search = React.createClass({
       <input 
         type='search' 
         ref='searchInput' 
-        placeholder='Search Notes' 
+        placeholder='Search Notes'
+        className='search-box'
         value={this.props.filterQuery} 
         onChange={this.props.updateSearch} 
        />

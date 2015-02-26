@@ -7,9 +7,8 @@ var BrowserWindow = require('browser-window');
 var ipc = require('ipc');
 var NotesAPI = require('./apis/notes_api');
 var NotebooksAPI = require('./apis/notebooks_api');
-var AuthAPI = require('./apis/auth_api');
 var GistBrowser = require('./apis/gist_api');
-var OAuthWindow = AuthAPI.oAuthWindow;
+var OAuthBrowser = require('./apis/auth_api').oAuthBrowser;
 var mainWindowConfigs = require('./config/main_window');
 
 
@@ -43,7 +42,7 @@ var JotzBrowser = Backbone.Model.extend({
   },
   startMainWindow: function() {
     this.set('mainWindow', new BrowserWindow(this.get('mainWindowConfigs')));
-    this.set('oAuthWindow', new OAuthWindow({ jotzBrowser: this }));
+    this.set('oAuthBrowser', new OAuthBrowser({ jotzBrowser: this }));
     this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
     this.get('mainWindow').loadUrl(this.get('mainWindowConfigs').index);
     this.registerEvents();
@@ -51,7 +50,7 @@ var JotzBrowser = Backbone.Model.extend({
   },
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
-    this.get('oAuthWindow').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.get('oAuthBrowser').on('oauth-window-closed', this.handleOAuthCompletion);
     this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
@@ -104,29 +103,20 @@ var JotzBrowser = Backbone.Model.extend({
   makeGist: function(e, noteBlock) {
     this.get('gistBrowser').makeGist(noteBlock);
   },
-  handleOAuthCompletion: function() {
-    // TODO: 1. app side user_data.json
-    // TODO: 2. jotz-services api
-
-    // 1. fetch githubId and accessToken -> request.get('/api/auth/userdata');
-    // 2. write response githubId and accessToken to user_data.json
-
-    // User is authed and stuff stored in DB
-    // Show loading display progress to user ('saving your settings')
-
-
-    // write response gh id and access token to user_data.json
-    // set gh id and access token on this model
-    //this.set('githubId', githubId);
-    //this.set('ghAccesstoken', ghAccessToken);
-    // trigger event, listen and publish gist
-    //this.trigger('gh-authenticated');
+  handleOAuthCompletion: function(body) {
+    // TODO 1. Show loading display progress to user ('saving your settings')
+    var data = JSON.parse(body);
+    var id = data.githubId;
+    var token = data.ghAccessToken;
+    this.set('githubId', id);
+    this.set('ghAccessToken', token);
+    this.get('oAuthBrowser').storeData(data);
+    this.trigger('gh-authenticated', data);
+    // TODO 3. hide loading progress display
+    // TODO 3. show gist publication progress display
   },
-  publishGist: function(e) {
-    //var noteBlock = this.get('noteBlock');
-    //var githubId = this.get('githubId');
-    //var accessToken = this.get('ghAccessToken');
-    //this.get('gistBrowser').publishGist(noteBlock, githubId, accessToken);
+  publishGist: function(authData) {
+    this.get('gistBrowser').publishGist(this.get('noteBlock'), authData);
   }
 });
 

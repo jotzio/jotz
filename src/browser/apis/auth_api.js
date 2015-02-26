@@ -1,4 +1,5 @@
 var fs = require('fs');
+var request = require('request');
 var jsf = require('jsonfile');
 var ipc = require('ipc');
 var BrowserWindow = require('browser-window');
@@ -6,6 +7,7 @@ var dialog = require('dialog');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var utils = require('../utils/global');
+var bodyScraper = require('../utils/body_scraper');
 
 
 var AuthAPI = (function() {
@@ -17,44 +19,35 @@ var AuthAPI = (function() {
     title: "Log in to Jotz with your GitHub Account"
   };
 
-  var OAuthWindow = Backbone.Model.extend({
+  var OAuthBrowser = Backbone.Model.extend({
     initialize: function(options) {
       this.set('jotzBrowser', options.jotzBrowser);
       this.set('configs', wConfig);
       this.set('authEndpoint', 'http://localhost:8000/api/auth/ghlogin/');
       this.set('oAuthCount', 0);
       this.bindMtds();
+      this.set('oAuthWindow', null);
+      this.set('oAuthWindow', new BrowserWindow(this.get('configs')));
+      this.registerEvents();
     },
     bindMtds: function() {
       _.bindAll(this,
         'registerEvents',
-        'createWindow',
-        'removeWindow',
         'display',
         'runGhOAuth',
         'incrementOAuthCount',
-        'handleOAuthCompletion'
+        'handleOAuthCompletion',
+        'triggerOAuthSave'
       );
     },
     registerEvents: function() {
-      var win = this.get('oAuthWindow');
-      win.on('closed', this.removeWindow);
-      win.webContents.on('did-get-redirect-request', this.incrementOAuthCount);
-      win.webContents.on('did-finish-load', this.handleOAuthCompletion);
-    },
-    createWindow: function() {
-      this.set('oAuthWindow', new BrowserWindow(this.get('configs')));
-      this.registerEvents();
-      return this.get('oAuthWindow');
-    },
-    removeWindow: function() {
-      this.trigger('oauth-window-closed');
-      this.set('oAuthWindow', null);
+      this.get('oAuthWindow').webContents.on('did-get-redirect-request', this.incrementOAuthCount);
+      this.get('oAuthWindow').webContents.on('did-finish-load', this.handleOAuthCompletion);
+      ipc.on('body-scraped', this.triggerOAuthSave);
     },
     display: function() {
-      var win = this.createWindow();
-      win.loadUrl(this.get('authEndpoint'));
-      win.show();
+      this.get('oAuthWindow').loadUrl(this.get('authEndpoint'));
+      this.get('oAuthWindow').show();
     },
     runGhOAuth: function() {
       this.display();
@@ -64,27 +57,30 @@ var AuthAPI = (function() {
     },
     handleOAuthCompletion: function() {
       if (this.get('oAuthCount') === 2) {
+        this.get('oAuthWindow').hide();
         this.set('oAuthCount', 0);
-        this.get('oAuthWindow').close();
+        this.get('oAuthWindow').webContents.executeJavaScript(bodyScraper.code);
       }
+    },
+    triggerOAuthSave: function(e, body) {
+      this.trigger('oauth-window-closed', body);
+    },
+    ghAuthenticated: function(cb) {
+      utils.getAuthData(function(authData) {
+        if (authData.githubId && authData.ghAccessToken) {
+          cb(authData);
+        } else {
+          cb(false);
+        }
+      });
+    },
+    storeData: function(data) {
+      utils.writeAuthData(data);
     }
   });
 
   // Auth Public API
-  return {
-    oAuthWindow: OAuthWindow,
-    ghAuthenticated: function(cb) {
-      // check user_data.json for githubId and accessToken
-      //if (githubId && accessToken) {
-      //  cb(githubId, accessToken);
-      //} else {
-      //  cb(false);
-      //}
-
-      // FOR TESTING GH OAUTH FLOW - REMOVE ME
-      cb(false);
-    }
-  };
+  return { oAuthBrowser: OAuthBrowser };
 
 })();
 

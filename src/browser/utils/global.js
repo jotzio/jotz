@@ -18,6 +18,24 @@ var GlobalUtils = (function() {
     getAppDirPath: function() {
       return app.getDataPath();
     },
+    getAuthDataPath: function() {
+      return api.getAppDirPath() + '/auth_data.json';
+    },
+    createAuthDataFile: function(cb) {
+      jsf.writeFile(api.getAuthDataPath(), [], cb);
+    },
+    getAuthData: function(cb) {
+      jsf.readFile(api.getAuthDataPath(), function(err, authData) {
+        if (!err) {
+          cb(authData);
+        } else {
+          api.createAuthDataFile(function() { cb([]); });
+        }
+      });
+    },
+    writeAuthData: function(data) {
+      jsf.writeFile(api.getAuthDataPath(), data);
+    },
     getNotesDirPath: function() {
       return api.getAppDirPath() + '/notes/';
     },

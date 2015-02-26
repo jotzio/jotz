@@ -4,7 +4,7 @@ var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Note = Backbone.Model.extend({
 
   defaults: {
-    title: 'Test title',
+    title: 'Untitled',
     blocks: [{
       language: 'text',
       content: ''
@@ -32,6 +32,9 @@ var Note = Backbone.Model.extend({
       case 'delete-block':
         this.deleteBlock(payload);
         break;
+      case 'update-notebook':
+        this.updateNotebook(payload);
+        break;
       default:
         break;
     }
@@ -39,6 +42,14 @@ var Note = Backbone.Model.extend({
 
   updateTitle: function(payload) {
     this.set('title', payload.content);
+  },
+
+  updateNotebook: function(payload) {
+    var notebook = {
+      notebookTitle: payload.content
+    };
+    this.set('notebook', notebook);
+    this.trigger('block-updated');
   },
 
   createBlock: function() {

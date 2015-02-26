@@ -16,7 +16,6 @@ var Jotz = React.createClass({
   getInitialState: function() {
     return {
       view: 'Notes',
-      currentNote: null,
       filterQuery: ''
     };
   },
@@ -33,7 +32,7 @@ var Jotz = React.createClass({
    */
 
   swapView: function(newView, note) {
-    note = note || null;
+    note = note || void 0;
     this.setState({
       view: newView,
       currentNote: note

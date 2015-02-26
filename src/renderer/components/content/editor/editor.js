@@ -2,6 +2,7 @@ var React = require('react/addons');
 var _ = require('underscore');
 var actionCreator = require('../../../actions/action_creator');
 var NoteBlock = require('./note_block');
+var Note = require('../../../stores/note');
 
 /*
  Contains functions for each note.
@@ -11,6 +12,21 @@ var NoteBlock = require('./note_block');
 
 
 var Editor = React.createClass({
+  getDefaultProps: function() {
+    var note = new Note(
+      {
+        blocks: [
+          {
+            language: 'text',
+            content: ''
+          }
+        ]
+      }
+    );
+    return {
+      note: note
+    };
+  },
   //newBlock and updateBlock = self explanatory
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
   //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note

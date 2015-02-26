@@ -9,9 +9,14 @@ var Notebooks = Backbone.Collection.extend({
   model: Notebook,
 
   initialize: function() {
-    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
-    ipc.on('save-notebook-reply', this.handleSaveNotebookReply.bind(this));
-    ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply.bind(this));
+    _.bindAll(this,
+      'dispatchCallback',
+      'handleSaveNotebookReply',
+      'handleFetchNotebooksReply'
+    );
+    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
+    ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
+    ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply);
     this.fetchNotebooks();
   },
 
@@ -54,7 +59,7 @@ var Notebooks = Backbone.Collection.extend({
 
   prepareNotebookData: function(note) {
     var notebookData = {
-      title: note.get('notebook').title,
+      title: note.get('notebook').notebookTitle,
       _id: note.get('notebook')._id
     };
     return notebookData;

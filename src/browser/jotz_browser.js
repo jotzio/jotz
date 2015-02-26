@@ -64,8 +64,8 @@ var JotzBrowser = Backbone.Model.extend({
     this.set(windowName, null);
   },
   saveNote: function(e, note) {
-    NotesAPI.saveNote(note, function(result) {
-      e.sender.send('save-note-reply', result);
+    NotesAPI.saveNote(note, function(result, note) {
+      e.sender.send('save-note-reply', result, note);
     });
   },
   fetchNotes: function(e) {

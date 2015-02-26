@@ -21,9 +21,11 @@ var NotesAPI = (function() {
     noteFilename: function(noteId) {
       return noteId + '.json';
     },
-    writeNote: function(filename, noteData, cb) {
+    writeNote: function(filename, noteData, note, cb) {
       var filePath = utils.getNotesDirPath() + filename;
-      jsf.writeFile(filePath, noteData, cb);
+      jsf.writeFile(filePath, noteData, function(err) {
+        cb(err, note);
+      });
     },
     getNotesData: function(filenames, cb) {
       var notes = [], count = filenames.length - 1;
@@ -60,7 +62,7 @@ var NotesAPI = (function() {
       note.attributes._id = note.attributes._id || utils.createGuid();
       var filename = api.noteFilename(note.attributes._id);
       api.findNote(filename, function() {
-          api.writeNote(filename, note.attributes, cb);
+          api.writeNote(filename, note.attributes, note, cb);
       });
     },
     destroyNote: function(noteId, cb) {

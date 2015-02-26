@@ -18,12 +18,16 @@ var NotebookSelector = React.createClass({
 
   changeNotebook: function(event) {
     if (event.target.value === 'create-new-notebook') {
-      this.setState({showCreate: true});
-      return;
+      this.toggleNotebookInput();
+    } else {
+      this.props.updateNotebook(event.target.value);
     }
-    var title = event.target.value || event;
-    this.props.updateNotebook(title);
-    this.setState({showCreate: false});
+  },
+
+  toggleNotebookInput: function() {
+    this.setState({
+      showCreate: !this.state.showCreate
+    });
   },
 
   renderNotebooks: function() {
@@ -37,7 +41,10 @@ var NotebookSelector = React.createClass({
   render: function() {
     if(this.state.showCreate){
       return (
-        <NotebookCreator changeNotebook={this.props.changeNotebook} />
+        <NotebookCreator
+          toggleNotebookInput={this.toggleNotebookInput}
+          updateNotebook={this.props.updateNotebook}
+        />
       );
     }
     return (

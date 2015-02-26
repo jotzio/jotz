@@ -66,7 +66,9 @@ var Editor = React.createClass({
   },
 
   updateNotebook: function(title) {
-    actionCreator.updateNotebook(title)
+    console.log('updating');
+    actionCreator.updateNotebook(title);
+    this.changed = true;
   },
 
   makeGist: function(blockIndex) {

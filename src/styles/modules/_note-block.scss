@@ -1,0 +1,22 @@
+.editor-block-container {
+  @include margin(null null 15px null);
+}
+
+.editor-block-actions {
+  background: $light-gray;
+  border-top: 1px solid $accent-gray;
+  text-align: right;
+  @include padding(10px 10px 10px null);
+
+  .language-select {
+    display: inline-block;
+    @include margin(0 10px 0 0);
+  }
+
+  .btn.alt.small {
+    @include margin(null 10px null null);
+    &:last-of-type {
+      @include margin(0);
+    }
+  }
+}

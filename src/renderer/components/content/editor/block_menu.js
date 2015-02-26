@@ -8,7 +8,7 @@ var React = require('react');
 var BlockMenu = React.createClass({
   render: function() {
     return (
-      <select defaultValue={this.props.language || "plain_text"} onChange={this.props.changeLanguage}>
+      <select className="language-select" defaultValue={this.props.language || "plain_text"} onChange={this.props.changeLanguage}>
         <option value="plain_text">Text</option>
         <option value="javascript">JavaScript</option>
         <option value="coffee">CoffeeScript</option>

@@ -70,8 +70,8 @@ var NoteBlock = React.createClass({
       <div className={containerClass} onBlur={this.changeFocus} onFocus={this.changeFocus}>
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
-          <button className="btn alt" onClick={this.makeGist}>Create Gist</button>
-          <button onClick={this.props.deleteBlock}>Delete Block</button>
+          <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>
+          <button className="btn alt small" onClick={this.props.deleteBlock}>Delete Block</button>
         </div>
         <div id={'ace-editor' + this.props.blockIndex} className='ace-editor-inner'></div>
       </div>

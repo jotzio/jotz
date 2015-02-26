@@ -2,9 +2,14 @@ var React = require('react');
 var actionCreator = require('../../../actions/action_creator');
 
 var NotebookCreator = React.createClass({
-  createNotebook: function() {
-    actionCreator.saveNotebook(this.refs.newNotebook.value);
-    this.props.changeNotebook(this.refs.newNotebook.value);
+  updateNotebook: function(event) {
+    console.log(event.target.value);
+    this.props.updateNotebook(event.target.value);
+  },
+
+  saveNotebook: function() {
+    actionCreator.saveNotebook(this.refs.newNotebook.getDOMNode().value.trim());
+    this.props.toggleNotebookInput();
   },
 
   render: function() {
@@ -12,10 +17,11 @@ var NotebookCreator = React.createClass({
       <div>
         <input
           type='text'
-          ref='newNotebook'
+          onChange={this.updateNotebook}
           placeholder='untitled'
+          ref='newNotebook'
         />
-        <button onClick={this.createNotebook}>+ Notebook</button>
+        <input type='submit' onClick={this.saveNotebook} />
       </div>
 
     );

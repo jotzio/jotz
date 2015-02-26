@@ -35,7 +35,6 @@ var Notebooks = Backbone.Collection.extend({
 
   saveNotebook: function(note) {
     var noteData = this.prepareNotebookData(note);
-    this.set(noteData, { remove: false });
     ipc.send('save-notebook', noteData);
   },
 
@@ -50,6 +49,7 @@ var Notebooks = Backbone.Collection.extend({
     } else {
       // display 'notebook saved!' message to user
       console.log('notebook saved successfully');
+      this.fetchNotebooks();
     }
   },
 
@@ -59,7 +59,8 @@ var Notebooks = Backbone.Collection.extend({
 
   prepareNotebookData: function(note) {
     var notebookData = {
-      title: note
+      title: note.content,
+      _id: null
     };
     return notebookData;
   }

@@ -62,8 +62,7 @@ var Notes = Backbone.Collection.extend({
   saveNote: function(payload) {
     this.currentNote = this.add(payload.content, { merge: true });
     ipc.send('save-note', this.currentNote);
-    // TODO: Add this back in after moving NoteBook to a Backbone Model
-    //NotebooksStore.saveNotebook(note);
+    NotebooksStore.saveNotebook(note);
   },
 
   fetchNotes: function() {

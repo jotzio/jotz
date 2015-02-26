@@ -103,12 +103,13 @@ var Editor = React.createClass({
       <div className='ace-editor-container'>
         <div className="editor-top-bar">
           <input
+            className='editor-note-title'
             type='text'
             onChange={this.updateTitle}
             placeholder='Note title'
             defaultValue={noteTitle}
           />
-          <button className="btn" onClick={this.createBlock}>New Block</button>
+          <button className="btn editor-new-block" onClick={this.createBlock}>New Block</button>
         </div>
         {this.renderBlocks()}
         <div className="editor-actions">

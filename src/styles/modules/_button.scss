@@ -2,4 +2,14 @@
   border-radius: 0;
   text-transform: uppercase;
   @include padding(null $base-spacing / 2);
+
+  &.alt {
+    background: white;
+    color: $blue;
+    border: 1px solid $medium-gray;
+  }
+
+  &.small {
+    font-size: 0.75em;
+  }
 }

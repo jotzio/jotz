@@ -3,7 +3,7 @@
 }
 
 .side-container {
-  @include position(absolute, 0 null 0 0);
+  @include position(fixed, 0 null 0 0);
   width: 150px;
   background: $light-gray;
 }

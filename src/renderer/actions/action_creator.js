@@ -46,6 +46,12 @@ var actionCreator = {
       content: content
     });
   },
+  updateNotebook: function(content) {
+    JotzDispatcher.dispatch({
+      actionType: 'update-notebook',
+      content: content
+    })
+  },
   deleteBlock: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'delete-block',

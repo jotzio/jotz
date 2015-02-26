@@ -1,25 +1,26 @@
 var React = require('react');
 var Combobox = require('react-widgets').Combobox;
 
-var stub = [
-  { _id:0, title:'these' },
-  { _id:1, title:'are' },
-  { _id:2, title:'all' },
-  { _id:3, title:'tests' },
-  { _id:4, title:'for' },
-  { _id:5, title:'development' }
-];
-
 var NotebookSelector = React.createClass({
   componentDidMount: function() {
-    this.props.notebooks.on('all', this.forceUpdate, this);
+    this.props.notebooks.on('all', this.updateComp, this);
+  },
+
+  updateComp: function() {
+    this.forceUpdate()
+  },
+
+  getNotebooks: function() {
+    return this.props.notebooks.map(function(notebook) {
+      return notebook.get('title');
+    });
   },
 
   render: function() {
     return (
-      //if no notebooks, display input
       <Combobox
-        data={this.props.notebooks.models}
+        defaultValue={this.props.notebook}
+        data={this.getNotebooks()}
         valueField='title'
         textField='title'
         onChange={this.props.updateNotebook}

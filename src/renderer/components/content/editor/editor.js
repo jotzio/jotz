@@ -116,9 +116,11 @@ var Editor = React.createClass({
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
+    var notebook = null;
     if (this.state.note.get('_id')) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
       noteTitle = this.state.note.get('title');
+      notebook = this.props.note.get('notebook').notebookTitle;
     }
     return (
       <div className='ace-editor-container'>
@@ -131,6 +133,7 @@ var Editor = React.createClass({
             defaultValue={noteTitle}
           />
           <NotebookSelector
+            notebook={notebook}
             notebooks={this.props.notebooks}
             updateNotebook={this.updateNotebook}
           />

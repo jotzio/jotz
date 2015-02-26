@@ -2,7 +2,11 @@ var React = require('react');
 var NotebookCreator = require('./notebook_creator');
 
 var NotebookSelector = React.createClass({
-  showCreate: false,
+  getInitialState: function() {
+    return {
+      showCreate: false
+    }
+  },
 
   componentDidMount: function() {
     this.props.notebooks.on('all', this.updateComp, this);
@@ -14,12 +18,12 @@ var NotebookSelector = React.createClass({
 
   changeNotebook: function(event) {
     if (event.target.value === 'create-new-notebook') {
-      this.showCreate = true;
-      this.render();
+      this.setState({showCreate: true});
+      return;
     }
-    this.showCreate = false;
     var title = event.target.value || event;
     this.props.updateNotebook(title);
+    this.setState({showCreate: false});
   },
 
   renderNotebooks: function() {
@@ -31,7 +35,7 @@ var NotebookSelector = React.createClass({
   },
 
   render: function() {
-    if(this.showCreate){
+    if(this.state.showCreate){
       return (
         <NotebookCreator changeNotebook={this.props.changeNotebook} />
       );

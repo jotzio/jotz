@@ -55,6 +55,10 @@ var Editor = React.createClass({
     this.changed = true;
   },
 
+  updateNotebook: function(title) {
+    actionCreator.updateNotebook(title)
+  },
+
   makeGist: function(blockIndex) {
     var payload = {
       block: this.state.note.get('blocks')[blockIndex],
@@ -123,7 +127,10 @@ var Editor = React.createClass({
             placeholder='Note title'
             defaultValue={noteTitle}
           />
-          <NotebookSelector notebooks={this.props.notebooks} />
+          <NotebookSelector
+            notebooks={this.props.notebooks}
+            updateNotebook={this.updateNotebook}
+          />
           <button className="btn editor-new-block" onClick={this.createBlock}>New Block</button>
         </div>
         {this.renderBlocks()}

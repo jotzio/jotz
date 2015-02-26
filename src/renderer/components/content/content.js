@@ -34,6 +34,7 @@ var Content = React.createClass({
   renderEditor: function() {
     return <Editor
       note={this.props.currentNote}
+      notebooks={NotebookStore}
       swapView={this.props.swapView}/>;
   },
 

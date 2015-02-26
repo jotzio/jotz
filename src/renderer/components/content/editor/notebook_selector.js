@@ -1,26 +1,29 @@
 var React = require('react');
+var Combobox = require('react-widgets').Combobox;
+
+var stub = [
+  { _id:0, title:'these' },
+  { _id:1, title:'are' },
+  { _id:2, title:'all' },
+  { _id:3, title:'tests' },
+  { _id:4, title:'for' },
+  { _id:5, title:'development' }
+];
 
 var NotebookSelector = React.createClass({
-  handleChange: function(event) {
-    if (event.target.value === 'newNotebook') {
-      //show input for new notebook
-    }
-  },
-
-  renderNotebooks: function() {
-    return this.props.notebooks.map(function(notebook) {
-      return (
-        <option value={notebook._id}>{notebook.title}</option>
-      );
-    });
+  componentDidMount: function() {
+    this.props.notebooks.on('all', this.forceUpdate, this);
   },
 
   render: function() {
     return (
       //if no notebooks, display input
-      <select onChange={this.handleChange}>
-        {this.renderNotebooks}
-      </select>
+      <Combobox
+        data={this.props.notebooks.models}
+        valueField='title'
+        textField='title'
+        onChange={this.props.updateNotebook}
+      />
     );
   }
 });

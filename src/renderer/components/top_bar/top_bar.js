@@ -8,8 +8,18 @@ var Search = require('./search');
 
 var TopBar = React.createClass({
   handleNewNote: function() {
+    var note = new Note(
+      {
+        blocks: [
+          {
+            language: 'text',
+            content: ''
+          }
+        ]
+      }
+    );
     console.log('swapping to editor');
-    this.props.swapView('Editor');
+    this.props.swapView('Editor', note.toJson());
   },
 
   render: function() {
@@ -17,9 +27,9 @@ var TopBar = React.createClass({
       <div className='topbar-container'>
         <div className='action-container'>
           <Search 
+            className='search-box'
             filterQuery={this.props.filterQuery}
             updateSearch={this.props.updateSearch}
-            className='search-box'
             swapView={this.props.swapView}
           />
           <button className='btn' onClick={this.handleNewNote}>New Note</button>

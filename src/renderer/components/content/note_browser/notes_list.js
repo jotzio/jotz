@@ -40,7 +40,7 @@ var NotesList = React.createClass({
     var notes = this.props.notes.filter(this.filterItems).map(function(note) {
                   return <NoteItem 
                             key={note.get('_id')} 
-                            swapView={this.props.swapView} 
+                            changeNote={this.props.changeNote} 
                             note={note} 
                           />;
                 }.bind(this));

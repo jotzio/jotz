@@ -10,22 +10,25 @@ var Note = require('../../../stores/note');
  TODO: change title h3 to input and add state callback to update note
  */
 
+var getNewNote = function(note) {
+  note = note || new Note(
+    {
+      blocks: [
+        {
+          language: 'text',
+          content: ''
+        }
+      ]
+    }
+  );
+  return {
+    note: note
+  };
+};
 
 var Editor = React.createClass({
-  getDefaultProps: function() {
-    var note = new Note(
-      {
-        blocks: [
-          {
-            language: 'text',
-            content: ''
-          }
-        ]
-      }
-    );
-    return {
-      note: note
-    };
+  getInitialState: function() {
+    return getNewNote(this.props.note);
   },
   //newBlock and updateBlock = self explanatory
   //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
@@ -34,15 +37,15 @@ var Editor = React.createClass({
   changed: false,
 
   componentDidMount: function() {
-    this.props.note.on('all', this.updateComp, this);
+    this.state.note.on('all', this.updateComp, this);
   },
 
   componentWillUnmount: function() {
     actionCreator.checkForSave({
-      note: this.props.note,
+      note: this.state.note,
       changed: this.changed
     });
-    this.props.note.off(null, null, this);
+    this.state.note.off(null, null, this);
   },
 
   updateComp: function() {
@@ -65,7 +68,7 @@ var Editor = React.createClass({
   },
 
   makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
+    actionCreator.makeGist(this.state.note.get('blocks')[blockIndex]);
   },
 
   deleteBlock: function(index) {
@@ -76,17 +79,17 @@ var Editor = React.createClass({
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
-    actionCreator.saveNote(this.props.note);
+    actionCreator.saveNote(this.state.note);
     this.changed = false;
   },
 
   closeEditor: function() {
-    this.props.swapView('Notes');
+    this.props.changeNote('Notes');
   },
 
   deleteNote: function() {
-    actionCreator.destroyNote(this.props.note);
-    this.props.swapView('Notes');
+    actionCreator.destroyNote(this.state.note);
+    this.props.changeNote('Notes');
   },
 
   newBlock: function(block, index) {
@@ -105,15 +108,15 @@ var Editor = React.createClass({
   //Called in render, this reads the blocks data and creates NoteBLocks,
   //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.props.note.get('blocks').map(this.newBlock);
+    return this.state.note.get('blocks').map(this.newBlock);
   },
 
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
-    if (this.props.note.get('_id')) {
+    if (this.state.note.get('_id')) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
-      noteTitle = this.props.note.get('title');
+      noteTitle = this.state.note.get('title');
     }
     return (
       <div className='ace-editor-container'>

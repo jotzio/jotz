@@ -4,7 +4,7 @@ var actionCreator = require('../../../actions/action_creator');
 var NoteItem = React.createClass({
   handleClick: function(e) {
     e.preventDefault();
-    this.props.swapView('Editor', this.props.note);
+    this.props.changeNote('Editor', this.props.note);
   },
 
   handleDelete: function(e) {

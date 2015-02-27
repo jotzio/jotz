@@ -18,10 +18,19 @@ var getNewNote = function(note) {
 
 var Editor = React.createClass({
 
+  changed: false,
+
   getInitialState: function() {
     return {
       note: this.props.note
     };
+  },
+
+  componentWillUnmount: function() {
+    actionCreator.checkForSave({
+      note: this.state.note,
+      changed: this.changed
+    });
   },
 
   makeGist: function(blockIndex) {
@@ -29,12 +38,22 @@ var Editor = React.createClass({
   },
 
   createBlock: function() {
-    var blocks = this.state.note.blocks;
-    blocks.push( { "content": "", "language":"text" } );
     var newState = React.addons.update(this.state, {
       note: {
         blocks: {
-          $set: blocks
+          $push: [ { "content": "", "language":"text" } ]
+        }
+      }
+    });
+    this.setState(newState);
+    this.changed = true;
+  },
+
+  updateBlock: function(block) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $splice: [[block.index, 1, block.update]]
         }
       }
     });
@@ -52,12 +71,10 @@ var Editor = React.createClass({
   },
 
   deleteBlock: function(index) {
-    var blocks = this.state.note.blocks;
-    blocks.splice(index, 1);
     var newState = React.addons.update(this.state, {
       note: {
         blocks: {
-          $set: blocks
+          $splice: [[index, 1]]
         }
       }
     });

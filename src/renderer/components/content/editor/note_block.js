@@ -17,13 +17,24 @@ var NoteBlock = React.createClass({
     };
   },
 
-  updateNote: function() {
-    this.props.updateBlock(this.blockData());
+  getBlockData: function(language) {
+    return {
+      index: this.props.blockIndex,
+      update: {
+        content: this.getText(),
+        language: language || this.props.language
+      }
+    };
+  },
+
+  updateBlockContent: function() {
+    console.log('updating content');
+    this.props.updateBlock(this.getBlockData());
   },
 
   changeLanguage: function(event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
-    this.props.updateBlock(this.blockData(event.target.value));
+    this.props.updateBlock(this.getBlockData(event.target.value));
   },
 
   makeGist: function() {
@@ -56,12 +67,12 @@ var NoteBlock = React.createClass({
     this.editor = new AceEditor('ace-editor' + this.props.blockIndex);
     this.editor.setText(this.props.text);
     this.editor.changeLanguage('ace/mode/' + this.props.language);
-    this.editor.onChange(this.updateNote);
+    this.editor.onBlur(this.updateBlockContent);
   },
 
-  componentDidUpdate: function() {
-    this.editor.setText(this.props.text);
-  },
+  //componentDidUpdate: function() {
+  //  this.editor.setText(this.props.text);
+  //},
 
   render: function() {
     var containerClass = 'editor-block-container';

@@ -101,7 +101,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   handleFetchNotesReply: function(notes) {
-    this.reset(notes);
+    this.set(notes);
   },
 
   handleDestroyNoteReply: function(err) {

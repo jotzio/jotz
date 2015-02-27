@@ -51,7 +51,6 @@ var Notes = Backbone.Collection.extend({
   },
 
   checkForSave: function(payload) {
-    console.log(payload.content.note, 'prechecking');
     if (payload.content.changed) {
       ipc.send('check-for-save', payload.content.note);
     } else {
@@ -66,7 +65,6 @@ var Notes = Backbone.Collection.extend({
     } else {
       this.currentNote = this.add(new Note(payload.content));
     }
-    debugger;
     ipc.send('save-note', this.currentNote);
     //NotebooksStore.saveNotebook(note);
   },
@@ -88,7 +86,6 @@ var Notes = Backbone.Collection.extend({
 
   handleCheckForSaveReply: function(saveStatus, note) {
     if (saveStatus && note) {
-      console.log(note, 'post checking');
       this.currentNote = this.add(new Note(note), { merge: true });
       ipc.send('save-note', note);
     } else {

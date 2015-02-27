@@ -42,7 +42,7 @@ var Editor = React.createClass({
   },
 
   makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
+    actionCreator.makeGist(this.props.note.blocks[blockIndex]);
   },
 
   updateTitle: function(event) {

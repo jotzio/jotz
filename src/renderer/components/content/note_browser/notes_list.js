@@ -5,27 +5,23 @@ var actionCreator = require('../../../actions/action_creator');
 
 var NotesList = React.createClass({
 
-  componentDidMount: function() {
-    this.props.notes.on('add remove reset', function() {
-      this.forceUpdate();
-    }.bind(this), this);
-  },
+  //componentDidMount: function() {
+  //  this.props.notes.on('add remove reset', function() {
+  //    this.forceUpdate();
+  //  }.bind(this), this);
+  //},
 
-  componentWillUnmount: function() {
-    this.props.notes.off(null, null, this);
-  },
+  //componentWillUnmount: function() {
+  //  this.props.notes.off(null, null, this);
+  //},
 
   filterQuery: function(note) { 
-    return note.get('title')
-               .toLowerCase()
-               .indexOf(this.props.filterQuery);
+    return note.title.toLowerCase().indexOf(this.props.filterQuery);
   },
 
   filterBlocks: function(note) {
-    var blocks = _.pluck(note.get('blocks'), 'content');
-    return blocks.join(' ')
-                 .toLowerCase()
-                 .indexOf(this.props.filterQuery);
+    var blocks = _.pluck(note.blocks, 'content');
+    return blocks.join(' ').toLowerCase().indexOf(this.props.filterQuery);
   },
 
   filterItems: function (note) {
@@ -37,9 +33,9 @@ var NotesList = React.createClass({
   },
 
   renderNotes: function() {
-    return this.props.notes.filter(this.filterItems).map(function(note) {
+    return _.filter(this.props.notes, this.filterItems).map(function(note) {
       return <NoteItem
-        key={note.get('_id')}
+        key={note._id}
         swapView={this.props.swapView}
         note={note}
       />;

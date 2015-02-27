@@ -2,8 +2,6 @@ var React = require('react');
 var Editor = require('./editor/editor');
 var NotesList = require('./note_browser/notes_list');
 var Notebooks = require('./note_browser/notebooks');
-var NotesStore = require('../../stores/notes');
-var NotebookStore = require('../../stores/notebooks');
 
 /*
   This manages what is displayed in the content area,
@@ -18,9 +16,9 @@ var Content = React.createClass({
 
   renderNotes: function() {
     return <NotesList
-      notes={NotesStore}
+      notes={this.props.notes}
       swapView={this.props.swapView}
-      titleFilter={this.props.titleFilter}
+      filterQuery={this.props.filterQuery}
     />;
   },
 
@@ -34,7 +32,7 @@ var Content = React.createClass({
   renderEditor: function() {
     return <Editor
       note={this.props.currentNote}
-      notebooks={NotebookStore}
+      notebooks={this.props.notebooks}
       swapView={this.props.swapView}/>;
   },
 
@@ -47,7 +45,7 @@ var Content = React.createClass({
     var classes = 'content main-container ';
     return (
       <div className={classes}>
-        {content[this.props.view]()}
+        {content[this.props.currentView]()}
       </div>
     );
   }

@@ -5,16 +5,6 @@ var actionCreator = require('../../../actions/action_creator');
 
 var NotesList = React.createClass({
 
-  //componentDidMount: function() {
-  //  this.props.notes.on('add remove reset', function() {
-  //    this.forceUpdate();
-  //  }.bind(this), this);
-  //},
-
-  //componentWillUnmount: function() {
-  //  this.props.notes.off(null, null, this);
-  //},
-
   filterQuery: function(note) { 
     return note.title.toLowerCase().indexOf(this.props.filterQuery);
   },

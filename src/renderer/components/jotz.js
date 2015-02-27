@@ -58,9 +58,6 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  //children will access states/data that are passed to them as props
-  //never change props, clone and modify instead
-  //pass callbacks that change state as props to children
   render: function() {
     return (
       <div>

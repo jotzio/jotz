@@ -17,17 +17,6 @@ var SideMenu = React.createClass({
     };
   },
 
-  //getInitialState: function() {
-  //  return {
-  //    activeMenuItemUid: 'Notes'
-  //  }
-  //},
-
-  //setActiveMenuItem: function(item) {
-  //  this.setState({activeMenuItemUid: item});
-  //  this.props.swapView(item);
-  //},
-
   render: function() {
     var menuItems = this.props.menuItems.map(function(menuItem) {
       return (
@@ -40,11 +29,6 @@ var SideMenu = React.createClass({
         />
       );
     }.bind(this));
-
-    //var classes = {
-    //  sideMenu: 'side-menu',
-    //  notebooksLink: 'notebooks-link'
-    //};
 
     return (
       <div className='side-menu notebooks-link'>

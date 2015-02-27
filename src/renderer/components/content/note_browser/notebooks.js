@@ -1,5 +1,4 @@
 var React = require('react');
-var NoteItem = require('./note_item');
 
 var NoteBookList = React.createClass({
 

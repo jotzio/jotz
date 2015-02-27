@@ -16,7 +16,6 @@ var Jotz = React.createClass({
   getInitialState: function() {
     return {
       view: 'Notes',
-      currentNote: null,
       filterQuery: ''
     };
   },
@@ -32,11 +31,9 @@ var Jotz = React.createClass({
     as helper functions to change application state.
    */
 
-  swapView: function(newView, note) {
-    note = note || null;
+  swapView: function(newView) {
     this.setState({
       view: newView,
-      currentNote: note
     });
   },
 
@@ -58,7 +55,6 @@ var Jotz = React.createClass({
           <Content
             filterQuery={this.state.filterQuery}
             view={this.state.view}
-            currentNote={this.state.currentNote}
             swapView={this.swapView}
           />
         </div>

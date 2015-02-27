@@ -10,6 +10,12 @@ var NotesStore = require('../../stores/notes');
  */
 
 var Content = React.createClass({
+  currentNote: void 0,
+
+  changeNote: function(newView, note) {
+    this.currentNote = note || void 0;
+    this.props.swapView(newView);
+  },
 
   //Checks view state, returns jsx for rendering
   renderContent: function() {
@@ -18,14 +24,14 @@ var Content = React.createClass({
         <NotesList
           filterQuery={this.props.filterQuery}
           notes={NotesStore}
-          swapView={this.props.swapView}
+          changeNote={this.changeNote}
         />
       );
     } else if (this.props.view === 'Editor') {
       return (
         <Editor
-          note={this.props.currentNote}
-          swapView={this.props.swapView}
+          note={this.currentNote}
+          changeNote={this.changeNote}
         />
       );
     }

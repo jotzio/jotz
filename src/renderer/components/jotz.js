@@ -13,7 +13,6 @@ var actionCreator = require('../actions/action_creator');
 
 var Jotz = React.createClass({
 
-  //State created here
   getInitialState: function() {
     return {
       notes: null,

@@ -51,9 +51,8 @@ var Notes = Backbone.Collection.extend({
   },
 
   checkForSave: function(payload) {
-    this.currentNote;
+    console.log(payload.content.note, 'prechecking');
     if (payload.content.changed) {
-      debugger;
       ipc.send('check-for-save', payload.content.note);
     } else {
       console.log('model is the same');
@@ -67,6 +66,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       this.currentNote = this.add(new Note(payload.content));
     }
+    debugger;
     ipc.send('save-note', this.currentNote);
     //NotebooksStore.saveNotebook(note);
   },
@@ -76,8 +76,8 @@ var Notes = Backbone.Collection.extend({
   },
 
   destroyNote: function(payload) {
-    var _id = payload.content.get('_id');
-    this.remove(payload.content);
+    var _id = payload.content._id;
+    this.remove(this.findWhere({ _id: _id}));
     ipc.send('destroy-note', _id);
   },
 
@@ -87,7 +87,8 @@ var Notes = Backbone.Collection.extend({
 
   handleCheckForSaveReply: function(saveStatus, note) {
     if (saveStatus && note) {
-      this.add(note, { merge: true });
+      console.log(note, 'post checking');
+      this.currentNote = this.add(new Note(note), { merge: true });
       ipc.send('save-note', note);
     } else {
       this.fetchNotes();
@@ -100,7 +101,7 @@ var Notes = Backbone.Collection.extend({
       // pull it out of collection and add error message to user?
       this.fetchNotes();
     } else {
-      this.currentNote.set(note.attributes);
+      this.currentNote.set(note);
       this.fetchNotes();
       console.log('note saved successfully');
     }

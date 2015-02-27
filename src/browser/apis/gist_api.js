@@ -5,6 +5,7 @@ var dialog = require('dialog');
 var utils = require('../utils/global');
 var _ = require('underscore');
 var Backbone = require('backbone');
+var request = require('request');
 
 
 var GistBrowser = Backbone.Model.extend({
@@ -15,12 +16,26 @@ var GistBrowser = Backbone.Model.extend({
   bindMtds: function() {
     _.bindAll(this, 'makeGist', 'publishGist', 'authSwitch');
   },
+  gistConfigs: function(content) {
+    return {
+      method: 'POST',
+      json: true,
+      url: 'http://localhost:8000/api/gists/publish',
+      body: content
+    };
+  },
   makeGist: function(noteBlock) {
     this.get('jotzBrowser').get('oAuthBrowser').ghAuthenticated(this.authSwitch.bind(this, noteBlock));
   },
   publishGist: function(noteBlock, authData) {
-    // TODO: publish gist via jotz-services
-    console.log(noteBlock, authData);
+    var content = {
+      githubId: authData.githubId,
+      ghAccessToken: authData.ghAccessToken,
+      noteBlock: noteBlock
+    };
+    request(this.gistConfigs(content), function(err, res, body) {
+      // TODO: handle gist publication response
+    });
   },
   authSwitch: function(noteBlock, authData) {
     if (authData) {

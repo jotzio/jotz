@@ -2,6 +2,8 @@ var React = require('react/addons');
 var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
+var NotesStore = require('../stores/notes');
+var NotebookStore = require('../stores/notebooks');
 
 /*
   This is where the applications state is created/managed.
@@ -12,11 +14,23 @@ var Jotz = React.createClass({
 
   //State created here
   getInitialState: function() {
+    console.log(NotebookStore.toJSON());
     return {
+      notes: NotesStore.toJSON(),
+      notebooks: NotebookStore.toJSON(),
       view: 'Notes',
       currentNote: null,
       filterQuery: ''
     };
+  },
+
+  componentDidMount: function() {
+    this.props.notes.on('all', function() {
+      this.forceUpdate();
+    });
+    this.props.notebooks.on('all', function() {
+      this.forceUpdate();
+    });
   },
 
   updateSearch: function (event) {
@@ -40,7 +54,10 @@ var Jotz = React.createClass({
     return (
       <div>
         <div className='side-container'>
-          <SideMenu swapView={this.swapView}/>
+          <SideMenu
+            currentView={this.state.view}
+            swapView={this.swapView}
+          />
         </div>
         <div className='right-container'>
           <TopBar 
@@ -49,8 +66,11 @@ var Jotz = React.createClass({
             swapView={this.swapView}
           />
           <Content
+            currentView={this.state.view}
+            notes={this.state.notes}
+            notebooks={this.state.notebooks}
             filterQuery={this.state.filterQuery}
-            view={this.state.view}
+            currentNote={this.state.currentNote}
             swapView={this.swapView}
           />
         </div>

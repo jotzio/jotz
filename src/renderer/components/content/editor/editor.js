@@ -8,7 +8,6 @@ var Note = require('../../../stores/note');
 /*
  Contains functions for each note.
  Renders NoteBlocks which are stored together in an array as a note.
- TODO: change title h3 to input and add state callback to update note
  */
 
 var getNewNote = function(note) {
@@ -18,14 +17,11 @@ var getNewNote = function(note) {
 };
 
 var Editor = React.createClass({
-  //newBlock and updateBlock = self explanatory
-  //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
-  //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
 
   changed: false,
 
-  componentDidMount: function() {
-    this.state.note.on('all', this.updateComp, this);
+  makeGist: function(blockIndex) {
+    actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
   componentWillUnmount: function() {
@@ -36,27 +32,8 @@ var Editor = React.createClass({
     this.state.note.off(null, null, this);
   },
 
-  updateComp: function() {
-    this.forceUpdate();
-  },
-
   createBlock: function() {
-    actionCreator.createBlock();
-    this.changed = true;
-  },
-
-  updateBlock: function(blockData) {
-    actionCreator.updateBlock(blockData);
-    this.changed = true;
-  },
-
-  updateTitle: function(event) {
-    actionCreator.updateTitle(event.target.value);
-    this.changed = true;
-  },
-
-  updateNotebook: function(notebook) {
-    actionCreator.updateNotebook(notebook);
+    //actionCreator.createBlock();
     this.changed = true;
   },
 
@@ -70,7 +47,7 @@ var Editor = React.createClass({
   },
 
   deleteBlock: function(index) {
-    actionCreator.deleteBlock(index);
+    //actionCreator.deleteBlock(index);
     this.changed = true;
   },
 
@@ -90,7 +67,7 @@ var Editor = React.createClass({
     this.props.changeNote('Notes');
   },
 
-  newBlock: function(block, index) {
+  renderBlock: function(block, index) {
     return (
       <NoteBlock
         text={block.content}
@@ -105,20 +82,18 @@ var Editor = React.createClass({
     );
   },
 
-  //Called in render, this reads the blocks data and creates NoteBLocks,
-  //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.state.note.get('blocks').map(this.newBlock);
+    return this.props.note.blocks.map(this.renderBlock);
   },
 
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
     var notebookId = null;
-    if (this.props.note.get('_id')) {
+    if (this.props.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
-      noteTitle = this.props.note.get('title');
-      notebookId = this.props.note.get('notebook')._id;
+      noteTitle = this.props.note.title;
+      notebookId = this.props.note.notebook._id;
     }
     return (
       <div className='ace-editor-container'>
@@ -129,12 +104,6 @@ var Editor = React.createClass({
             onChange={this.updateTitle}
             placeholder='Note title'
             defaultValue={noteTitle}
-          />
-          <NotebookSelector
-            notebookId={notebookId}
-            notebooks={this.props.notebooks}
-            note={this.props.note}
-            updateNotebook={this.updateNotebook}
           />
           <button className="btn editor-new-block" onClick={this.createBlock}>New Block</button>
         </div>
@@ -150,3 +119,47 @@ var Editor = React.createClass({
 });
 
 module.exports = Editor;
+
+//newBlock and updateBlock = self explanatory
+//Be careful with changing props, can wipe noteblocks if blocks prop is messed with
+//Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
+
+
+//componentDidMount: function() {
+//  this.props.note.on('all', this.updateComp, this);
+//},
+//
+//componentWillUnmount: function() {
+//  actionCreator.checkForSave({
+//    note: this.props.note,
+//    changed: this.changed
+//  });
+//  this.props.note.off(null, null, this);
+//},
+//
+//updateComp: function() {
+//  this.forceUpdate();
+//},
+
+
+//updateBlock: function(blockData) {
+//  actionCreator.updateBlock(blockData);
+//  this.changed = true;
+//},
+//
+//updateTitle: function(event) {
+//  actionCreator.updateTitle(event.target.value);
+//  this.changed = true;
+//},
+//
+//updateNotebook: function(notebook) {
+//  actionCreator.updateNotebook(notebook);
+//  this.changed = true;
+//},
+
+//<NotebookSelector
+//  notebookId={notebookId}
+//  notebooks={this.props.notebooks}
+//  note={this.props.note}
+//  updateNotebook={this.updateNotebook}
+///>

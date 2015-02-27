@@ -65,7 +65,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       this.currentNote = this.add(new Note(payload.content));
     }
-    ipc.send('save-note', this.currentNote);
+    ipc.send('save-note', payload.content);
     //NotebooksStore.saveNotebook(note);
   },
 

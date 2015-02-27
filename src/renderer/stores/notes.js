@@ -9,6 +9,8 @@ var NotebooksStore = require('./notebooks');
 var Notes = Backbone.Collection.extend({
   model: Note,
 
+  comparator: 'createdAt',
+
   initialize: function() {
     _.bindAll(this,
       'dispatchCallback',

@@ -23,7 +23,14 @@ var NotesAPI = (function() {
     },
     writeNote: function(filename, noteData, note, cb) {
       var filePath = utils.getNotesDirPath() + filename;
+      var time = Date.now();
+      noteData.createdAt = noteData.createdAt || time;
+      noteData.updatedAt = time;
       jsf.writeFile(filePath, noteData, function(err) {
+        if(!err) {
+          note.attributes.createdAt = noteData.createdAt;
+          note.attributes.updatedAt = noteData.updatedAt;
+        }
         cb(err, note);
       });
     },

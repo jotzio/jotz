@@ -2,8 +2,9 @@ var React = require('react/addons');
 var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
-var NotesStore = require('../stores/notes');
-var NotebookStore = require('../stores/notebooks');
+var actionCreator = require('../actions/action_creator');
+//var NotesStore = require('../stores/notes');
+//var NotebookStore = require('../stores/notebooks');
 
 /*
   This is where the applications state is created/managed.
@@ -14,28 +15,28 @@ var Jotz = React.createClass({
 
   //State created here
   getInitialState: function() {
-    console.log(this.props.notes.toJSON());
     return {
       notes: null,
       notebooks: null,
       view: 'Notes',
-      currentNote: null,
       filterQuery: ''
     };
   },
 
   componentDidMount: function() {
-    var update = function() {
-      this.setState({
-        notes: this.props.notes.toJSON(),
-        notebooks: this.props.notebooks.toJSON()
+    actionCreator.fetchNotes();
+    var updateStores = function() {
+      var newState = React.addons.update(this.state, {
+        notes: { $set: this.props.notes.toJSON() },
+        notebooks: { $set: this.props.notebooks.toJSON() }
       });
-    };
+      this.setState(newState);
+    }.bind(this);
     this.props.notes.on('all', function() {
-      update();
+      updateStores();
     });
     this.props.notebooks.on('all', function() {
-      update();
+      updateStores();
     });
   },
 
@@ -45,17 +46,17 @@ var Jotz = React.createClass({
   },
 
   updateSearch: function (event) {
-    this.setState({
-      filterQuery: event.target.value
+    var newState = React.addons.update(this.state, {
+      filterQuery: { $set: event.target.value}
     });
+    this.setState(newState);
   },
 
-  swapView: function(newView, note) {
-    note = note || null;
-    this.setState({
-      view: newView,
-      currentNote: note
+  swapView: function(newView) {
+    var newState = React.addons.update(this.state, {
+      view: { $set: newView}
     });
+    this.setState(newState);
   },
 
   //children will access states/data that are passed to them as props

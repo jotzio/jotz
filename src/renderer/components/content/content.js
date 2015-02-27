@@ -9,6 +9,8 @@ var Notebooks = require('./note_browser/notebooks');
  */
 
 var Content = React.createClass({
+  currentNote: void 0,
+
   changeNote: function(newView, note) {
     this.currentNote = note || void 0;
     this.props.swapView(newView);
@@ -17,7 +19,7 @@ var Content = React.createClass({
   renderNotes: function() {
     return <NotesList
       notes={this.props.notes}
-      swapView={this.props.swapView}
+      changeNote={this.changeNote}
       filterQuery={this.props.filterQuery}
     />;
   },
@@ -26,15 +28,15 @@ var Content = React.createClass({
     return <Notebooks
       notes={this.props.notes}
       notebooks={this.props.notebooks}
-      swapView={this.props.swapView}
+      changeNote={this.changeNote}
     />;
   },
 
   renderEditor: function() {
     return <Editor
-      note={this.props.currentNote}
+      note={this.currentNote}
       notebooks={this.props.notebooks}
-      swapView={this.props.swapView}
+      changeNote={this.changeNote}
     />;
   },
 

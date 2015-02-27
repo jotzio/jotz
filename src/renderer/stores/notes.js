@@ -5,7 +5,6 @@ var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Note = require('./note');
 var NotebooksStore = require('./notebooks');
 
-
 var Notes = Backbone.Collection.extend({
   model: Note,
 
@@ -52,7 +51,9 @@ var Notes = Backbone.Collection.extend({
   },
 
   checkForSave: function(payload) {
+    this.currentNote;
     if (payload.content.changed) {
+      debugger;
       ipc.send('check-for-save', payload.content.note);
     } else {
       console.log('model is the same');
@@ -60,9 +61,14 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    this.currentNote = this.add(payload.content, { merge: true });
+    this.currentNote = this.findWhere({ _id: payload.content._id });
+    if (this.currentNote) {
+      this.currentNote.set(payload.content, { merge: true });
+    } else {
+      this.currentNote = this.add(new Note(payload.content));
+    }
     ipc.send('save-note', this.currentNote);
-    NotebooksStore.saveNotebook(note);
+    //NotebooksStore.saveNotebook(note);
   },
 
   fetchNotes: function() {

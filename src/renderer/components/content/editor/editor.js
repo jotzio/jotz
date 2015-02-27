@@ -48,7 +48,7 @@ var Editor = React.createClass({
   updateTitle: function(event) {
     var newState = React.addons.update(this.state, {
       note: {
-        title: { $set: event.target.value}
+        title: { $set: event.target.value }
       }
     });
     this.setState(newState);
@@ -100,8 +100,6 @@ var Editor = React.createClass({
     this.changed = true;
   },
 
-  //flux activity here, props is sent (not changed)
-  //via dispatch to update store
   saveNote: function() {
     console.log(this.state.note);
     actionCreator.saveNote(this.state.note);
@@ -169,47 +167,3 @@ var Editor = React.createClass({
 });
 
 module.exports = Editor;
-
-//newBlock and updateBlock = self explanatory
-//Be careful with changing props, can wipe noteblocks if blocks prop is messed with
-//Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
-
-
-//componentDidMount: function() {
-//  this.props.note.on('all', this.updateComp, this);
-//},
-//
-//componentWillUnmount: function() {
-//  actionCreator.checkForSave({
-//    note: this.props.note,
-//    changed: this.changed
-//  });
-//  this.props.note.off(null, null, this);
-//},
-//
-//updateComp: function() {
-//  this.forceUpdate();
-//},
-
-
-//updateBlock: function(blockData) {
-//  actionCreator.updateBlock(blockData);
-//  this.changed = true;
-//},
-//
-//updateTitle: function(event) {
-//  actionCreator.updateTitle(event.target.value);
-//  this.changed = true;
-//},
-//
-//updateNotebook: function(notebook) {
-//  actionCreator.updateNotebook(notebook);
-//  this.changed = true;
-//},
-
-//<NotebookSelector
-//  notebookId={notebookId}
-//  notebooks={this.props.notebooks}
-//  note={this.props.note}
-//  updateNotebook={this.updateNotebook}
-///>

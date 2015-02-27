@@ -77,14 +77,13 @@ var NoteBlock = React.createClass({
     this.editor.setText(this.props.text);
   },
 
-    //var containerClass = 'editor-block-container';
-    //if (this.state.focused) {
-    //  containerClass += ' focused';
-    //}
-    //className={containerClass} onFocus={this.changeFocus}
   render: function() {
+    var containerClass = 'editor-block-container';
+    if (this.state.focused) {
+      containerClass += ' focused';
+    }
     return (
-      <div onBlur={this.changeFocus} >
+      <div onBlur={this.changeFocus} className={containerClass} onFocus={this.changeFocus}>
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
           <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>

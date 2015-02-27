@@ -29,35 +29,6 @@ var actionCreator = {
       actionType: 'create-note'
     });
   },
-  //createBlock: function() {
-  //  JotzDispatcher.dispatch({
-  //    actionType: 'create-block'
-  //  });
-  //},
-  //updateBlock: function(content) {
-  //  JotzDispatcher.dispatch({
-  //    actionType: 'update-block',
-  //    content: content
-  //  });
-  //},
-  //updateTitle: function(content) {
-  //  JotzDispatcher.dispatch({
-  //    actionType: 'update-title',
-  //    content: content
-  //  });
-  //},
-  //deleteBlock: function(content) {
-  //  JotzDispatcher.dispatch({
-  //    actionType: 'delete-block',
-  //    index: content
-  //  });
-  //},
-  updateNotebook: function(content) {
-    JotzDispatcher.dispatch({
-      actionType: 'update-notebook',
-      content: content
-    })
-  },
   saveNotebook: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'save-notebook',

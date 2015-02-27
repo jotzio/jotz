@@ -17,6 +17,10 @@ var NoteBlock = React.createClass({
     };
   },
 
+  shouldComponentUpdate: function(nextProps) {
+    return nextProps.text !== this.props.text;
+  },
+
   getBlockData: function(language) {
     return {
       index: this.props.blockIndex,
@@ -61,8 +65,6 @@ var NoteBlock = React.createClass({
     });
   },
 
-  //This creates and appends an ace editor to the appropriate div
-  //blockIndex is the associated index in the blocks array
   componentDidMount: function() {
     this.editor = new AceEditor('ace-editor' + this.props.blockIndex);
     this.editor.setText(this.props.text);
@@ -70,17 +72,19 @@ var NoteBlock = React.createClass({
     this.editor.onBlur(this.updateBlockContent);
   },
 
-  //componentDidUpdate: function() {
-  //  this.editor.setText(this.props.text);
-  //},
+  componentDidUpdate: function() {
+    console.log('setting text');
+    this.editor.setText(this.props.text);
+  },
 
+    //var containerClass = 'editor-block-container';
+    //if (this.state.focused) {
+    //  containerClass += ' focused';
+    //}
+    //className={containerClass} onFocus={this.changeFocus}
   render: function() {
-    var containerClass = 'editor-block-container';
-    if (this.state.focused) {
-      containerClass += ' focused';
-    }
     return (
-      <div className={containerClass} onBlur={this.changeFocus} onFocus={this.changeFocus}>
+      <div onBlur={this.changeFocus} >
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
           <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>

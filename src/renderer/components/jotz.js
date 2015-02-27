@@ -25,13 +25,12 @@ var Jotz = React.createClass({
   },
 
   componentDidMount: function() {
-    var array = this.props.notes.map(function(note) {
-      console.log(note);
-      return note.toJSON();
-    });
-    console.log(array);
-
-    var update = this.forceUpdate.bind(this);
+    var update = function() {
+      this.setState({
+        notes: this.props.notes.toJSON(),
+        notebooks: this.props.notebooks.toJSON()
+      });
+    };
     this.props.notes.on('all', function() {
       update();
     });

@@ -29,12 +29,18 @@ Editor.prototype.setText = function(text) {
   this.silent = false;
 };
 
-Editor.prototype.onChange = function(func) {
+Editor.prototype.onBlur = function(func) {
   var isSilent = this.isSilentAction.bind(this);
-  this.editor.on('change', function(data) {
+  this.editor.on('blur', function(data) {
     if (isSilent()) {
       return;
     }
+    func();
+  });
+};
+
+Editor.prototype.onFocus = function(func) {
+  this.editor.on('focus', function() {
     func();
   });
 };

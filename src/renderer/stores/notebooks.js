@@ -9,15 +9,21 @@ var Notebooks = Backbone.Collection.extend({
   model: Notebook,
 
   initialize: function() {
-    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback.bind(this));
-    ipc.on('save-notebook-reply', this.handleSaveNotebookReply.bind(this));
-    ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply.bind(this));
+    _.bindAll(this,
+      'dispatchCallback',
+      'handleSaveNotebookReply',
+      'handleFetchNotebooksReply'
+    );
+    this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
+    ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
+    ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply);
+    this.fetchNotebooks();
   },
 
   dispatchCallback: function(payload) {
     switch(payload.actionType) {
       case 'save-notebook':
-        this.saveNotebook(payload);
+        this.saveNotebook(payload.content);
         break;
       case 'fetch-notebooks':
         this.fetchNotebooks();
@@ -27,9 +33,8 @@ var Notebooks = Backbone.Collection.extend({
     }
   },
 
-  saveNotebook: function(note) {
-    var noteData = this.prepareNotebookData(note);
-    this.set(noteData, { remove: false });
+  saveNotebook: function(notebook) {
+    var noteData = this.prepareNotebookData(notebook);
     ipc.send('save-notebook', noteData);
   },
 
@@ -44,17 +49,18 @@ var Notebooks = Backbone.Collection.extend({
     } else {
       // display 'notebook saved!' message to user
       console.log('notebook saved successfully');
+      this.fetchNotebooks();
     }
   },
 
   handleFetchNotebooksReply: function(notebooks) {
-    this.set(notebooks);
+    this.reset(notebooks);
   },
 
-  prepareNotebookData: function(note) {
+  prepareNotebookData: function(notebook) {
     var notebookData = {
-      title: note.get('notebook').title,
-      _id: note.get('notebook')._id
+      title: notebook.title,
+      _id: notebook._id
     };
     return notebookData;
   }

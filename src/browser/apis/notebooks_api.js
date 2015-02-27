@@ -35,6 +35,7 @@ var NotebooksAPI = (function() {
   // Public API
   return {
     saveNotebook: function(notebook, cb) {
+      notebook._id = utils.createGuid();
       api.getNotebooks(function(notebooks) {
         api.createOrUpdateNotebook(notebooks, notebook, cb);
       });

@@ -3,48 +3,69 @@ var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
 var actionCreator = require('../actions/action_creator');
+//var NotesStore = require('../stores/notes');
+//var NotebookStore = require('../stores/notebooks');
 
 /*
   This is where the applications state is created/managed.
   TODO: Link up fetchNotes to allNotes for notelist view (getInitialState)
-  TODO: Decide on React.js style guide eg: changeView vs newNote
  */
 
 var Jotz = React.createClass({
 
-  //State created here
   getInitialState: function() {
     return {
+      notes: null,
+      notebooks: null,
       view: 'Notes',
       filterQuery: ''
     };
   },
 
-  updateSearch: function (event) {
-    this.setState({
-      filterQuery: event.target.value
+  componentDidMount: function() {
+    actionCreator.fetchNotes();
+    var updateStores = function() {
+      var newState = React.addons.update(this.state, {
+        notes: { $set: this.props.notes.toJSON() },
+        notebooks: { $set: this.props.notebooks.toJSON() }
+      });
+      this.setState(newState);
+    }.bind(this);
+    this.props.notes.on('all', function() {
+      updateStores();
+    });
+    this.props.notebooks.on('all', function() {
+      updateStores();
     });
   },
 
-  /*
-    updateNotesList & swapView are state managers. Passed to child components
-    as helper functions to change application state.
-   */
+  componentWillUnmount: function() {
+    this.props.notes.off(null, null, this);
+    this.props.notebooks.off(null, null, this);
+  },
+
+  updateSearch: function (event) {
+    var newState = React.addons.update(this.state, {
+      filterQuery: { $set: event.target.value}
+    });
+    this.setState(newState);
+  },
 
   swapView: function(newView) {
-    this.setState({
-      view: newView,
+    var newState = React.addons.update(this.state, {
+      view: { $set: newView}
     });
+    this.setState(newState);
   },
 
-  //children will access states/data that are passed to them as props
-  //never change props, clone and modify instead
-  //pass callbacks that change state as props to children
   render: function() {
     return (
       <div>
         <div className='side-container'>
-          <SideMenu swapView={this.swapView}/>
+          <SideMenu
+            currentView={this.state.view}
+            swapView={this.swapView}
+          />
         </div>
         <div className='right-container'>
           <TopBar 
@@ -53,8 +74,11 @@ var Jotz = React.createClass({
             swapView={this.swapView}
           />
           <Content
+            currentView={this.state.view}
+            notes={this.state.notes}
+            notebooks={this.state.notebooks}
             filterQuery={this.state.filterQuery}
-            view={this.state.view}
+            currentNote={this.state.currentNote}
             swapView={this.swapView}
           />
         </div>

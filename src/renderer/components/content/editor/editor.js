@@ -28,28 +28,41 @@ var getNewNote = function(note) {
 
 var Editor = React.createClass({
 
-  changed: false,
+  getInitialState: function() {
+    return {
+      note: this.props.note
+    };
+  },
 
   makeGist: function(blockIndex) {
     actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
-  componentWillUnmount: function() {
-    actionCreator.checkForSave({
-      note: this.state.note,
-      changed: this.changed
-    });
-    this.state.note.off(null, null, this);
-  },
-
   createBlock: function() {
-    //actionCreator.createBlock();
-    this.props.note.blocks.push({content: '', language:'text'});
+    var blocks = this.state.note.blocks;
+    blocks.push( { "content": "", "language":"text" } );
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $set: blocks
+        }
+      }
+    });
+    this.setState(newState);
     this.changed = true;
   },
 
   deleteBlock: function(index) {
-    //actionCreator.deleteBlock(index);
+    var blocks = this.state.note.blocks;
+    blocks.splice(index, 1);
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $set: blocks
+        }
+      }
+    });
+    this.setState(newState);
     this.changed = true;
   },
 
@@ -61,12 +74,12 @@ var Editor = React.createClass({
   },
 
   closeEditor: function() {
-    this.props.changeNote('Notes');
+    this.props.swapView('Notes');
   },
 
   deleteNote: function() {
     actionCreator.destroyNote(this.state.note);
-    this.props.changeNote('Notes');
+    this.props.swapView('Notes');
   },
 
   renderBlock: function(block, index) {
@@ -82,16 +95,16 @@ var Editor = React.createClass({
   },
 
   renderBlocks: function() {
-    return this.props.note.blocks.map(this.renderBlock);
+    return this.state.note.blocks.map(this.renderBlock);
   },
 
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
     //var notebookId = null;
-    if (this.props.note._id) {
+    if (this.state.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
-      noteTitle = this.props.note.title;
+      noteTitle = this.state.note.title;
       //notebookId = this.props.note.notebook._id;
     }
     return (

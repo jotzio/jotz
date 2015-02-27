@@ -45,6 +45,16 @@ var Editor = React.createClass({
     actionCreator.makeGist(this.props.note.get('blocks')[blockIndex]);
   },
 
+  updateTitle: function(event) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        title: { $set: event.target.value}
+      }
+    });
+    this.setState(newState);
+    this.changed = true;
+  },
+
   createBlock: function() {
     var newState = React.addons.update(this.state, {
       note: {
@@ -93,6 +103,7 @@ var Editor = React.createClass({
   //flux activity here, props is sent (not changed)
   //via dispatch to update store
   saveNote: function() {
+    console.log(this.state.note);
     actionCreator.saveNote(this.state.note);
     this.changed = false;
   },

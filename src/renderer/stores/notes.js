@@ -58,8 +58,8 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    this.note = this.add(payload.content, { merge: true });
-    ipc.send('save-note', this.note);
+    this.currentNote = this.add(payload.content, { merge: true });
+    ipc.send('save-note', this.currentNote);
     // TODO: Add this back in after moving NoteBook to a Backbone Model
     //NotebooksStore.saveNotebook(note);
   },
@@ -93,8 +93,7 @@ var Notes = Backbone.Collection.extend({
       // pull it out of collection and add error message to user?
       this.fetchNotes();
     } else {
-      // display 'note saved!' message to user
-      this.note.set(note.attributes);
+      this.currentNote.set(note.attributes);
       this.fetchNotes();
       console.log('note saved successfully');
     }

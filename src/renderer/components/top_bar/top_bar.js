@@ -13,13 +13,13 @@ var TopBar = React.createClass({
         blocks: [
           {
             language: 'text',
-            content: ''
+            content: 'helloohelllooooo'
           }
         ]
       }
     );
-    console.log('swapping to editor');
-    this.props.swapView('Editor', note.toJson());
+    console.log('swapping to editor', note.toJSON());
+    this.props.swapView('Editor', note.toJSON());
   },
 
   render: function() {

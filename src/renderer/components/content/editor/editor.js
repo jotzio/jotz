@@ -44,6 +44,7 @@ var Editor = React.createClass({
 
   createBlock: function() {
     //actionCreator.createBlock();
+    this.props.note.blocks.push({content: '', language:'text'});
     this.changed = true;
   },
 
@@ -87,11 +88,11 @@ var Editor = React.createClass({
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
-    var notebookId = null;
+    //var notebookId = null;
     if (this.props.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
       noteTitle = this.props.note.title;
-      notebookId = this.props.note.notebook._id;
+      //notebookId = this.props.note.notebook._id;
     }
     return (
       <div className='ace-editor-container'>

@@ -14,10 +14,10 @@ var Jotz = React.createClass({
 
   //State created here
   getInitialState: function() {
-    console.log(NotebookStore.toJSON());
+    console.log(this.props.notes.toJSON());
     return {
-      notes: NotesStore.toJSON(),
-      notebooks: NotebookStore.toJSON(),
+      notes: null,
+      notebooks: null,
       view: 'Notes',
       currentNote: null,
       filterQuery: ''
@@ -25,12 +25,24 @@ var Jotz = React.createClass({
   },
 
   componentDidMount: function() {
+    var array = this.props.notes.map(function(note) {
+      console.log(note);
+      return note.toJSON();
+    });
+    console.log(array);
+
+    var update = this.forceUpdate.bind(this);
     this.props.notes.on('all', function() {
-      this.forceUpdate();
+      update();
     });
     this.props.notebooks.on('all', function() {
-      this.forceUpdate();
+      update();
     });
+  },
+
+  componentWillUnmount: function() {
+    this.props.notes.off(null, null, this);
+    this.props.notebooks.off(null, null, this);
   },
 
   updateSearch: function (event) {

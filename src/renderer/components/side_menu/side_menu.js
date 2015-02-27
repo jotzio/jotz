@@ -34,7 +34,7 @@ var SideMenu = React.createClass({
         <MenuItem
           active={this.props.currentView === menuItem.name}
           key={menuItem.name}
-          swapView={this.swapView}
+          swapView={this.props.swapView}
           name={menuItem.name}
           icon={menuItem.icon}
         />

@@ -11,6 +11,16 @@ var Note = require('../../../stores/note');
  */
 
 var getNewNote = function(note) {
+  note = note || new Note(
+    {
+      blocks: [
+        {
+          language: 'text',
+          content: ''
+        }
+      ]
+    }
+  ).toJSON();
   return {
     note: note || new Note()
   };
@@ -21,9 +31,7 @@ var Editor = React.createClass({
   changed: false,
 
   getInitialState: function() {
-    return {
-      note: this.props.note
-    };
+    return getNewNote(this.props.note);
   },
 
   componentWillUnmount: function() {
@@ -90,12 +98,12 @@ var Editor = React.createClass({
   },
 
   closeEditor: function() {
-    this.props.swapView('Notes');
+    this.props.changeNote('Notes');
   },
 
   deleteNote: function() {
     actionCreator.destroyNote(this.state.note);
-    this.props.swapView('Notes');
+    this.props.changeNote('Notes');
   },
 
   renderBlock: function(block, index) {

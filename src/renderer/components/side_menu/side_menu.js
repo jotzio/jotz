@@ -6,11 +6,11 @@ var SideMenu = React.createClass({
     return {
       menuItems: [
         {
-          name: 'Notes',
+          category: 'Notes',
           icon: 'fonts/icons/document.svgz'
         },
         {
-          name: 'Notebooks',
+          category: 'Notebooks',
           icon: 'fonts/icons/book.svgz'
         }
       ]
@@ -32,10 +32,10 @@ var SideMenu = React.createClass({
     var menuItems = this.props.menuItems.map(function(menuItem) {
       return (
         <MenuItem
-          active={this.props.currentView === menuItem.name}
-          key={menuItem.name}
+          active={this.props.currentView === menuItem.category}
+          key={menuItem.category}
           swapView={this.props.swapView}
-          name={menuItem.name}
+          category={menuItem.category}
           icon={menuItem.icon}
         />
       );

@@ -8,18 +8,17 @@ var Search = require('./search');
 
 var TopBar = React.createClass({
   handleNewNote: function() {
-    var note = new Note(
-      {
-        blocks: [
-          {
-            language: 'text',
-            content: 'helloohelllooooo'
-          }
-        ]
-      }
-    );
-    console.log('swapping to editor', note.toJSON());
-    this.props.swapView('Editor', note.toJSON());
+  //  var note = new Note(
+  //    {
+  //      blocks: [
+  //        {
+  //          language: 'text',
+  //          content: 'helloohelllooooo'
+  //        }
+  //      ]
+  //    }
+  //  );
+    this.props.swapView('Editor');
   },
 
   render: function() {

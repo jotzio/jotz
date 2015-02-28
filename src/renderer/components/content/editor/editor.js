@@ -68,7 +68,12 @@ var Editor = React.createClass({
   },
 
   makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.state.note.get('blocks')[blockIndex]);
+    var payload = {
+      block: this.state.note.get('blocks')[blockIndex],
+      note: this.state.note,
+      blockIdx: blockIndex
+    };
+    actionCreator.makeGist(payload);
   },
 
   deleteBlock: function(index) {

@@ -30,7 +30,8 @@ var JotzBrowser = Backbone.Model.extend({
       'sendCheckSaveReply',
       'makeGist',
       'handleOAuthCompletion',
-      'publishGist'
+      'publishGist',
+      'handleGistUpdateOfNote'
     );
   },
   initialize: function() {
@@ -51,6 +52,7 @@ var JotzBrowser = Backbone.Model.extend({
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     this.get('oAuthBrowser').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.get('gistBrowser').on('note-updated-by-gist', this.handleGistUpdateOfNote);
     this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);

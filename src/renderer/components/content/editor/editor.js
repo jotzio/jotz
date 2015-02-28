@@ -12,26 +12,11 @@ var Note = require('../../../stores/note');
 
 var getNewNote = function(note) {
   //already json
-  if (note) {
-    return {
-      note: note
-    }
-  } else {
-    note = new Note(
-      {
-        blocks: [
-          {
-            language: 'text',
-            content: ''
-          }
-        ]
-      }
-    );
-    return {
-      note: note.toJSON(),
-      noteModel: note
-    };
-  }
+  note = note || new Note();
+  return {
+    note: note.toJSON(),
+    noteModel: note
+  };
 };
 
 var Editor = React.createClass({
@@ -43,23 +28,27 @@ var Editor = React.createClass({
   },
 
   componentDidMount: function() {
-    debugger;
-    if(this.state.noteModel){
-      this.state.noteModel.on('all', function() {
-        this.forceUpdate();
-      }.bind(this));
-    }
+    console.log(this.props.note);
+    this.props.notes.on('add change remove', function(model) {
+      this.setState({
+        note: model.toJSON(),
+        noteModel: model
+      });
+    }, this);
   },
 
   componentWillUnmount: function() {
+    this.props.notes.off(null, null, this);
+
+    var model = this.state.noteModel.set(this.state.note);
     actionCreator.checkForSave({
-      note: this.state.note,
+      note: model,
       changed: this.changed
     });
   },
 
   makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.props.note.blocks[blockIndex]);
+    actionCreator.makeGist(this.state.note.attributes.blocks[blockIndex]);
   },
 
   updateTitle: function(event) {
@@ -109,10 +98,8 @@ var Editor = React.createClass({
   },
 
   saveNote: function() {
-    console.log(this.state.note);
-    debugger;
-    actionCreator.saveNote(this.state.note);
-    this.forceUpdate();
+    var model = this.state.noteModel.set(this.state.note);
+    actionCreator.saveNote(model);
     this.changed = false;
   },
 
@@ -121,7 +108,7 @@ var Editor = React.createClass({
   },
 
   deleteNote: function() {
-    actionCreator.destroyNote(this.state.note);
+    actionCreator.destroyNote(this.state.noteModel);
     this.props.changeNote('Notes');
   },
 
@@ -146,10 +133,10 @@ var Editor = React.createClass({
     var deleteBtn = null;
     var noteTitle = '';
     //var notebookId = null;
-    if (this.state.note._id) {
+    if (this.state.note && this.state.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
       noteTitle = this.state.note.title;
-      //notebookId = this.props.note.notebook._id;
+      //notebookId = this.state.note.notebook._id;
     }
     return (
       <div className='ace-editor-container'>

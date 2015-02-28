@@ -6,11 +6,11 @@ var actionCreator = require('../../../actions/action_creator');
 var NotesList = React.createClass({
 
   filterQuery: function(note) { 
-    return note.title.toLowerCase().indexOf(this.props.filterQuery);
+    return note.get('title').toLowerCase().indexOf(this.props.filterQuery);
   },
 
   filterBlocks: function(note) {
-    var blocks = _.pluck(note.blocks, 'content');
+    var blocks = _.pluck(note.get('blocks'), 'content');
     return blocks.join(' ').toLowerCase().indexOf(this.props.filterQuery);
   },
 
@@ -23,9 +23,9 @@ var NotesList = React.createClass({
   },
 
   renderNotes: function() {
-    return _.filter(this.props.notes, this.filterItems).map(function(note) {
+    return _.filter(this.props.notes.models, this.filterItems).map(function(note) {
       return <NoteItem
-        key={note._id}
+        key={note.attributes._id}
         changeNote={this.props.changeNote}
         note={note}
       />;

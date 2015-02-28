@@ -28,8 +28,8 @@ var NotesAPI = (function() {
       noteData.updatedAt = time;
       jsf.writeFile(filePath, noteData, function(err) {
         if(!err) {
-          note.createdAt = noteData.createdAt;
-          note.updatedAt = noteData.updatedAt;
+          note.attributes.createdAt = noteData.createdAt;
+          note.attributes.updatedAt = noteData.updatedAt;
         }
         cb(err, note);
       });
@@ -66,10 +66,10 @@ var NotesAPI = (function() {
   // Public API
   return {
     saveNote: function(note, cb) {
-      note._id = note._id || utils.createGuid();
-      var filename = api.noteFilename(note._id);
+      note.attributes._id = note.attributes._id || utils.createGuid();
+      var filename = api.noteFilename(note.attributes._id);
       api.findNote(filename, function() {
-          api.writeNote(filename, note, note, cb);
+        api.writeNote(filename, note.attributes, note, cb);
       });
     },
     destroyNote: function(noteId, cb) {

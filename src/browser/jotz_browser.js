@@ -30,7 +30,8 @@ var JotzBrowser = Backbone.Model.extend({
       'sendCheckSaveReply',
       'makeGist',
       'handleOAuthCompletion',
-      'publishGist'
+      'publishGist',
+      'handleGistUpdateOfNote'
     );
   },
   initialize: function() {
@@ -51,6 +52,7 @@ var JotzBrowser = Backbone.Model.extend({
   registerEvents: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     this.get('oAuthBrowser').on('oauth-window-closed', this.handleOAuthCompletion);
+    this.get('gistBrowser').on('note-updated-by-gist', this.handleGistUpdateOfNote);
     this.on('gh-authenticated', this.publishGist);
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
@@ -100,8 +102,8 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('check-for-save-reply', true, note);
     }
   },
-  makeGist: function(e, noteBlock) {
-    this.get('gistBrowser').makeGist(noteBlock);
+  makeGist: function(e, payload) {
+    this.get('gistBrowser').makeGist(payload);
   },
   handleOAuthCompletion: function(body) {
     // TODO 1. Show loading display progress to user ('saving your settings')
@@ -116,7 +118,10 @@ var JotzBrowser = Backbone.Model.extend({
     // TODO 3. show gist publication progress display
   },
   publishGist: function(authData) {
-    this.get('gistBrowser').publishGist(this.get('noteBlock'), authData);
+    this.get('gistBrowser').publishGist(this.get('payload'), authData);
+  },
+  handleGistUpdateOfNote: function(updatedNote) {
+    this.get('mainWindow').webContents.send('make-gist-reply', updatedNote.attributes);
   }
 });
 

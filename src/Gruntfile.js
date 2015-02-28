@@ -17,7 +17,8 @@ module.exports = function(grunt) {
     'build-atom-shell': {
       tag: 'v0.21.2',
       nodeVersion: '0.16.0',
-      buildDir: '../atom_shell',
+      buildDir: '../build',
+      targetDir: '../atom_shell',
       projectName: 'jotz',
       productName: 'Jotz'
     },
@@ -204,7 +205,7 @@ module.exports = function(grunt) {
       }
     },
     boot: {
-      command: '../atom_shell/Atom.app/Contents/MacOS/Atom',
+      command: '../atom_shell/Jotz.app/Contents/MacOS/Jotz',
       options: {
         failOnError: true,
         stdout: true,

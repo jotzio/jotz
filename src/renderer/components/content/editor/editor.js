@@ -63,6 +63,10 @@ var Editor = React.createClass({
     this.setState(newState);
   },
 
+  toggleNotebookCreator: function() {
+    this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
+  },
+
   updateNotebook: function(notebook) {
     var newState = React.addons.update(this.state, {
       note: {
@@ -97,15 +101,6 @@ var Editor = React.createClass({
     this.setState(newState);
   },
 
-  makeGist: function(blockIndex) {
-    var payload = {
-      block: this.state.note.blocks[blockIndex],
-      note: this.state.noteModel.set(this.state.note),
-      blockIdx: blockIndex
-    };
-    actionCreator.makeGist(payload);
-  },
-
   deleteBlock: function(index) {
     var newState = React.addons.update(this.state, {
       note: {
@@ -117,22 +112,28 @@ var Editor = React.createClass({
     this.setState(newState);
   },
 
+  makeGist: function(blockIndex) {
+    var payload = {
+      block: this.state.note.blocks[blockIndex],
+      note: this.state.noteModel.set(this.state.note),
+      blockIdx: blockIndex
+    };
+    actionCreator.makeGist(payload);
+  },
+
   saveNote: function() {
     var model = this.state.noteModel.set(this.state.note);
     actionCreator.saveNote(model);
   },
 
-  closeEditor: function() {
-    this.props.changeNote('Notes');
-  },
 
   deleteNote: function() {
     actionCreator.destroyNote(this.state.noteModel);
     this.closeEditor();
   },
 
-  toggleNotebookCreator: function() {
-    this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
+  closeEditor: function() {
+    this.props.changeNote('Notes');
   },
 
   renderNbSelector: function() {

@@ -34,7 +34,9 @@ var NoteBlock = React.createClass({
     return {
       index: this.props.blockIndex,
       content: this.getText(),
-      language: language || this.props.language
+      language: language || this.props.language,
+      gistId: this.props.blockGistId,
+      gistUrl: this.props.blockGistUrl
     };
   },
 

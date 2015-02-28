@@ -11,18 +11,8 @@ var Note = require('../../../stores/note');
  */
 
 var getNewNote = function(note) {
-  note = note || new Note(
-    {
-      blocks: [
-        {
-          language: 'text',
-          content: ''
-        }
-      ]
-    }
-  );
   return {
-    note: note
+    note: note || new Note()
   };
 };
 

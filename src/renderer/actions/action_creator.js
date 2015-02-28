@@ -7,11 +7,6 @@ var actionCreator = {
       content: content
     });
   },
-  createNote: function() {
-    JotzDispatcher.dispatch({
-      actionType: 'create-note'
-    });
-  },
   destroyNote: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'destroy-note',
@@ -29,28 +24,9 @@ var actionCreator = {
       content: content
     });
   },
-  createBlock: function() {
+  createNote: function() {
     JotzDispatcher.dispatch({
-      actionType: 'create-block'
-    });
-  },
-  updateBlock: function(content) {
-    JotzDispatcher.dispatch({
-      actionType: 'update-block',
-      content: content
-    });
-  },
-  updateTitle: function(content) {
-    JotzDispatcher.dispatch({
-      actionType: 'update-title',
-      content: content
-    });
-  },
-
-  deleteBlock: function(content) {
-    JotzDispatcher.dispatch({
-      actionType: 'delete-block',
-      index: content
+      actionType: 'create-note'
     });
   },
   saveNotebook: function(content) {

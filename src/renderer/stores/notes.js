@@ -5,7 +5,6 @@ var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Note = require('./note');
 var NotebooksStore = require('./notebooks');
 
-
 var Notes = Backbone.Collection.extend({
   model: Note,
 
@@ -60,9 +59,13 @@ var Notes = Backbone.Collection.extend({
   },
 
   saveNote: function(payload) {
-    this.currentNote = this.add(payload.content, { merge: true });
-    ipc.send('save-note', this.currentNote);
-    // TODO: Add this back in after moving NoteBook to a Backbone Model
+    this.currentNote = this.findWhere({ _id: payload.content._id });
+    if (this.currentNote) {
+      this.currentNote.set(payload.content, { merge: true });
+    } else {
+      this.currentNote = this.add(new Note(payload.content));
+    }
+    ipc.send('save-note', payload.content);
     //NotebooksStore.saveNotebook(note);
   },
 
@@ -71,8 +74,8 @@ var Notes = Backbone.Collection.extend({
   },
 
   destroyNote: function(payload) {
-    var _id = payload.content.get('_id');
-    this.remove(payload.content);
+    var _id = payload.content._id;
+    this.remove(this.findWhere({ _id: _id}));
     ipc.send('destroy-note', _id);
   },
 
@@ -82,7 +85,7 @@ var Notes = Backbone.Collection.extend({
 
   handleCheckForSaveReply: function(saveStatus, note) {
     if (saveStatus && note) {
-      this.add(note, { merge: true });
+      this.currentNote = this.add(new Note(note), { merge: true });
       ipc.send('save-note', note);
     } else {
       this.fetchNotes();
@@ -95,14 +98,15 @@ var Notes = Backbone.Collection.extend({
       // pull it out of collection and add error message to user?
       this.fetchNotes();
     } else {
-      this.currentNote.set(note.attributes);
+      debugger;
+      this.currentNote.set(note);
       this.fetchNotes();
       console.log('note saved successfully');
     }
   },
 
   handleFetchNotesReply: function(notes) {
-    this.reset(notes);
+    this.set(notes);
   },
 
   handleDestroyNoteReply: function(err) {

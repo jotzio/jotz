@@ -2,42 +2,53 @@ var React = require('react/addons');
 var _ = require('underscore');
 var actionCreator = require('../../../actions/action_creator');
 var NoteBlock = require('./note_block');
+var NotebookSelector = require('./notebook_selector');
 var Note = require('../../../stores/note');
 
 /*
  Contains functions for each note.
  Renders NoteBlocks which are stored together in an array as a note.
- TODO: change title h3 to input and add state callback to update note
  */
 
 var getNewNote = function(note) {
-  note = note || new Note(
-    {
-      blocks: [
-        {
-          language: 'text',
-          content: ''
-        }
-      ]
+  //already json
+  if (note) {
+    return {
+      note: note
     }
-  );
-  return {
-    note: note
-  };
+  } else {
+    note = new Note(
+      {
+        blocks: [
+          {
+            language: 'text',
+            content: ''
+          }
+        ]
+      }
+    );
+    return {
+      note: note.toJSON(),
+      noteModel: note
+    };
+  }
 };
 
 var Editor = React.createClass({
-  getInitialState: function() {
-    return getNewNote(this.props.note);
-  },
-  //newBlock and updateBlock = self explanatory
-  //Be careful with changing props, can wipe noteblocks if blocks prop is messed with
-  //Everything is Asynchronous, and using replaceState will wipe all blocks, deleting the note
 
   changed: false,
 
+  getInitialState: function() {
+    return getNewNote(this.props.note);
+  },
+
   componentDidMount: function() {
-    this.state.note.on('all', this.updateComp, this);
+    debugger;
+    if(this.state.noteModel){
+      this.state.noteModel.on('all', function() {
+        this.forceUpdate();
+      }.bind(this));
+    }
   },
 
   componentWillUnmount: function() {
@@ -45,41 +56,63 @@ var Editor = React.createClass({
       note: this.state.note,
       changed: this.changed
     });
-    this.state.note.off(null, null, this);
-  },
-
-  updateComp: function() {
-    this.forceUpdate();
-  },
-
-  createBlock: function() {
-    actionCreator.createBlock();
-    this.changed = true;
-  },
-
-  updateBlock: function(blockData) {
-    actionCreator.updateBlock(blockData);
-    this.changed = true;
-  },
-
-  updateTitle: function(event) {
-    actionCreator.updateTitle(event.target.value);
-    this.changed = true;
   },
 
   makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.state.note.get('blocks')[blockIndex]);
+    actionCreator.makeGist(this.props.note.blocks[blockIndex]);
   },
 
-  deleteBlock: function(index) {
-    actionCreator.deleteBlock(index);
+  updateTitle: function(event) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        title: { $set: event.target.value }
+      }
+    });
+    this.setState(newState);
     this.changed = true;
   },
 
-  //flux activity here, props is sent (not changed)
-  //via dispatch to update store
+  createBlock: function() {
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $push: [ { "content": "", "language":"text" } ]
+        }
+      }
+    });
+    this.setState(newState);
+    this.changed = true;
+  },
+
+  updateBlock: function(block) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $splice: [[block.index, 1, block.update]]
+        }
+      }
+    });
+    this.setState(newState);
+    this.changed = true;
+  },
+
+  deleteBlock: function(index) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        blocks: {
+          $splice: [[index, 1]]
+        }
+      }
+    });
+    this.setState(newState);
+    this.changed = true;
+  },
+
   saveNote: function() {
+    console.log(this.state.note);
+    debugger;
     actionCreator.saveNote(this.state.note);
+    this.forceUpdate();
     this.changed = false;
   },
 
@@ -92,7 +125,7 @@ var Editor = React.createClass({
     this.props.changeNote('Notes');
   },
 
-  newBlock: function(block, index) {
+  renderBlock: function(block, index) {
     return (
       <NoteBlock
         text={block.content}
@@ -105,18 +138,18 @@ var Editor = React.createClass({
     );
   },
 
-  //Called in render, this reads the blocks data and creates NoteBLocks,
-  //NoteBLock appends text/value to ace editor
   renderBlocks: function() {
-    return this.state.note.get('blocks').map(this.newBlock);
+    return this.state.note.blocks.map(this.renderBlock);
   },
 
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
-    if (this.state.note.get('_id')) {
+    //var notebookId = null;
+    if (this.state.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
-      noteTitle = this.state.note.get('title');
+      noteTitle = this.state.note.title;
+      //notebookId = this.props.note.notebook._id;
     }
     return (
       <div className='ace-editor-container'>

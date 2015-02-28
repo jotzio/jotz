@@ -1,72 +1,37 @@
 var React = require('react');
-
-var MenuItem = React.createClass({
-  handleClick: function(e) {
-    e.preventDefault();
-    this.props.onSelect(this.props.uid);
-  },
-
-  render: function() {
-    var className = this.props.active ? 'active ' : '';
-    className += 'main-nav-item';
-
-    var titleClassName = this.props.uid + ' main-nav-title';
-
-    return (
-      <li className={className} onClick={this.handleClick}>
-        <img data-src={this.props.icon} className='iconic iconic-md main-nav-icon' />
-        <p className={titleClassName}>{this.props.uid}</p>
-      </li>
-    )
-  }
-});
+var MenuItem = require('./menu_item.js');
 
 var SideMenu = React.createClass({
   getDefaultProps: function() {
     return {
       menuItems: [
         {
-          uid: 'Notes',
+          category: 'Notes',
           icon: 'fonts/icons/document.svgz'
         },
         {
-          uid: 'Notebooks',
+          category: 'Notebooks',
           icon: 'fonts/icons/book.svgz'
         }
       ]
     };
   },
 
-  getInitialState: function() {
-    return {
-      activeMenuItemUid: 'Notes'
-    }
-  },
-
-  setActiveMenuItem: function(uid) {
-    this.setState({activeMenuItemUid: uid});
-    this.props.swapView(uid);
-  },
-
   render: function() {
     var menuItems = this.props.menuItems.map(function(menuItem) {
       return (
         <MenuItem
-          active={this.state.activeMenuItemUid === menuItem.uid}
-          key={menuItem.uid}
-          onSelect={this.setActiveMenuItem}
-          uid={menuItem.uid}
+          active={this.props.currentView === menuItem.category}
+          key={menuItem.category}
+          swapView={this.props.swapView}
+          category={menuItem.category}
           icon={menuItem.icon}
         />
       );
     }.bind(this));
 
-    var classes = {
-      sideMenu: 'side-menu',
-      notebooksLink: 'notebooks-link'
-    };
     return (
-      <div className={classes.sideMenu}>
+      <div className='side-menu notebooks-link'>
         <h1 className='logo'>Jotz</h1>
         <ul className='main-nav'>
           {menuItems}

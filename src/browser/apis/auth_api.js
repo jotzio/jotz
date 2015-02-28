@@ -23,7 +23,7 @@ var AuthAPI = (function() {
     initialize: function(options) {
       this.set('jotzBrowser', options.jotzBrowser);
       this.set('configs', wConfig);
-      this.set('authEndpoint', 'http://localhost:8000/api/auth/ghlogin/');
+      this.set('authEndpoint', 'https://jotz-services.herokuapp.com/api/auth/ghlogin');
       this.set('oAuthCount', 0);
       this.bindMtds();
       this.set('oAuthWindow', null);

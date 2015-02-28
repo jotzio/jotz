@@ -21,14 +21,12 @@ var getNewNote = function(note) {
 
 var Editor = React.createClass({
 
-  changed: false,
-
   getInitialState: function() {
     return getNewNote(this.props.note);
   },
 
+  // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
   componentDidMount: function() {
-    console.log(this.props.note);
     this.props.notes.on('add change remove', function(model) {
       this.setState({
         note: model.toJSON(),
@@ -41,10 +39,12 @@ var Editor = React.createClass({
     this.props.notes.off(null, null, this);
 
     var model = this.state.noteModel.set(this.state.note);
-    actionCreator.checkForSave({
-      note: model,
-      changed: this.changed
-    });
+
+    if (model.changedAttributes()) {
+      actionCreator.checkForSave({
+        note: model
+      });
+    }
   },
 
   makeGist: function(blockIndex) {
@@ -58,7 +58,6 @@ var Editor = React.createClass({
       }
     });
     this.setState(newState);
-    this.changed = true;
   },
 
   createBlock: function() {
@@ -70,7 +69,6 @@ var Editor = React.createClass({
       }
     });
     this.setState(newState);
-    this.changed = true;
   },
 
   updateBlock: function(block) {
@@ -82,7 +80,6 @@ var Editor = React.createClass({
       }
     });
     this.setState(newState);
-    this.changed = true;
   },
 
   deleteBlock: function(index) {
@@ -94,13 +91,11 @@ var Editor = React.createClass({
       }
     });
     this.setState(newState);
-    this.changed = true;
   },
 
   saveNote: function() {
     var model = this.state.noteModel.set(this.state.note);
     actionCreator.saveNote(model);
-    this.changed = false;
   },
 
   closeEditor: function() {

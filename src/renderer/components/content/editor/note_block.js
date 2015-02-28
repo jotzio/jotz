@@ -32,7 +32,6 @@ var NoteBlock = React.createClass({
   },
 
   updateBlockContent: function() {
-    console.log('updating content');
     this.props.updateBlock(this.getBlockData());
   },
 
@@ -73,7 +72,6 @@ var NoteBlock = React.createClass({
   },
 
   componentDidUpdate: function() {
-    console.log('setting text');
     this.editor.setText(this.props.text);
   },
 

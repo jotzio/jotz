@@ -102,8 +102,8 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('check-for-save-reply', true, note);
     }
   },
-  makeGist: function(e, noteBlock) {
-    this.get('gistBrowser').makeGist(noteBlock);
+  makeGist: function(e, payload) {
+    this.get('gistBrowser').makeGist(payload);
   },
   handleOAuthCompletion: function(body) {
     // TODO 1. Show loading display progress to user ('saving your settings')

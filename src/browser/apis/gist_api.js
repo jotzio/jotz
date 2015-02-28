@@ -6,6 +6,7 @@ var utils = require('../utils/global');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var request = require('request');
+var NotesAPI = require('./notes_api');
 
 
 var GistBrowser = Backbone.Model.extend({
@@ -24,24 +25,39 @@ var GistBrowser = Backbone.Model.extend({
       body: content
     };
   },
-  makeGist: function(noteBlock) {
-    this.get('jotzBrowser').get('oAuthBrowser').ghAuthenticated(this.authSwitch.bind(this, noteBlock));
+  makeGist: function(payload) {
+    this.get('jotzBrowser').get('oAuthBrowser').ghAuthenticated(this.authSwitch.bind(this, payload));
   },
-  publishGist: function(noteBlock, authData) {
+  publishGist: function(payload, authData) {
+    var note = payload.note;
+    var block = payload.block;
+    var blockIdx = payload.blockIdx;
+
     var content = {
       githubId: authData.githubId,
       ghAccessToken: authData.ghAccessToken,
-      noteBlock: noteBlock
+      noteBlock: block,
+      noteTitle: note.attributes.title
     };
+
     request(this.gistConfigs(content), function(err, res, body) {
-      // TODO: handle gist publication response
-    });
+      if (!err) {
+        block.gistUrl = body.gistUrl;
+        block.gistId = body.gistId;
+        note.attributes.blocks[blockIdx] = block;
+        NotesAPI.saveNote(note, function(err, updatedNote) {
+          if (!err) {
+            this.trigger('note-updated-by-gist', updatedNote);
+          }
+        }.bind(this));
+      }
+    }.bind(this));
   },
-  authSwitch: function(noteBlock, authData) {
+  authSwitch: function(payload, authData) {
     if (authData) {
-      this.publishGist(noteBlock, authData);
+      this.publishGist(payload, authData);
     } else {
-      this.get('jotzBrowser').set('noteBlock', noteBlock);
+      this.get('jotzBrowser').set('payload', payload);
       this.get('jotzBrowser').get('oAuthBrowser').runGhOAuth();
     }
   }

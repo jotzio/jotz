@@ -21,7 +21,7 @@ var GistBrowser = Backbone.Model.extend({
     return {
       method: 'POST',
       json: true,
-      url: 'http://localhost:8000/api/gists/publish',
+      url: 'https://jotz-services.herokuapp.com/api/gists/publish',
       body: content
     };
   },

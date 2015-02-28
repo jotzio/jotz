@@ -28,8 +28,8 @@ var NotesAPI = (function() {
       noteData.updatedAt = time;
       jsf.writeFile(filePath, noteData, function(err) {
         if(!err) {
-          note.attributes.createdAt = noteData.createdAt;
-          note.attributes.updatedAt = noteData.updatedAt;
+          note.createdAt = noteData.createdAt;
+          note.updatedAt = noteData.updatedAt;
         }
         cb(err, note);
       });

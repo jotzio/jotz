@@ -56,12 +56,14 @@ var Note = Backbone.Model.extend({
     var blocks = this.get('blocks');
     blocks[i] = {
       language: payload.content.language,
-      content: payload.content.content || ''
+      content: payload.content.content || '',
+      gistId: payload.content.gistId || '',
+      gistUrl: payload.content.gistUrl || ''
     };
     this.set('blocks', blocks);
     this.trigger('block-updated');
   },
-  
+
   deleteBlock: function(payload) {
     var blocks = this.get('blocks');
     blocks.splice(payload.index, 1);
@@ -71,4 +73,3 @@ var Note = Backbone.Model.extend({
 });
 
 module.exports = Note;
-

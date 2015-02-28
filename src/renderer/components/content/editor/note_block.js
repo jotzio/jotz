@@ -3,12 +3,12 @@ var BlockMenu = require('./block_menu');
 var AceEditor = require('./ace_editor');
 
 /*
-  Each NoteBlock contains an instance of AceEditor.
-  Bring themes and languages in via require in aceConfig.js.
-  Callbacks for changing langauges and themes defined here
-  BlockMenu is where the changeable menu items are located
-  TODO: add themes, make text blocks render different themes than code blocks
- */
+ * Each NoteBlock contains an instance of AceEditor.
+ * Bring themes and languages in via require in aceConfig.js.
+ * Callbacks for changing langauges and themes defined here
+ * BlockMenu is where the changeable menu items are located
+ * TODO: add themes, make text blocks render different themes than code blocks
+*/
 
 var NoteBlock = React.createClass({
   getInitialState: function() {

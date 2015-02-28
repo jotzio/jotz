@@ -11,19 +11,27 @@ var Note = require('../../../stores/note');
  */
 
 var getNewNote = function(note) {
-  note = note || new Note(
-    {
-      blocks: [
-        {
-          language: 'text',
-          content: ''
-        }
-      ]
+  //already json
+  if (note) {
+    return {
+      note: note
     }
-  ).toJSON();
-  return {
-    note: note || new Note()
-  };
+  } else {
+    note = new Note(
+      {
+        blocks: [
+          {
+            language: 'text',
+            content: ''
+          }
+        ]
+      }
+    );
+    return {
+      note: note.toJSON(),
+      noteModel: note
+    };
+  }
 };
 
 var Editor = React.createClass({
@@ -32,6 +40,15 @@ var Editor = React.createClass({
 
   getInitialState: function() {
     return getNewNote(this.props.note);
+  },
+
+  componentDidMount: function() {
+    debugger;
+    if(this.state.noteModel){
+      this.state.noteModel.on('all', function() {
+        this.forceUpdate();
+      }.bind(this));
+    }
   },
 
   componentWillUnmount: function() {
@@ -102,7 +119,9 @@ var Editor = React.createClass({
 
   saveNote: function() {
     console.log(this.state.note);
+    debugger;
     actionCreator.saveNote(this.state.note);
+    this.forceUpdate();
     this.changed = false;
   },
 

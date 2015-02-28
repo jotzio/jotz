@@ -98,6 +98,7 @@ var Notes = Backbone.Collection.extend({
       // TODO: ask guys how we want to handle error
       this.fetchNotes();
     } else {
+      debugger;
       this.currentNote.set(note);
       this.fetchNotes();
       console.log('note saved successfully');

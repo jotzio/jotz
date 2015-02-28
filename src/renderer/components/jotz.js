@@ -17,6 +17,7 @@ var Jotz = React.createClass({
     return {
       notes: null,
       notebooks: null,
+      currentNote: null,
       view: 'Notes',
       filterQuery: ''
     };
@@ -58,6 +59,15 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
+  changeNote: function(newView, note) {
+    note = note || null;
+    var newState = React.addons.update(this.state, {
+      currentNote: { $set: note },
+      view: { $set: newView }
+    });
+    this.setState(newState);
+  },
+
   render: function() {
     return (
       <div>
@@ -80,6 +90,7 @@ var Jotz = React.createClass({
             filterQuery={this.state.filterQuery}
             currentNote={this.state.currentNote}
             swapView={this.swapView}
+            changeNote={this.changeNote}
           />
         </div>
       </div>

@@ -3,59 +3,97 @@ var SideMenu = require('./side_menu/side_menu');
 var Content = require('./content/content');
 var TopBar = require('./top_bar/top_bar');
 var actionCreator = require('../actions/action_creator');
+//var NotesStore = require('../stores/notes');
+//var NotebookStore = require('../stores/notebooks');
 
 /*
   This is where the applications state is created/managed.
   TODO: Link up fetchNotes to allNotes for notelist view (getInitialState)
-  TODO: Decide on React.js style guide eg: changeView vs newNote
  */
 
 var Jotz = React.createClass({
 
-  //State created here
   getInitialState: function() {
     return {
+      currentNote: null,
       view: 'Notes',
       filterQuery: ''
     };
   },
 
+  componentDidMount: function() {
+    actionCreator.fetchNotes();
+    this.props.notes.on('add change remove', function(model) {
+      var newState = React.addons.update(this.state, {
+        currentNote: { $set: model }
+      });
+      this.setState(newState);
+    }, this);
+    this.props.notebooks.on('add change remove', function() {
+      this.forceUpdate();
+    }.bind(this));
+  },
+
+  componentWillUnmount: function() {
+    this.props.notes.off(null, null, this);
+    this.props.notebooks.off(null, null, this);
+  },
+
   updateSearch: function (event) {
-    this.setState({
-      filterQuery: event.target.value
+    var newState = React.addons.update(this.state, {
+      filterQuery: { $set: event.target.value}
     });
+    this.setState(newState);
   },
 
-  /*
-    updateNotesList & swapView are state managers. Passed to child components
-    as helper functions to change application state.
-   */
-
-  swapView: function(newView) {
-    this.setState({
-      view: newView,
+  swapView: function(newView, cb) {
+    var newState = React.addons.update(this.state, {
+      view: { $set: newView}
     });
+    if (cb) {
+      this.setState(newState, cb);
+    } else {
+      this.setState(newState);
+    }
   },
 
-  //children will access states/data that are passed to them as props
-  //never change props, clone and modify instead
-  //pass callbacks that change state as props to children
+  changeNote: function(newView, note, cb) {
+    note = note || null;
+    var newState = React.addons.update(this.state, {
+      currentNote: { $set: note },
+      view: { $set: newView }
+    });
+    if (cb) {
+      this.setState(newState, cb);
+    } else {
+      this.setState(newState);
+    }
+  },
+
   render: function() {
     return (
       <div>
         <div className='side-container'>
-          <SideMenu swapView={this.swapView}/>
+          <SideMenu
+            currentView={this.state.view}
+            swapView={this.swapView}
+          />
         </div>
         <div className='right-container'>
           <TopBar 
             filterQuery={this.state.filterQuery}
+            currentNote={this.state.currentNote}
             updateSearch={this.updateSearch}
-            swapView={this.swapView}
+            changeNote={this.changeNote}
           />
           <Content
+            currentView={this.state.view}
+            notes={this.props.notes}
+            notebooks={this.props.notebooks}
             filterQuery={this.state.filterQuery}
-            view={this.state.view}
+            currentNote={this.state.currentNote}
             swapView={this.swapView}
+            changeNote={this.changeNote}
           />
         </div>
       </div>

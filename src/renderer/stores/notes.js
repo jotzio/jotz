@@ -5,7 +5,6 @@ var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Note = require('./note');
 var NotebooksStore = require('./notebooks');
 
-
 var Notes = Backbone.Collection.extend({
   model: Note,
 
@@ -52,17 +51,17 @@ var Notes = Backbone.Collection.extend({
   },
 
   checkForSave: function(payload) {
-    if (payload.content.changed) {
-      ipc.send('check-for-save', payload.content.note);
-    } else {
-      console.log('model is the same');
-    }
+    ipc.send('check-for-save', payload.content.note);
   },
 
   saveNote: function(payload) {
-    this.currentNote = this.add(payload.content, { merge: true });
+    this.currentNote = this.findWhere({ _id: payload.content.get('_id') });
+    if (this.currentNote) {
+      this.currentNote.set(payload.content.attributes, { merge: true });
+    } else {
+      this.currentNote = this.add(payload.content);
+    }
     ipc.send('save-note', this.currentNote);
-    // TODO: Add this back in after moving NoteBook to a Backbone Model
     //NotebooksStore.saveNotebook(note);
   },
 
@@ -72,7 +71,7 @@ var Notes = Backbone.Collection.extend({
 
   destroyNote: function(payload) {
     var _id = payload.content.get('_id');
-    this.remove(payload.content);
+    this.remove(this.findWhere({ _id: _id}));
     ipc.send('destroy-note', _id);
   },
 
@@ -83,7 +82,7 @@ var Notes = Backbone.Collection.extend({
 
   handleCheckForSaveReply: function(saveStatus, note) {
     if (saveStatus && note) {
-      this.add(note, { merge: true });
+      this.currentNote = this.add(note, { merge: true });
       ipc.send('save-note', note);
     } else {
       this.fetchNotes();
@@ -102,7 +101,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   handleFetchNotesReply: function(notes) {
-    this.reset(notes);
+    this.set(notes);
   },
 
   handleDestroyNoteReply: function(err) {

@@ -17,13 +17,27 @@ var NoteBlock = React.createClass({
     };
   },
 
-  updateNote: function() {
-    this.props.updateBlock(this.blockData());
+  shouldComponentUpdate: function(nextProps) {
+    return nextProps.text !== this.props.text;
+  },
+
+  getBlockData: function(language) {
+    return {
+      index: this.props.blockIndex,
+      update: {
+        content: this.getText(),
+        language: language || this.props.language
+      }
+    };
+  },
+
+  updateBlockContent: function() {
+    this.props.updateBlock(this.getBlockData());
   },
 
   changeLanguage: function(event) {
     this.editor.changeLanguage('ace/mode/' + event.target.value);
-    this.props.updateBlock(this.blockData(event.target.value));
+    this.props.updateBlock(this.getBlockData(event.target.value));
   },
 
   makeGist: function() {
@@ -50,13 +64,11 @@ var NoteBlock = React.createClass({
     });
   },
 
-  //This creates and appends an ace editor to the appropriate div
-  //blockIndex is the associated index in the blocks array
   componentDidMount: function() {
     this.editor = new AceEditor('ace-editor' + this.props.blockIndex);
     this.editor.setText(this.props.text);
     this.editor.changeLanguage('ace/mode/' + this.props.language);
-    this.editor.onChange(this.updateNote);
+    this.editor.onBlur(this.updateBlockContent);
   },
 
   componentDidUpdate: function() {
@@ -69,7 +81,7 @@ var NoteBlock = React.createClass({
       containerClass += ' focused';
     }
     return (
-      <div className={containerClass} onBlur={this.changeFocus} onFocus={this.changeFocus}>
+      <div onBlur={this.changeFocus} className={containerClass} onFocus={this.changeFocus}>
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
           <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>

@@ -118,7 +118,10 @@ var JotzBrowser = Backbone.Model.extend({
     // TODO 3. show gist publication progress display
   },
   publishGist: function(authData) {
-    this.get('gistBrowser').publishGist(this.get('noteBlock'), authData);
+    this.get('gistBrowser').publishGist(this.get('payload'), authData);
+  },
+  handleGistUpdateOfNote: function(updatedNote) {
+    this.get('mainWindow').webContents.send('make-gist-reply', updatedNote.attributes);
   }
 });
 

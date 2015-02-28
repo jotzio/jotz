@@ -15,8 +15,6 @@ var Jotz = React.createClass({
 
   getInitialState: function() {
     return {
-      notes: null,
-      notebooks: null,
       currentNote: null,
       view: 'Notes',
       filterQuery: ''
@@ -25,19 +23,15 @@ var Jotz = React.createClass({
 
   componentDidMount: function() {
     actionCreator.fetchNotes();
-    var updateStores = function() {
+    this.props.notes.on('add change remove', function(model) {
       var newState = React.addons.update(this.state, {
-        notes: { $set: this.props.notes.toJSON() },
-        notebooks: { $set: this.props.notebooks.toJSON() }
+        currentNote: { $set: model }
       });
       this.setState(newState);
-    }.bind(this);
-    this.props.notes.on('all', function() {
-      updateStores();
-    });
-    this.props.notebooks.on('all', function() {
-      updateStores();
-    });
+    }, this);
+    this.props.notebooks.on('add change remove', function() {
+      this.forceUpdate();
+    }.bind(this));
   },
 
   componentWillUnmount: function() {
@@ -52,20 +46,28 @@ var Jotz = React.createClass({
     this.setState(newState);
   },
 
-  swapView: function(newView) {
+  swapView: function(newView, cb) {
     var newState = React.addons.update(this.state, {
       view: { $set: newView}
     });
-    this.setState(newState);
+    if (cb) {
+      this.setState(newState, cb);
+    } else {
+      this.setState(newState);
+    }
   },
 
-  changeNote: function(newView, note) {
+  changeNote: function(newView, note, cb) {
     note = note || null;
     var newState = React.addons.update(this.state, {
       currentNote: { $set: note },
       view: { $set: newView }
     });
-    this.setState(newState);
+    if (cb) {
+      this.setState(newState, cb);
+    } else {
+      this.setState(newState);
+    }
   },
 
   render: function() {
@@ -80,13 +82,14 @@ var Jotz = React.createClass({
         <div className='right-container'>
           <TopBar 
             filterQuery={this.state.filterQuery}
+            currentNote={this.state.currentNote}
             updateSearch={this.updateSearch}
-            swapView={this.swapView}
+            changeNote={this.changeNote}
           />
           <Content
             currentView={this.state.view}
-            notes={this.state.notes}
-            notebooks={this.state.notebooks}
+            notes={this.props.notes}
+            notebooks={this.props.notebooks}
             filterQuery={this.state.filterQuery}
             currentNote={this.state.currentNote}
             swapView={this.swapView}

@@ -3,7 +3,7 @@ var path = require('path');
 var _ = require('underscore');
 
 // TODO: Add Windows/Linux path support
-var buildAppPath = '../atom_shell/Atom.app/Contents/Resources/app';
+var buildAppPath = '../atom_shell/Jotz.app/Contents/Resources/app';
 
 module.exports = function(grunt) {
   grunt.initConfig({
@@ -12,6 +12,14 @@ module.exports = function(grunt) {
       outputDir: '../atom_shell',
       downloadDir: '../atom_cache',
       rebuild: true
+    },
+
+    'build-atom-shell': {
+      tag: 'v0.21.2',
+      nodeVersion: '0.16.0',
+      buildDir: '../atom_shell',
+      projectName: 'jotz',
+      productName: 'Jotz'
     },
 
     pkg: grunt.file.readJSON('package.json'),
@@ -93,6 +101,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-download-atom-shell');
+  grunt.loadNpmTasks('grunt-build-atom-shell');
   grunt.loadNpmTasks('grunt-contrib-sass');
   grunt.loadNpmTasks('grunt-shell');
 
@@ -211,7 +220,7 @@ module.exports = function(grunt) {
     var flag = grunt.option('scratch');
 
     if (flag) {
-      grunt.task.run(['download-atom-shell', 'copy', 'shell:install', 'compile:dev', 'compile:prod', 'sass']);
+      grunt.task.run(['build-atom-shell', 'copy', 'shell:install', 'compile:dev', 'compile:prod', 'sass']);
     } else {
       grunt.task.run(['copy','sass']);
     }

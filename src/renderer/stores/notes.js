@@ -77,6 +77,7 @@ var Notes = Backbone.Collection.extend({
   },
 
   makeGist: function(payload) {
+    this.currentNote = this.add(payload.content.note, { merge: true });
     ipc.send('make-gist', payload.content);
   },
 
@@ -92,7 +93,6 @@ var Notes = Backbone.Collection.extend({
   handleSaveNoteReply: function(err, note) {
     if (err) {
       // TODO: ask guys how we want to handle error
-      // pull it out of collection and add error message to user?
       this.fetchNotes();
     } else {
       this.currentNote.set(note.attributes);
@@ -116,8 +116,18 @@ var Notes = Backbone.Collection.extend({
     }
   },
 
-  handleMakeGistReply: function() {
-
+  handleMakeGistReply: function(updatedNoteAttributes) {
+    if (!updatedNoteAttributes) {
+      this.fetchNotes();
+      // TODO: error handling display to user
+    } else {
+      this.currentNote.set(updatedNoteAttributes);
+      this.fetchNotes();
+      console.log('gist published successfully!');
+      // TODO: remove 'create gist' button
+      // TODO: add 'update gist' button and logic
+      // TODO: add 'copy gist url to share' button and logic
+    }
   }
 });
 

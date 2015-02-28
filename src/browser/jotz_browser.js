@@ -17,14 +17,20 @@ var JotzBrowser = Backbone.Model.extend({
     require('crash-reporter').start();
   },
   setConfigs: function() {
+    this.set('mainWindow', null);
     this.set('mainWindowConfigs', mainWindowConfigs);
   },
   bindMtds: function() {
     _.bindAll(this,
       'setupReporters',
       'setConfigs',
+      'setBrowsers',
       'startMainWindow',
+      'loadClientApp',
+      'displayMainWindow',
       'registerEvents',
+      'registerBackbone',
+      'registerIpc',
       'removeWindow',
       'shouldSave',
       'sendCheckSaveReply',
@@ -36,24 +42,35 @@ var JotzBrowser = Backbone.Model.extend({
   },
   initialize: function() {
     this.setupReporters();
-    this.set('mainWindow', null);
     this.setConfigs();
     this.bindMtds();
     app.on('ready', this.startMainWindow);
   },
   startMainWindow: function() {
+    this.setBrowsers();
+    this.loadClientApp();
+    this.registerEvents();
+    this.displayMainWindow();
+  },
+  setBrowsers: function() {
     this.set('mainWindow', new BrowserWindow(this.get('mainWindowConfigs')));
     this.set('oAuthBrowser', new OAuthBrowser({ jotzBrowser: this }));
     this.set('gistBrowser', new GistBrowser({ jotzBrowser: this }));
+  },
+  loadClientApp: function() {
     this.get('mainWindow').loadUrl(this.get('mainWindowConfigs').index);
-    this.registerEvents();
-    this.get('mainWindow').show();
   },
   registerEvents: function() {
+    this.registerBackbone();
+    this.registerIpc();
+  },
+  registerBackbone: function() {
     this.get('mainWindow').on('closed', this.removeWindow.bind(this, 'mainWindow'));
     this.get('oAuthBrowser').on('oauth-window-closed', this.handleOAuthCompletion);
     this.get('gistBrowser').on('note-updated-by-gist', this.handleGistUpdateOfNote);
     this.on('gh-authenticated', this.publishGist);
+  },
+  registerIpc: function() {
     ipc.on('save-note', this.saveNote);
     ipc.on('fetch-notes', this.fetchNotes);
     ipc.on('destroy-note', this.destroyNote);
@@ -61,6 +78,9 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('fetch-notebooks', this.fetchNotebooks);
     ipc.on('check-for-save', this.shouldSave);
     ipc.on('make-gist', this.makeGist);
+  },
+  displayMainWindow: function() {
+    this.get('mainWindow').show();
   },
   removeWindow: function(windowName) {
     this.set(windowName, null);

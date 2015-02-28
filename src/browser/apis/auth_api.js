@@ -8,27 +8,25 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var utils = require('../utils/global');
 var bodyScraper = require('../utils/body_scraper');
-
+var authWindowConfigs = require('../config/auth_window');
 
 var AuthAPI = (function() {
-  var wConfig = {
-    show: false,
-    "zoom-factor": 0.9,
-    center: true,
-    "always-on-top": true,
-    title: "Log in to Jotz with your GitHub Account"
-  };
-
   var OAuthBrowser = Backbone.Model.extend({
     initialize: function(options) {
+      this.setInitialState(options);
+      this.bindMtds();
+      this.registerEvents();
+    },
+    setInitialState: function(options) {
       this.set('jotzBrowser', options.jotzBrowser);
-      this.set('configs', wConfig);
+      this.set('configs', authWindowConfigs);
+      this.setAuthConfigs();
+    },
+    setAuthConfigs: function() {
       this.set('authEndpoint', 'https://jotz-services.herokuapp.com/api/auth/ghlogin');
       this.set('oAuthCount', 0);
-      this.bindMtds();
       this.set('oAuthWindow', null);
       this.set('oAuthWindow', new BrowserWindow(this.get('configs')));
-      this.registerEvents();
     },
     bindMtds: function() {
       _.bindAll(this,
@@ -80,8 +78,9 @@ var AuthAPI = (function() {
   });
 
   // Auth Public API
-  return { oAuthBrowser: OAuthBrowser };
-
+  return {
+    oAuthBrowser: OAuthBrowser
+  };
 })();
 
 module.exports = AuthAPI;

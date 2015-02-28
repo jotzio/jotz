@@ -135,7 +135,7 @@ var Editor = React.createClass({
     this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
   },
 
-  renderNbInput: function() {
+  renderNbSelector: function() {
     if (this.state.showNotebookCreator) {
       return <NotebookCreator
         toggleNotebookCreator={this.toggleNotebookCreator}
@@ -172,15 +172,13 @@ var Editor = React.createClass({
   render: function() {
     var deleteBtn = null;
     var noteTitle = '';
-    //var notebookId = null;
     if (this.state.note && this.state.note._id) {
       deleteBtn = <button className="btn" onClick={this.deleteNote}>Delete</button>;
       noteTitle = this.state.note.title;
-      //notebookId = this.state.note.notebook._id;
     }
     return (
       <div className='ace-editor-container'>
-        {this.renderNbInput()}
+        {this.renderNbSelector()}
         <div className="editor-top-bar">
           <input
             className='editor-note-title'

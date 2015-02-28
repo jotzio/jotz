@@ -1,36 +1,13 @@
 var React = require('react');
-var NotebookCreator = require('./notebook_creator');
 
 var NotebookSelector = React.createClass({
-  getInitialState: function() {
-    return {
-      showCreate: false
-    }
-  },
-
-  componentDidMount: function() {
-    this.props.notebooks.on('add', this.updateComp, this);
-    this.props.note.on('all', this.updateComp, this);
-  },
-
-  updateComp: function() {
-    this.forceUpdate();
-  },
-
   changeNotebook: function(event) {
     if (event.target.value === 'create-new-notebook') {
-      this.toggleNotebookInput();
+      this.props.toggleNotebookCreator();
     } else {
-      this.props.updateNotebook({
-        _id: event.target.value
-      });
+      var notebook = this.props.notebooks.findWhere({ _id: event.target.value }).toJSON();
+      this.props.updateNotebook(notebook);
     }
-  },
-
-  toggleNotebookInput: function() {
-    this.setState({
-      showCreate: !this.state.showCreate
-    });
   },
 
   renderNotebooks: function() {
@@ -47,14 +24,6 @@ var NotebookSelector = React.createClass({
   },
 
   render: function() {
-    if(this.state.showCreate){
-      return (
-        <NotebookCreator
-          toggleNotebookInput={this.toggleNotebookInput}
-          updateNotebook={this.props.updateNotebook}
-        />
-      );
-    }
     return (
       <select value={this.props.notebookId || 'default'} onChange={this.changeNotebook}>
         <option value='default' disabled>Notebooks</option>

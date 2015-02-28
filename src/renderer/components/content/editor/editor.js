@@ -3,6 +3,7 @@ var _ = require('underscore');
 var actionCreator = require('../../../actions/action_creator');
 var NoteBlock = require('./note_block');
 var NotebookSelector = require('./notebook_selector');
+var NotebookCreator = require('./notebook_creator');
 var Note = require('../../../stores/note');
 
 /*
@@ -22,7 +23,8 @@ var getNewNote = function(note) {
 var Editor = React.createClass({
 
   getInitialState: function() {
-    return getNewNote(this.props.note);
+    var newState = { showNotebookCreator: false };
+    return _.extend(newState, getNewNote(this.props.note));
   },
 
   // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
@@ -33,10 +35,15 @@ var Editor = React.createClass({
         noteModel: model
       });
     }, this);
+    this.props.notebooks.on('add', function(notebook) {
+      console.log('updating notes notebook', notebook.toJSON());
+      this.updateNotebook(notebook.toJSON());
+    }, this);
   },
 
   componentWillUnmount: function() {
     this.props.notes.off(null, null, this);
+    this.props.notebooks.off(null, null, this);
 
     var model = this.state.noteModel.set(this.state.note);
 
@@ -51,6 +58,18 @@ var Editor = React.createClass({
     var newState = React.addons.update(this.state, {
       note: {
         title: { $set: event.target.value }
+      }
+    });
+    this.setState(newState);
+  },
+
+  updateNotebook: function(notebook) {
+    var newState = React.addons.update(this.state, {
+      note: {
+        notebook: {
+          notebookTitle: { $set: notebook.title },
+          _id: { $set: notebook._id }
+        }
       }
     });
     this.setState(newState);
@@ -109,7 +128,26 @@ var Editor = React.createClass({
 
   deleteNote: function() {
     actionCreator.destroyNote(this.state.noteModel);
-    this.props.changeNote('Notes');
+    this.closeEditor();
+  },
+
+  toggleNotebookCreator: function() {
+    this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
+  },
+
+  renderNbInput: function() {
+    if (this.state.showNotebookCreator) {
+      return <NotebookCreator
+        toggleNotebookCreator={this.toggleNotebookCreator}
+      />
+    } else {
+      return <NotebookSelector
+        updateNotebook={this.updateNotebook}
+        toggleNotebookCreator={this.toggleNotebookCreator}
+        notebooks={this.props.notebooks}
+        notebookId={this.state.note.notebook._id}
+      />
+    }
   },
 
   renderBlock: function(block, index) {
@@ -142,6 +180,7 @@ var Editor = React.createClass({
     }
     return (
       <div className='ace-editor-container'>
+        {this.renderNbInput()}
         <div className="editor-top-bar">
           <input
             className='editor-note-title'

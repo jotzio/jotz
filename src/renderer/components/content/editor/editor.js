@@ -47,10 +47,6 @@ var Editor = React.createClass({
     }
   },
 
-  makeGist: function(blockIndex) {
-    actionCreator.makeGist(this.state.note.attributes.blocks[blockIndex]);
-  },
-
   updateTitle: function(event) {
     var newState = React.addons.update(this.state, {
       note: {
@@ -64,7 +60,7 @@ var Editor = React.createClass({
     var newState = React.addons.update(this.state, {
       note: {
         blocks: {
-          $push: [ { "content": "", "language":"text" } ]
+          $push: [ { "content": "", "language": "text" } ]
         }
       }
     });
@@ -84,8 +80,8 @@ var Editor = React.createClass({
 
   makeGist: function(blockIndex) {
     var payload = {
-      block: this.state.note.get('blocks')[blockIndex],
-      note: this.state.note,
+      block: this.state.note.blocks[blockIndex],
+      note: this.state.noteModel.set(this.state.note),
       blockIdx: blockIndex
     };
     actionCreator.makeGist(payload);

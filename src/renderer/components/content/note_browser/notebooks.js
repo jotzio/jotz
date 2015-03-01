@@ -1,16 +1,16 @@
 var React = require('react');
 
-var NoteBookList = React.createClass({
+var NotebookList = React.createClass({
 
-  componentDidMount: function() {
-    this.props.notebooks.on('add remove reset', function() {
-      this.forceUpdate();
-    }.bind(this), this);
-  },
-
-  componentWillUnmount: function() {
-    this.props.notebooks.off(null, null, this);
-  },
+  //componentDidMount: function() {
+  //  this.props.notebooks.on('add remove reset', function() {
+  //    this.forceUpdate();
+  //  }.bind(this), this);
+  //},
+  //
+  //componentWillUnmount: function() {
+  //  this.props.notebooks.off(null, null, this);
+  //},
 
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
@@ -32,4 +32,4 @@ var NoteBookList = React.createClass({
   }
 });
 
-module.exports = NoteBookList;
+module.exports = NotebookList;

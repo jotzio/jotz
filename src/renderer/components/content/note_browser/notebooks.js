@@ -1,5 +1,6 @@
 var React = require('react')
 var NotesList = require('./notes_list');
+var _ = require('underscore');
 
 var NotebookList = React.createClass({
 
@@ -19,7 +20,7 @@ var NotebookList = React.createClass({
         <NotesList
           notes={this.props.notes}
           changeNote={this.props.changeNote}
-          filterId={this.props.openNotebookId}
+          filterNbId={this.props.openNotebookId}
           filterQuery={this.props.filterQuery}
         />
       );
@@ -29,9 +30,13 @@ var NotebookList = React.createClass({
 
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
+      var showNotes = _.partial(this.props.openNotebook, notebook.get('_id'));
       return (
         <li>
-          <a onClick={this.showNotes} href=''>{notebook.get('title')}</a>
+          <a
+            onClick={showNotes}
+            href=''>{notebook.get('title')}
+          </a>
           {this.renderNotes(notebook.get('_id'))}
         </li>
       );

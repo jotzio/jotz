@@ -24,6 +24,8 @@ var Content = React.createClass({
       notebooks={this.props.notebooks}
       changeNote={this.props.changeNote}
       filterQuery={this.props.filterQuery}
+      openNotebook={this.props.openNotebook}
+      openNotebookId={this.props.openNotebookId}
     />;
   },
 

@@ -17,7 +17,8 @@ var Jotz = React.createClass({
     return {
       currentNote: null,
       view: 'Notes',
-      filterQuery: ''
+      filterQuery: '',
+      openNotebookId: null
     };
   },
 
@@ -70,6 +71,12 @@ var Jotz = React.createClass({
     }
   },
 
+  openNotebook: function(id) {
+    this.setState({
+      openNotebookId: id
+    });
+  },
+
   render: function() {
     return (
       <div>
@@ -94,6 +101,8 @@ var Jotz = React.createClass({
             currentNote={this.state.currentNote}
             swapView={this.swapView}
             changeNote={this.changeNote}
+            openNotebook={this.openNotebook}
+            openNotebookId={this.state.openNotebookId}
           />
         </div>
       </div>

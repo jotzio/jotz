@@ -14,12 +14,12 @@ var NotesList = React.createClass({
     return blocks.join(' ').toLowerCase().indexOf(this.props.filterQuery);
   },
 
-  filterId: function() {
-    return this.props.notes.find({notebook: { _id: this.props.filterId }});
+  filterNbId: function() {
+    return this.props.notes.find({notebook: { _id: this.props.filterNbId }});
   },
 
   filterItems: function (note) {
-    if (!this.props.filterQuery || !this.props.filterId) {
+    if (!this.props.filterQuery || !this.props.filterNbId) {
       return true;
     } else {
       return this.filterTitle(note) > -1 || this.filterBlocks(note) > -1;
@@ -28,8 +28,8 @@ var NotesList = React.createClass({
 
   renderNotes: function() {
     var notes = this.props.notes.models;
-    if (this.props.filterId) {
-      notes = this.filterId();
+    if (this.props.filterNbId) {
+      notes = this.filterNbId();
     }
     return _.filter(notes, this.filterItems).map(function(note) {
       return <NoteItem

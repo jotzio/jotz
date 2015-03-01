@@ -1,4 +1,5 @@
-var React = require('react');
+var React = require('react')
+var NoteItem = require('./note_item');
 
 var NotebookList = React.createClass({
 
@@ -15,7 +16,9 @@ var NotebookList = React.createClass({
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
       return (
-        <li>{notebook.get('title')}</li>
+        <li>
+          <a onClick={this.showNotes} href=''>{notebook.get('title')}</a>
+        </li>
       );
     });
   },

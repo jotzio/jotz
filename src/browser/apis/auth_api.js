@@ -4,10 +4,10 @@ var jsf = require('jsonfile');
 var ipc = require('ipc');
 var BrowserWindow = require('browser-window');
 var dialog = require('dialog');
+var clipboard = require('clipboard');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var utils = require('../utils/global');
-var bodyScraper = require('../utils/body_scraper');
 var authWindowConfigs = require('../config/auth_window');
 
 var AuthAPI = (function() {
@@ -24,7 +24,6 @@ var AuthAPI = (function() {
     },
     setAuthConfigs: function() {
       this.set('authEndpoint', 'https://jotz-services.herokuapp.com/api/auth/ghlogin');
-      this.set('oAuthCount', 0);
       this.set('oAuthWindow', null);
       this.set('oAuthWindow', new BrowserWindow(this.get('configs')));
     },
@@ -33,14 +32,10 @@ var AuthAPI = (function() {
         'registerEvents',
         'display',
         'runGhOAuth',
-        'incrementOAuthCount',
-        'handleOAuthCompletion',
         'triggerOAuthSave'
       );
     },
     registerEvents: function() {
-      this.get('oAuthWindow').webContents.on('did-get-redirect-request', this.incrementOAuthCount);
-      this.get('oAuthWindow').webContents.on('did-finish-load', this.handleOAuthCompletion);
       ipc.on('body-scraped', this.triggerOAuthSave);
     },
     display: function() {
@@ -50,17 +45,8 @@ var AuthAPI = (function() {
     runGhOAuth: function() {
       this.display();
     },
-    incrementOAuthCount: function() {
-      this.set('oAuthCount', this.get('oAuthCount') + 1);
-    },
-    handleOAuthCompletion: function() {
-      if (this.get('oAuthCount') === 2) {
-        this.get('oAuthWindow').hide();
-        this.set('oAuthCount', 0);
-        this.get('oAuthWindow').webContents.executeJavaScript(bodyScraper.code);
-      }
-    },
     triggerOAuthSave: function(e, body) {
+      this.get('oAuthWindow').hide();
       this.trigger('oauth-window-closed', body);
     },
     ghAuthenticated: function(cb) {

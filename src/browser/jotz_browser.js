@@ -125,9 +125,8 @@ var JotzBrowser = Backbone.Model.extend({
   makeGist: function(e, payload) {
     this.get('gistBrowser').makeGist(payload);
   },
-  handleOAuthCompletion: function(body) {
+  handleOAuthCompletion: function(data) {
     // TODO 1. Show loading display progress to user ('saving your settings')
-    var data = JSON.parse(body);
     var id = data.githubId;
     var token = data.ghAccessToken;
     this.set('githubId', id);

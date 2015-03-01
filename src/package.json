@@ -28,6 +28,7 @@
     "grunt-env": "^0.4.2",
     "grunt-shell": "^1.1.1",
     "jest-cli": "^0.2.2",
+    "react-tools": "^0.12.2",
     "walk": "^2.3.9"
   },
   "dependencies": {
@@ -36,8 +37,6 @@
     "flux": "2.0.1",
     "node-jsx": "^0.12.4",
     "react": "^0.12.2",
-    "react-tools": "^0.12.2",
-    "react-widgets": "2.2.6",
     "underscore": "^1.7.0",
     "jsonfile": "2.0.0",
     "request": "2.53.0"

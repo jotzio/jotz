@@ -1,5 +1,5 @@
 var React = require('react')
-var NoteItem = require('./note_item');
+var NotesList = require('./notes_list');
 
 var NotebookList = React.createClass({
 
@@ -13,11 +13,26 @@ var NotebookList = React.createClass({
   //  this.props.notebooks.off(null, null, this);
   //},
 
+  renderNotes: function(notebookId) {
+    if (this.props.openNotebookId === notebookId) {
+      return (
+        <NotesList
+          notes={this.props.notes}
+          changeNote={this.props.changeNote}
+          filterId={this.props.openNotebookId}
+          filterQuery={this.props.filterQuery}
+        />
+      );
+    }
+    return null;
+  },
+
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
       return (
         <li>
           <a onClick={this.showNotes} href=''>{notebook.get('title')}</a>
+          {this.renderNotes(notebook.get('_id'))}
         </li>
       );
     });

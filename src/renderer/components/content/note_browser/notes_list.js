@@ -1,11 +1,11 @@
 var React = require('react');
 var _ = require('underscore');
 var NoteItem = require('./note_item');
-var actionCreator = require('../../../actions/action_creator');
+
 
 var NotesList = React.createClass({
 
-  filterQuery: function(note) { 
+  filterTitle: function(note) {
     return note.get('title').toLowerCase().indexOf(this.props.filterQuery);
   },
 
@@ -14,16 +14,24 @@ var NotesList = React.createClass({
     return blocks.join(' ').toLowerCase().indexOf(this.props.filterQuery);
   },
 
+  filterId: function() {
+    return this.props.notes.find({notebook: { _id: this.props.filterId }});
+  },
+
   filterItems: function (note) {
-    if (!this.props.filterQuery) {
+    if (!this.props.filterQuery || !this.props.filterId) {
       return true;
     } else {
-      return this.filterQuery(note) > -1 || this.filterBlocks(note) > -1;
+      return this.filterTitle(note) > -1 || this.filterBlocks(note) > -1;
     }
   },
 
   renderNotes: function() {
-    return _.filter(this.props.notes.models, this.filterItems).map(function(note) {
+    var notes = this.props.notes.models;
+    if (this.props.filterId) {
+      notes = this.filterId();
+    }
+    return _.filter(notes, this.filterItems).map(function(note) {
       return <NoteItem
         key={note.attributes._id}
         changeNote={this.props.changeNote}

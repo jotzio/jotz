@@ -14,6 +14,11 @@ var NotebookList = React.createClass({
   //  this.props.notebooks.off(null, null, this);
   //},
 
+  showNotes: function(e, id) {
+    e.preventDefault();
+    this.props.openNotebook(id);
+  },
+
   renderNotes: function(notebookId) {
     if (this.props.openNotebookId === notebookId) {
       return (
@@ -30,17 +35,16 @@ var NotebookList = React.createClass({
 
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
-      var showNotes = _.partial(this.props.openNotebook, notebook.get('_id'));
       return (
         <li>
           <a
-            onClick={showNotes}
+            onClick={_.partial(this.showNotes, _, notebook.get('_id'))}
             href=''>{notebook.get('title')}
           </a>
           {this.renderNotes(notebook.get('_id'))}
         </li>
       );
-    });
+    }.bind(this));
   },
 
   render: function() {

@@ -15,11 +15,14 @@ var NotesList = React.createClass({
   },
 
   filterNbId: function() {
-    return this.props.notes.find({notebook: { _id: this.props.filterNbId }});
+    console.log(this.props.notes.where({notebook: { _id: this.props.filterNbId }}));
+    return this.props.notes.filter(function(note) {
+      return note.get('notebook')._id === this.props.filterNbId;
+    }.bind(this));
   },
 
   filterItems: function (note) {
-    if (!this.props.filterQuery || !this.props.filterNbId) {
+    if (!this.props.filterQuery) {
       return true;
     } else {
       return this.filterTitle(note) > -1 || this.filterBlocks(note) > -1;

@@ -1,18 +1,8 @@
-var React = require('react')
+var React = require('react');
 var NotesList = require('./notes_list');
 var _ = require('underscore');
 
 var NotebookList = React.createClass({
-
-  //componentDidMount: function() {
-  //  this.props.notebooks.on('add remove reset', function() {
-  //    this.forceUpdate();
-  //  }.bind(this), this);
-  //},
-  //
-  //componentWillUnmount: function() {
-  //  this.props.notebooks.off(null, null, this);
-  //},
 
   showNotes: function(e, id) {
     e.preventDefault();

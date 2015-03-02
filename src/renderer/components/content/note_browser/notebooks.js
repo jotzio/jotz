@@ -11,13 +11,19 @@ var NotebookList = React.createClass({
 
   renderNotes: function(notebookId) {
     if (this.props.openNotebookId === notebookId) {
+      //Added temporary styles to show border around notes in notebook view
+      var styles = {
+        border: '1px solid blue'
+      };
       return (
-        <NotesList
-          notes={this.props.notes}
-          changeNote={this.props.changeNote}
-          filterNbId={this.props.openNotebookId}
-          filterQuery={this.props.filterQuery}
-        />
+        <div style={styles}>
+          <NotesList
+            notes={this.props.notes}
+            changeNote={this.props.changeNote}
+            filterNbId={this.props.openNotebookId}
+            filterQuery={this.props.filterQuery}
+          />
+        </div>
       );
     }
     return null;

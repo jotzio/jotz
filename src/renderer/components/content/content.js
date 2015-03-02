@@ -32,6 +32,7 @@ var Content = React.createClass({
   renderEditor: function() {
     return <Editor
       note={this.props.currentNote}
+      notes={this.props.notes}
       notebooks={this.props.notebooks}
       changeNote={this.props.changeNote}
     />;

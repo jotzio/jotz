@@ -15,7 +15,6 @@ var NotesList = React.createClass({
   },
 
   filterNbId: function() {
-    console.log(this.props.notes.where({notebook: { _id: this.props.filterNbId }}));
     return this.props.notes.filter(function(note) {
       return note.get('notebook')._id === this.props.filterNbId;
     }.bind(this));

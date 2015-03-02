@@ -29,7 +29,7 @@ var Editor = React.createClass({
 
   // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
   componentDidMount: function() {
-    this.props.note.on('add change remove', function(model) {
+    this.props.notes.on('add change remove', function(model) {
       this.setState({
         note: model.toJSON(),
         noteModel: model
@@ -42,7 +42,7 @@ var Editor = React.createClass({
   },
 
   componentWillUnmount: function() {
-    this.props.note.off(null, null, this);
+    this.props.notes.off(null, null, this);
     this.props.notebooks.off(null, null, this);
 
     var model = this.state.noteModel.set(this.state.note);

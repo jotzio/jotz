@@ -78,6 +78,7 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('fetch-notebooks', this.fetchNotebooks);
     ipc.on('check-for-save', this.shouldSave);
     ipc.on('make-gist', this.makeGist);
+    ipc.on('destroy-notebook', this.destroyNotebook);
   },
   displayMainWindow: function() {
     this.get('mainWindow').show();
@@ -108,6 +109,11 @@ var JotzBrowser = Backbone.Model.extend({
   fetchNotebooks: function(e) {
     NotebooksAPI.fetchNotebooks(function(notebooks) {
       e.sender.send('fetch-notebooks-reply', notebooks);
+    });
+  },
+  destroyNotebook: function(e, id) {
+    NotebooksApi.destroyNotebook(id, function() {
+      e.sender.send('destroy-notebook-reply');
     });
   },
   shouldSave: function(e, note) {

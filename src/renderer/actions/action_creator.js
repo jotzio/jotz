@@ -40,6 +40,12 @@ var actionCreator = {
       actionType: 'fetch-notebooks'
     });
   },
+  destroyNotebook: function(id) {
+    JotzDispatcher.dispatch({
+      actionType: 'destroy-notebook',
+      id: id
+    });
+  },
   makeGist: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'make-gist',

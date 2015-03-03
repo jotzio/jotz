@@ -112,8 +112,8 @@ var JotzBrowser = Backbone.Model.extend({
     });
   },
   destroyNotebook: function(e, id) {
-    NotebooksApi.destroyNotebook(id, function() {
-      e.sender.send('destroy-notebook-reply');
+    NotebooksAPI.destroyNotebook(id, function(notebooks) {
+      e.sender.send('destroy-notebook-reply', notebooks);
     });
   },
   shouldSave: function(e, note) {

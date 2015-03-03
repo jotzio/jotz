@@ -13,7 +13,7 @@ var Notebooks = Backbone.Collection.extend({
       'dispatchCallback',
       'handleSaveNotebookReply',
       'handleFetchNotebooksReply',
-      'handleDestroyNotebook'
+      'handleDestroyNotebookReply'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
@@ -66,8 +66,9 @@ var Notebooks = Backbone.Collection.extend({
     this.set(notebooks);
   },
 
-  handleDestroyNotebookReply: function() {
+  handleDestroyNotebookReply: function(notebooks) {
     console.log('notebook destroyed');
+    this.set(notebooks)
   },
 
   prepareNotebookData: function(notebook) {

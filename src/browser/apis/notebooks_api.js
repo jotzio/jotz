@@ -29,6 +29,17 @@ var NotebooksAPI = (function() {
           api.writeNotebook(utils.getNotebooksPath(), notebooks, notebook, cb);
         }
       });
+    },
+    destroyNotebook: function(notebooks, id, cb) {
+      utils.getNotebooksFileData(function(notebooks) {
+        for (var i = 0; i < notebooks.length; i++) {
+          if (notebooks[i]._id === id) {
+            notebooks.splice(i, 1);
+            jsf.writeFile(utils.getNotebooksPath(), notebooks, cb);
+            break;
+          }
+        }
+      });
     }
   };
 
@@ -42,6 +53,11 @@ var NotebooksAPI = (function() {
     },
     fetchNotebooks: function(cb) {
       api.getNotebooks(cb);
+    },
+    destroyNotebook: function(id, cb) {
+      api.getNotebooks(function(notebooks) {
+        api.destroyNotebook(notebooks, id, cb);
+      });
     }
   };
 

@@ -12,11 +12,13 @@ var Notebooks = Backbone.Collection.extend({
     _.bindAll(this,
       'dispatchCallback',
       'handleSaveNotebookReply',
-      'handleFetchNotebooksReply'
+      'handleFetchNotebooksReply',
+      'handleDestroyNotebook'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
     ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply);
+    ipc.on('destroy-notebook-reply', this.handleDestroyNotebookReply);
     this.fetchNotebooks();
   },
 
@@ -27,6 +29,9 @@ var Notebooks = Backbone.Collection.extend({
         break;
       case 'fetch-notebooks':
         this.fetchNotebooks();
+        break;
+      case 'destroy-notebook':
+        this.destroyNotebook(payload.id);
         break;
       default:
         break;
@@ -42,6 +47,10 @@ var Notebooks = Backbone.Collection.extend({
     ipc.send('fetch-notebooks');
   },
 
+  destroyNotebook: function(id) {
+    ipc.send('destroy-notebook', id);
+  },
+
   handleSaveNotebookReply: function(err) {
     if (err) {
       // TODO: ask guys how we want to handle error
@@ -55,6 +64,10 @@ var Notebooks = Backbone.Collection.extend({
 
   handleFetchNotebooksReply: function(notebooks) {
     this.set(notebooks);
+  },
+
+  handleDestroyNotebookReply: function() {
+    console.log('notebook destroyed');
   },
 
   prepareNotebookData: function(notebook) {

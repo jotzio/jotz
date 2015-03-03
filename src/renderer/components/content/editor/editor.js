@@ -64,7 +64,7 @@ var Editor = React.createClass({
   },
 
   toggleNotebookCreator: function() {
-    this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
+    this.setState({ showNotebookCreator: !this.state.showNotebookCreator });
   },
 
   updateNotebook: function(notebook) {
@@ -138,16 +138,18 @@ var Editor = React.createClass({
 
   renderNbSelector: function() {
     if (this.state.showNotebookCreator) {
-      return <NotebookCreator
-        toggleNotebookCreator={this.toggleNotebookCreator}
-      />
+      return (
+        <NotebookCreator
+          toggleNotebookCreator={this.toggleNotebookCreator}
+        />);
     } else {
-      return <NotebookSelector
+      return (
+      <NotebookSelector
         updateNotebook={this.updateNotebook}
         toggleNotebookCreator={this.toggleNotebookCreator}
         notebooks={this.props.notebooks}
         notebookId={this.state.note.notebook._id}
-      />
+      />);
     }
   },
 

@@ -36,6 +36,7 @@ var GistBrowser = Backbone.Model.extend({
     var content = {
       githubId: authData.githubId,
       ghAccessToken: authData.ghAccessToken,
+      gistId: block.gistId,
       noteBlock: block,
       noteTitle: note.attributes.title
     };
@@ -47,6 +48,7 @@ var GistBrowser = Backbone.Model.extend({
         note.attributes.blocks[blockIdx] = block;
         NotesAPI.saveNote(note, function(err, updatedNote) {
           if (!err) {
+            console.log(updatedNote.attributes.blocks);
             this.trigger('note-updated-by-gist', updatedNote);
           }
         }.bind(this));

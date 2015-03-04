@@ -13,12 +13,14 @@ var Notebooks = Backbone.Collection.extend({
       'dispatchCallback',
       'handleSaveNotebookReply',
       'handleFetchNotebooksReply',
-      'handleDestroyNotebookReply'
+      'handleDestroyNotebookReply',
+      'handleCheckDeleteNotesReply'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
     ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply);
     ipc.on('destroy-notebook-reply', this.handleDestroyNotebookReply);
+    ipc.on('check-delete-nb-reply', this.handleCheckDeleteNotesReply);
     this.fetchNotebooks();
   },
 
@@ -30,8 +32,8 @@ var Notebooks = Backbone.Collection.extend({
       case 'fetch-notebooks':
         this.fetchNotebooks();
         break;
-      case 'destroy-notebook':
-        this.destroyNotebook(payload.id);
+      case 'check-delete-notebook':
+        this.checkDeleteNotes(payload.id);
         break;
       default:
         break;
@@ -45,6 +47,10 @@ var Notebooks = Backbone.Collection.extend({
 
   fetchNotebooks: function() {
     ipc.send('fetch-notebooks');
+  },
+
+  checkDeleteNotes: function(id) {
+    ipc.send('check-delete-nb-notes', id);
   },
 
   destroyNotebook: function(id) {
@@ -64,6 +70,14 @@ var Notebooks = Backbone.Collection.extend({
 
   handleFetchNotebooksReply: function(notebooks) {
     this.set(notebooks);
+  },
+
+  handleCheckDeleteNotesReply: function(deleteStatus, id) {
+    if (deleteStatus) {
+      //deleteNotes
+      console.log('deleting notes');
+    }
+    this.destroyNotebook(id);
   },
 
   handleDestroyNotebookReply: function(notebooks) {

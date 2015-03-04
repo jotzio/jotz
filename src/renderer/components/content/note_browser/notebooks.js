@@ -12,7 +12,7 @@ var NotebookList = React.createClass({
 
   handleDelete: function(e, id) {
     e.preventDefault();
-    actionCreator.destroyNotebook(id);
+    actionCreator.checkDeleteNotes(id);
   },
 
   renderNotes: function(notebookId) {

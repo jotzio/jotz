@@ -37,7 +37,8 @@ var JotzBrowser = Backbone.Model.extend({
       'makeGist',
       'handleOAuthCompletion',
       'publishGist',
-      'handleGistUpdateOfNote'
+      'handleGistUpdateOfNote',
+      'shouldDeleteNbNotes'
     );
   },
   initialize: function() {
@@ -79,6 +80,7 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('check-for-save', this.shouldSave);
     ipc.on('make-gist', this.makeGist);
     ipc.on('destroy-notebook', this.destroyNotebook);
+    ipc.on('check-delete-nb-notes', this.shouldDeleteNbNotes)
   },
   displayMainWindow: function() {
     this.get('mainWindow').show();
@@ -126,6 +128,18 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('check-for-save-reply', false, null);
     } else {
       e.sender.send('check-for-save-reply', true, note);
+    }
+  },
+  shouldDeleteNbNotes: function(e, id) {
+    NotebooksAPI.shouldDeleteNotes(function(result) {
+      this.sendCheckDeleteNbReply(result, e, id);
+    }.bind(this));
+  },
+  sendCheckDeleteNbReply: function(result, e, id) {
+    if (result === 1) {
+      e.sender.send('check-delete-nb-reply', true, id);
+    } else {
+      e.sender.send('check-delete-nb-reply', false, id);
     }
   },
   makeGist: function(e, payload) {

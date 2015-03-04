@@ -2,6 +2,7 @@ var fs = require('fs');
 var jsf = require('jsonfile');
 var ipc = require('ipc');
 var utils = require('../utils/global');
+var dialog = require('dialog');
 var NotesAPI = require('./notes_api');
 
 var NotebooksAPI = (function() {
@@ -40,6 +41,13 @@ var NotebooksAPI = (function() {
           }
         }
       });
+    },
+    deletePrompt: function() {
+      return {
+        type: 'info',
+        buttons: ['Keep Notes', 'Delete Notes'],
+        message: 'Would you like to delete all Notes in this notebook?'
+      };
     }
   };
 
@@ -58,6 +66,10 @@ var NotebooksAPI = (function() {
       api.getNotebooks(function(notebooks) {
         api.destroyNotebook(notebooks, id, cb);
       });
+    },
+    shouldDeleteNotes: function(cb) {
+      var result = dialog.showMessageBox(api.deletePrompt());
+      cb(result);
     }
   };
 

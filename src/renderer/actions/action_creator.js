@@ -40,9 +40,9 @@ var actionCreator = {
       actionType: 'fetch-notebooks'
     });
   },
-  destroyNotebook: function(id) {
+  checkDeleteNotes: function(id) {
     JotzDispatcher.dispatch({
-      actionType: 'destroy-notebook',
+      actionType: 'check-delete-notebook',
       id: id
     });
   },

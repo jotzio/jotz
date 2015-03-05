@@ -71,8 +71,10 @@ var Editor = React.createClass({
     var newState = React.addons.update(this.state, {
       note: {
         notebook: {
-          notebookTitle: { $set: notebook.title },
-          _id: { $set: notebook._id }
+          $set: {
+            notebookTitle: notebook.title,
+            _id: notebook._id
+          }
         }
       }
     });

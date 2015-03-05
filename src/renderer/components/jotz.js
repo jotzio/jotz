@@ -30,14 +30,10 @@ var Jotz = React.createClass({
       });
       this.setState(newState);
     }, this);
-    this.props.notebooks.on('add change remove', function(notebook) {
-      this.forceUpdate();
-    }, this);
   },
 
   componentWillUnmount: function() {
     this.props.notes.off(null, null, this);
-    this.props.notebooks.off(null, null, this);
   },
 
   updateSearch: function (event) {

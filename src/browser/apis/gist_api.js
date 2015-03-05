@@ -48,7 +48,6 @@ var GistBrowser = Backbone.Model.extend({
         note.attributes.blocks[blockIdx] = block;
         NotesAPI.saveNote(note, function(err, updatedNote) {
           if (!err) {
-            console.log('updated notes attributes: '+updatedNote.attributes.blocks[0].gistId);
             this.trigger('note-updated-by-gist', updatedNote);
           }
         }.bind(this));

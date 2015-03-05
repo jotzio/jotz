@@ -38,7 +38,8 @@ var JotzBrowser = Backbone.Model.extend({
       'handleOAuthCompletion',
       'publishGist',
       'handleGistUpdateOfNote',
-      'shouldDeleteNbNotes'
+      'shouldDeleteNbNotes',
+      'destroyNotesByNbId'
     );
   },
   initialize: function() {
@@ -80,7 +81,8 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('check-for-save', this.shouldSave);
     ipc.on('make-gist', this.makeGist);
     ipc.on('destroy-notebook', this.destroyNotebook);
-    ipc.on('check-delete-nb-notes', this.shouldDeleteNbNotes)
+    ipc.on('check-delete-nb-notes', this.shouldDeleteNbNotes);
+    ipc.on('destroy-notes-nbid', this.destroyNotesByNbId);
   },
   displayMainWindow: function() {
     this.get('mainWindow').show();
@@ -102,6 +104,12 @@ var JotzBrowser = Backbone.Model.extend({
     NotesAPI.destroyNote(noteId, function(err) {
       e.sender.send('destroy-note-reply', err);
     });
+  },
+  destroyNotesByNbId: function(e, noteIds) {
+    noteIds.forEach(function(noteId) {
+      NotesAPI.destroyNote(noteId);
+    });
+    //e.sender.send('destroy-notes-nbid-reply');
   },
   saveNotebook: function(e, notebook) {
     NotebooksAPI.saveNotebook(notebook, function(err) {

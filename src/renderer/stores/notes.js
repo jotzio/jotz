@@ -39,6 +39,9 @@ var Notes = Backbone.Collection.extend({
       case 'destroy-note':
         this.destroyNote(payload);
         break;
+      case 'destroy-notes-nbid':
+        this.destroyNotesByNbId(payload.id);
+        break;
       case 'check-for-save':
         this.checkForSave(payload);
         break;
@@ -73,6 +76,20 @@ var Notes = Backbone.Collection.extend({
     var _id = payload.content.get('_id');
     this.remove(this.findWhere({ _id: _id}));
     ipc.send('destroy-note', _id);
+  },
+
+  destroyNotesByNbId: function(nbid) {
+    var noteIds = [];
+    var notes = this.filter(function(note) {
+      if (note.get('notebook')._id === nbid) {
+        noteIds.push(note.get('_id'));
+        return true;
+      }
+      return false;
+    });
+    console.log('notes to be deleted', notes);
+    this.remove(notes);
+    ipc.send('destroy-notes-nbid', noteIds);
   },
 
   makeGist: function(payload) {
@@ -111,7 +128,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       // display 'note deleted!' to user and change views
       console.log('note deleted successfully');
-      this.fetchNotes();
+      //this.fetchNotes();
     }
   },
 

@@ -28,7 +28,7 @@ var Editor = React.createClass({
   },
 
   // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
-  componentDidMount: function() {
+  componentWillUpdate: function() {
     this.props.notes.on('add change remove', function(model) {
       this.setState({
         note: model.toJSON(),
@@ -156,6 +156,7 @@ var Editor = React.createClass({
   renderBlock: function(block, index) {
     return (
       <NoteBlock
+        noteExists={this.state.note && this.state.note._id}
         text={block.content}
         language={block.language}
         blockIndex={index}

@@ -26,7 +26,9 @@ var NoteBlock = React.createClass({
       index: this.props.blockIndex,
       update: {
         content: this.getText(),
-        language: language || this.props.language
+        language: language || this.props.language,
+        gistId: this.props.blockGistId,
+        gistUrl: this.props.blockGistUrl
       }
     };
   },
@@ -80,18 +82,19 @@ var NoteBlock = React.createClass({
   componentDidUpdate: function() {
     this.editor.setText(this.props.text);
   },
-  
+
+  renderGistBtn: function() {
+    if (this.props.blockGistId) {
+      return <button className="btn alt small" onClick={this.makeGist}>Update Gist</button>;
+    } else if (this.props.noteExists) {
+      return <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>;
+    } else {
+      return null;
+    }
+  },
 
   render: function() {
     var containerClass = 'editor-block-container';
-    var updateGistBtn = null, removeGistBtn = null; createGistBtn = null;
-    if (this.props.blockGistUrl) {
-      gistBtn = <button className="btn alt small" onClick={this.updateGist}>Update Gist</button>;
-      removeGistBtn = <button className="btn alt small" onClick={this.removeGist}>Remove Gist</button>;
-    } else {
-      gistBtn = <button className="btn alt small" onClick={this.makeGist}>Create Gist</button>;
-      removeGistBtn = null;
-    }
     if (this.state.focused) {
       containerClass += ' focused';
     }
@@ -99,8 +102,7 @@ var NoteBlock = React.createClass({
       <div onBlur={this.changeFocus} className={containerClass} onFocus={this.changeFocus}>
         <div className="editor-block-actions">
           <BlockMenu language={this.props.language} changeLanguage={this.changeLanguage} />
-          {gistBtn}
-          {removeGistBtn}
+          {this.renderGistBtn()}
           <button className="btn alt small" onClick={this.props.deleteBlock}>Delete Block</button>
         </div>
         <div id={'ace-editor' + this.props.blockIndex} className='ace-editor-inner'></div>

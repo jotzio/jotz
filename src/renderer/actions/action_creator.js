@@ -52,6 +52,12 @@ var actionCreator = {
       id: id
     });
   },
+  resetNotebooks: function(id) {
+    JotzDispatcher.dispatch({
+      actionType: 'reset-note-notebooks',
+      id: id
+    });
+  },
   makeGist: function(content) {
     JotzDispatcher.dispatch({
       actionType: 'make-gist',

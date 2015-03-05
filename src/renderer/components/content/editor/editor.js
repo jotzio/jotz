@@ -28,7 +28,7 @@ var Editor = React.createClass({
   },
 
   // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
-  componentDidMount: function() {
+  componentWillUpdate: function() {
     this.props.notes.on('add change remove', function(model) {
       this.setState({
         note: model.toJSON(),
@@ -64,7 +64,7 @@ var Editor = React.createClass({
   },
 
   toggleNotebookCreator: function() {
-    this.setState({ showNotebookCreator: !this.state.showNotebookCreator })
+    this.setState({ showNotebookCreator: !this.state.showNotebookCreator });
   },
 
   updateNotebook: function(notebook) {
@@ -138,22 +138,25 @@ var Editor = React.createClass({
 
   renderNbSelector: function() {
     if (this.state.showNotebookCreator) {
-      return <NotebookCreator
-        toggleNotebookCreator={this.toggleNotebookCreator}
-      />
+      return (
+        <NotebookCreator
+          toggleNotebookCreator={this.toggleNotebookCreator}
+        />);
     } else {
-      return <NotebookSelector
+      return (
+      <NotebookSelector
         updateNotebook={this.updateNotebook}
         toggleNotebookCreator={this.toggleNotebookCreator}
         notebooks={this.props.notebooks}
         notebookId={this.state.note.notebook._id}
-      />
+      />);
     }
   },
 
   renderBlock: function(block, index) {
     return (
       <NoteBlock
+        noteExists={this.state.note && this.state.note._id}
         text={block.content}
         language={block.language}
         blockIndex={index}

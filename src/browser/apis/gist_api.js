@@ -36,6 +36,7 @@ var GistBrowser = Backbone.Model.extend({
     var content = {
       githubId: authData.githubId,
       ghAccessToken: authData.ghAccessToken,
+      gistId: block.gistId,
       noteBlock: block,
       noteTitle: note.attributes.title
     };

@@ -54,6 +54,7 @@ var Notebooks = Backbone.Collection.extend({
   },
 
   destroyNotebook: function(id) {
+    this.remove(this.findWhere({ _id: id }));
     ipc.send('destroy-notebook', id);
   },
 
@@ -80,9 +81,8 @@ var Notebooks = Backbone.Collection.extend({
     }
   },
 
-  handleDestroyNotebookReply: function(notebooks) {
+  handleDestroyNotebookReply: function() {
     console.log('notebook destroyed');
-    this.set(notebooks)
   },
 
   prepareNotebookData: function(notebook) {

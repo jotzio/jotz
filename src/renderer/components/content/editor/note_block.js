@@ -46,12 +46,6 @@ var NoteBlock = React.createClass({
     this.props.makeGist(this.props.blockIndex);
   },
 
-  updateGist: function() {
-  },
-
-  removeGist: function() {
-  },
-
   blockData: function(language) {
     return {
       index: this.props.blockIndex,

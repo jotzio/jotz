@@ -3,7 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Notebook = require('./notebook');
-
+var actionCreator = require('../actions/action_creator');
 
 var Notebooks = Backbone.Collection.extend({
   model: Notebook,
@@ -73,11 +73,11 @@ var Notebooks = Backbone.Collection.extend({
   },
 
   handleCheckDeleteNotesReply: function(deleteStatus, id) {
-    if (deleteStatus) {
-      //deleteNotes
-      console.log('deleting notes');
-    }
     this.destroyNotebook(id);
+    if (deleteStatus) {
+      console.log('deleting notes');
+      actionCreator.destroyNotesById(id);
+    }
   },
 
   handleDestroyNotebookReply: function(notebooks) {

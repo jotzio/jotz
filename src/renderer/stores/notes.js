@@ -48,6 +48,9 @@ var Notes = Backbone.Collection.extend({
       case 'make-gist':
         this.makeGist(payload);
         break;
+      case 'reset-note-notebooks':
+        this.resetNoteNotebooks(payload.id);
+        break;
       default:
         break;
     }
@@ -87,7 +90,6 @@ var Notes = Backbone.Collection.extend({
       }
       return false;
     });
-    console.log('notes to be deleted', notes);
     this.remove(notes);
     ipc.send('destroy-notes-nbid', noteIds);
   },
@@ -95,6 +97,17 @@ var Notes = Backbone.Collection.extend({
   makeGist: function(payload) {
     this.currentNote = this.add(payload.content.note, { merge: true });
     ipc.send('make-gist', payload.content);
+  },
+
+  resetNoteNotebooks: function(nbid) {
+    var notes = this.map(function(note) {
+      if (note.get('notebook')._id === nbid) {
+        note.set({ notebook: { _id: null, title: null } });
+        ipc.send('save-note', note);
+        return true;
+      }
+      return false;
+    });
   },
 
   handleCheckForSaveReply: function(saveStatus, note) {

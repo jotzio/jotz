@@ -78,6 +78,8 @@ var Notebooks = Backbone.Collection.extend({
     if (deleteStatus) {
       console.log('deleting notes');
       actionCreator.destroyNotesById(id);
+    } else {
+      actionCreator.resetNotebooks(id);
     }
   },
 

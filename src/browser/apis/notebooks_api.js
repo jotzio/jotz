@@ -2,6 +2,7 @@ var fs = require('fs');
 var jsf = require('jsonfile');
 var ipc = require('ipc');
 var utils = require('../utils/global');
+var dialog = require('dialog');
 var NotesAPI = require('./notes_api');
 
 var NotebooksAPI = (function() {
@@ -29,19 +30,46 @@ var NotebooksAPI = (function() {
           api.writeNotebook(utils.getNotebooksPath(), notebooks, notebook, cb);
         }
       });
+    },
+    destroyNotebook: function(notebooks, id, cb) {
+      utils.getNotebooksFileData(function(notebooks) {
+        for (var i = 0; i < notebooks.length; i++) {
+          if (notebooks[i]._id === id) {
+            notebooks.splice(i, 1);
+            jsf.writeFile(utils.getNotebooksPath(), notebooks, cb);
+            break;
+          }
+        }
+      });
+    },
+    deletePrompt: function() {
+      return {
+        type: 'info',
+        buttons: ['Keep Notes', 'Delete Notes'],
+        message: 'Would you like to delete all Notes in this notebook?'
+      };
     }
   };
 
   // Public API
   return {
     saveNotebook: function(notebook, cb) {
-      notebook._id = utils.createGuid();
+      notebook._id = notebook._id || utils.createGuid();
       api.getNotebooks(function(notebooks) {
         api.createOrUpdateNotebook(notebooks, notebook, cb);
       });
     },
     fetchNotebooks: function(cb) {
       api.getNotebooks(cb);
+    },
+    destroyNotebook: function(id, cb) {
+      api.getNotebooks(function(notebooks) {
+        api.destroyNotebook(notebooks, id, cb);
+      });
+    },
+    shouldDeleteNotes: function(cb) {
+      var result = dialog.showMessageBox(api.deletePrompt());
+      cb(result);
     }
   };
 

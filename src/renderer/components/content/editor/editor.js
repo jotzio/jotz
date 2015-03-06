@@ -29,7 +29,7 @@ var Editor = React.createClass({
 
   // TODO: Try componentWillUpdate instead of mount (call getNewNote within the event listener)
   componentWillUpdate: function() {
-    this.props.notes.on('add change remove', function(model) {
+    this.props.notes.on('change', function(model) {
       this.setState({
         note: model.toJSON(),
         noteModel: model
@@ -46,11 +46,14 @@ var Editor = React.createClass({
     this.props.notebooks.off(null, null, this);
 
     var model = this.state.noteModel.set(this.state.note);
-
-    if (model.changedAttributes()) {
-      actionCreator.checkForSave({
-        note: model
-      });
+    var diff = model.changedAttributes();
+    for (var attr in diff) {
+      if (attr !== 'updatedAt') {
+        actionCreator.checkForSave({
+          note: model
+        });
+        break;
+      }
     }
   },
 

@@ -43,7 +43,3 @@ src/build
 
 # Mac
 .DS_Store
-
-# floobits
-.floo
-.flooignore

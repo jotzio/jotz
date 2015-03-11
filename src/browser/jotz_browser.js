@@ -109,7 +109,6 @@ var JotzBrowser = Backbone.Model.extend({
     noteIds.forEach(function(noteId) {
       NotesAPI.destroyNote(noteId);
     });
-    //e.sender.send('destroy-notes-nbid-reply');
   },
   saveNotebook: function(e, notebook) {
     NotebooksAPI.saveNotebook(notebook, function(err) {

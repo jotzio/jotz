@@ -141,7 +141,7 @@ var Notes = Backbone.Collection.extend({
     } else {
       // display 'note deleted!' to user and change views
       console.log('note deleted successfully');
-      //this.fetchNotes();
+      this.fetchNotes();
     }
   },
 

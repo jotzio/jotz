@@ -43,8 +43,8 @@ var NotebookList = React.createClass({
           <a
             onClick={_.partial(this.showNotes, _, _id)}
             href=''>{notebook.get('title')}
-          </a>
-          <a onClick={_.partial(this.handleDelete, _, _id)} href=''>Delete Notebook</a>
+          </a> |
+          <a onClick={_.partial(this.handleDelete, _, _id)} href=''> Delete Notebook</a>
           {this.renderNotes(notebook.get('_id'))}
         </li>
       );

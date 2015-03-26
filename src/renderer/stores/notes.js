@@ -39,11 +39,17 @@ var Notes = Backbone.Collection.extend({
       case 'destroy-note':
         this.destroyNote(payload);
         break;
+      case 'destroy-notes-nbid':
+        this.destroyNotesByNbId(payload.id);
+        break;
       case 'check-for-save':
         this.checkForSave(payload);
         break;
       case 'make-gist':
         this.makeGist(payload);
+        break;
+      case 'reset-note-notebooks':
+        this.resetNoteNotebooks(payload.id);
         break;
       default:
         break;
@@ -75,9 +81,33 @@ var Notes = Backbone.Collection.extend({
     ipc.send('destroy-note', _id);
   },
 
+  destroyNotesByNbId: function(nbid) {
+    var noteIds = [];
+    var notes = this.filter(function(note) {
+      if (note.get('notebook')._id === nbid) {
+        noteIds.push(note.get('_id'));
+        return true;
+      }
+      return false;
+    });
+    this.remove(notes);
+    ipc.send('destroy-notes-nbid', noteIds);
+  },
+
   makeGist: function(payload) {
     this.currentNote = this.add(payload.content.note, { merge: true });
     ipc.send('make-gist', payload.content);
+  },
+
+  resetNoteNotebooks: function(nbid) {
+    var notes = this.map(function(note) {
+      if (note.get('notebook')._id === nbid) {
+        note.set({ notebook: { _id: null, title: null } });
+        ipc.send('save-note', note);
+        return true;
+      }
+      return false;
+    });
   },
 
   handleCheckForSaveReply: function(saveStatus, note) {

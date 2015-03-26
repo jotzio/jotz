@@ -37,7 +37,9 @@ var JotzBrowser = Backbone.Model.extend({
       'makeGist',
       'handleOAuthCompletion',
       'publishGist',
-      'handleGistUpdateOfNote'
+      'handleGistUpdateOfNote',
+      'shouldDeleteNbNotes',
+      'destroyNotesByNbId'
     );
   },
   initialize: function() {
@@ -78,6 +80,9 @@ var JotzBrowser = Backbone.Model.extend({
     ipc.on('fetch-notebooks', this.fetchNotebooks);
     ipc.on('check-for-save', this.shouldSave);
     ipc.on('make-gist', this.makeGist);
+    ipc.on('destroy-notebook', this.destroyNotebook);
+    ipc.on('check-delete-nb-notes', this.shouldDeleteNbNotes);
+    ipc.on('destroy-notes-nbid', this.destroyNotesByNbId);
   },
   displayMainWindow: function() {
     this.get('mainWindow').show();
@@ -100,6 +105,11 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('destroy-note-reply', err);
     });
   },
+  destroyNotesByNbId: function(e, noteIds) {
+    NotesApi.destroyNotes(noteIds, function(err) {
+      e.sender.send('destroy-notes-nbid-reply', err);
+    });
+  },
   saveNotebook: function(e, notebook) {
     NotebooksAPI.saveNotebook(notebook, function(err) {
       e.sender.send('save-notebook-reply', err);
@@ -108,6 +118,11 @@ var JotzBrowser = Backbone.Model.extend({
   fetchNotebooks: function(e) {
     NotebooksAPI.fetchNotebooks(function(notebooks) {
       e.sender.send('fetch-notebooks-reply', notebooks);
+    });
+  },
+  destroyNotebook: function(e, id) {
+    NotebooksAPI.destroyNotebook(id, function(notebooks) {
+      e.sender.send('destroy-notebook-reply', notebooks);
     });
   },
   shouldSave: function(e, note) {
@@ -120,6 +135,18 @@ var JotzBrowser = Backbone.Model.extend({
       e.sender.send('check-for-save-reply', false, null);
     } else {
       e.sender.send('check-for-save-reply', true, note);
+    }
+  },
+  shouldDeleteNbNotes: function(e, id) {
+    NotebooksAPI.shouldDeleteNotes(function(result) {
+      this.sendCheckDeleteNbReply(result, e, id);
+    }.bind(this));
+  },
+  sendCheckDeleteNbReply: function(result, e, id) {
+    if (result === 1) {
+      e.sender.send('check-delete-nb-reply', true, id);
+    } else {
+      e.sender.send('check-delete-nb-reply', false, id);
     }
   },
   makeGist: function(e, payload) {

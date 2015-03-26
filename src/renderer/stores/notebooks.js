@@ -3,7 +3,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 var JotzDispatcher = require('../dispatcher/jotz_dispatcher');
 var Notebook = require('./notebook');
-
+var actionCreator = require('../actions/action_creator');
 
 var Notebooks = Backbone.Collection.extend({
   model: Notebook,
@@ -12,11 +12,15 @@ var Notebooks = Backbone.Collection.extend({
     _.bindAll(this,
       'dispatchCallback',
       'handleSaveNotebookReply',
-      'handleFetchNotebooksReply'
+      'handleFetchNotebooksReply',
+      'handleDestroyNotebookReply',
+      'handleCheckDeleteNotesReply'
     );
     this.dispatchToken = JotzDispatcher.register(this.dispatchCallback);
     ipc.on('save-notebook-reply', this.handleSaveNotebookReply);
     ipc.on('fetch-notebooks-reply', this.handleFetchNotebooksReply);
+    ipc.on('destroy-notebook-reply', this.handleDestroyNotebookReply);
+    ipc.on('check-delete-nb-reply', this.handleCheckDeleteNotesReply);
     this.fetchNotebooks();
   },
 
@@ -27,6 +31,9 @@ var Notebooks = Backbone.Collection.extend({
         break;
       case 'fetch-notebooks':
         this.fetchNotebooks();
+        break;
+      case 'check-delete-notebook':
+        this.checkDeleteNotes(payload.id);
         break;
       default:
         break;
@@ -42,6 +49,15 @@ var Notebooks = Backbone.Collection.extend({
     ipc.send('fetch-notebooks');
   },
 
+  checkDeleteNotes: function(id) {
+    ipc.send('check-delete-nb-notes', id);
+  },
+
+  destroyNotebook: function(id) {
+    this.remove(this.findWhere({ _id: id }));
+    ipc.send('destroy-notebook', id);
+  },
+
   handleSaveNotebookReply: function(err) {
     if (err) {
       // TODO: ask guys how we want to handle error
@@ -55,6 +71,20 @@ var Notebooks = Backbone.Collection.extend({
 
   handleFetchNotebooksReply: function(notebooks) {
     this.set(notebooks);
+  },
+
+  handleCheckDeleteNotesReply: function(deleteStatus, id) {
+    this.destroyNotebook(id);
+    if (deleteStatus) {
+      console.log('deleting notes');
+      actionCreator.destroyNotesById(id);
+    } else {
+      actionCreator.resetNotebooks(id);
+    }
+  },
+
+  handleDestroyNotebookReply: function() {
+    console.log('notebook destroyed');
   },
 
   prepareNotebookData: function(notebook) {

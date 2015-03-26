@@ -41,5 +41,5 @@ atom_cache
 build
 src/build
 
-# Mac 
+# Mac
 .DS_Store

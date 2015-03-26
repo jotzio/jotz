@@ -76,6 +76,11 @@ var NotesAPI = (function() {
       var filename = api.noteFilename(noteId);
       api.destroyNoteData(filename, cb);
     },
+    destroyNotes: function(noteIds) {
+      noteIds.forEach(function(noteId) {
+        this.destroyNote(noteId);
+      });
+    },
     fetchNotes: function(cb) {
       utils.getNotesDirData(function(filenames) {
         api.getNotesData(filenames, cb);

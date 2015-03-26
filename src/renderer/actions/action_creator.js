@@ -13,6 +13,12 @@ var actionCreator = {
       content: content
     });
   },
+  destroyNotesById: function(id) {
+    JotzDispatcher.dispatch({
+      actionType: 'destroy-notes-nbid',
+      id: id
+    });
+  },
   fetchNotes: function() {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notes'
@@ -38,6 +44,18 @@ var actionCreator = {
   fetchNotebooks: function() {
     JotzDispatcher.dispatch({
       actionType: 'fetch-notebooks'
+    });
+  },
+  checkDeleteNotes: function(id) {
+    JotzDispatcher.dispatch({
+      actionType: 'check-delete-notebook',
+      id: id
+    });
+  },
+  resetNotebooks: function(id) {
+    JotzDispatcher.dispatch({
+      actionType: 'reset-note-notebooks',
+      id: id
     });
   },
   makeGist: function(content) {

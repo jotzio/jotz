@@ -1,12 +1,18 @@
 var React = require('react');
 var NotesList = require('./notes_list');
 var _ = require('underscore');
+var actionCreator = require('../../../actions/action_creator');
 
 var NotebookList = React.createClass({
 
   showNotes: function(e, id) {
     e.preventDefault();
     this.props.openNotebook(id);
+  },
+
+  handleDelete: function(e, id) {
+    e.preventDefault();
+    actionCreator.checkDeleteNotes(id);
   },
 
   renderNotes: function(notebookId) {
@@ -31,12 +37,14 @@ var NotebookList = React.createClass({
 
   renderNotebook: function() {
     return this.props.notebooks.map(function(notebook) {
+      var _id = notebook.get('_id');
       return (
         <li>
           <a
-            onClick={_.partial(this.showNotes, _, notebook.get('_id'))}
+            onClick={_.partial(this.showNotes, _, _id)}
             href=''>{notebook.get('title')}
-          </a>
+          </a> |
+          <a onClick={_.partial(this.handleDelete, _, _id)} href=''> Delete Notebook</a>
           {this.renderNotes(notebook.get('_id'))}
         </li>
       );

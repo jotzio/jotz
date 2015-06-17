@@ -6,7 +6,7 @@ The definitive notebook for coders.
 
 Jotz is the first cross-platform and open-source notebook application. The built in code-editor supports 140+ programing languages, designed for taking notes in rich text and formatted code within the a single document. No more force-formatting code! You can organize your notes into Notebooks, and full-text search makes note retrieval quick and painless. The app is also integrated with Github for backing up your notes and publishing gists. 
 
-JotZ is written in Javascript, HTML, and SASS, using [Electron](https://github.com/atom/electron) (formerly Atom-Shell), and  [ReactJS](http://facebook.github.io/react/). 
+JotZ is written in Javascript, HTML, and SASS, using [Electron](https://github.com/atom/electron) (formerly Atom-Shell),  [ReactJS](http://facebook.github.io/react/), [BackboneJS](https://backbonejs.org), and [Flux](https://facebook.github.io/flux/). 
 
 ## Download
 

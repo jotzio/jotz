@@ -1,13 +1,25 @@
 # Jotz
+#### The definitive notebook for coders. 
+
+Jotz is the first cross-platform and open-source notebook application. The built in code-editor supports 140+ programing languages, designed for taking notes in rich text and formatted code within the a single document. No more force-formatting code! You can organize your notes into Notebooks, and full-text search makes note retrieval quick and painless. The app is also integrated with Github for backing up your notes and publishing gists. 
+
+JotZ was written in Javascript, HTML, and SASS, using [Electron](https://github.com/atom/electron) (formerly Atom-Shell),  [ReactJS](http://facebook.github.io/react/), [BackboneJS](https://backbonejs.org), and [Flux](https://facebook.github.io/flux/).
 
 [![Code Climate](https://codeclimate.com/github/jotzio/jotz/badges/gpa.svg)](https://codeclimate.com/github/jotzio/jotz)
-[![Circle CI](https://circleci.com/gh/jotzio/jotz/tree/master.svg?style=svg)](https://circleci.com/gh/jotzio/jotz/tree/master)
 
-The definitive notebook for coders
+## Download
+
+Get the application for Mac and Windows [here](jotzio.github.io/jotz)
 
 ---
 
-## Development Setup
+## Development 
+
+JotZ is open-source, and our team welcomes any input to make it the ultimate note taking tool for programmers. If you have an idea to make JotZ better for you, code that up and contribute!
+
+Our [contribution](https://github.com/jotzio/jotz/blob/master/CONTRIBUTING.md) and [style](https://github.com/jotzio/jotz/blob/master/STYLEGUIDE.md) guides can be found in the root folder of this repo.
+
+### Setup
 
 **Note: Node version 0.10.36 is required for development. Node 0.11.x and above are NOT supported at this stage**
 
@@ -25,11 +37,11 @@ The definitive notebook for coders
 1. run `grunt build --scratch`
 1. run `grunt watch` and in a separate Terminal window run `grunt boot`
 
-#### Run the application (MacOSX)
+### Running the application (MacOSX)
 From within the `src` directory run:
 
 1. If it's the first time you're building, or if you have added new dependencies to `package.json`, please see the setup instructions above. Otherwise `grunt build`
-2. run `grunt watch` and in a separate Terminal window run `grunt boot`
+1. run `grunt watch` and in a separate Terminal window run `grunt boot`
 
 **Run tests with**: `npm test` (make sure you're inside the `src` directory)
 
